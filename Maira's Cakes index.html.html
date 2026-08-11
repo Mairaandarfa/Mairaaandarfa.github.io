@@ -1,0 +1,1961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Bakednextdoor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <style>
+        /* ===== RESET & BASE ===== */
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Inter',sans-serif; color:#1e1e1e; background:#fcf9f7; line-height:1.6; }
+        a { text-decoration:none; color:inherit; }
+        .container { max-width:1100px; margin:0 auto; padding:0 24px; }
+
+        /* ===== HEADER ===== */
+        header { background:#ffffff; padding:16px 0; border-bottom:1px solid #f0ebe8; position:sticky; top:0; z-index:100; }
+        .header-inner { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; }
+        .logo { font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:700; color:#1e1e1e; }
+        .logo span { color:#b5655e; }
+        nav { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+        nav a { font-size:0.9rem; font-weight:500; margin-left:28px; color:#2d2d2d; transition:color 0.3s; }
+        nav a:hover { color:#b5655e; }
+
+        .basket-indicator { display:flex; align-items:center; gap:8px; background:#fef6f4; border:1px solid #f0e0dc; border-radius:30px; padding:6px 16px 6px 12px; margin-left:20px; font-size:0.85rem; font-weight:500; cursor:pointer; transition:background 0.3s; }
+        .basket-indicator:hover { background:#fcebe8; }
+        .basket-indicator .basket-icon { font-size:1.2rem; }
+        .basket-indicator .basket-count { background:#b5655e; color:#fff; border-radius:50%; padding:0 8px; min-width:22px; height:22px; display:inline-flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:600; }
+        .basket-indicator .basket-max { font-size:0.7rem; color:#8a7a77; }
+
+        /* ===== ADMIN EDIT BUTTON ===== */
+        .admin-edit-btn { position:fixed; bottom:20px; right:20px; background:#b5655e; color:#fff; border:none; border-radius:50px; padding:10px 20px; font-size:0.8rem; font-weight:600; cursor:pointer; box-shadow:0 4px 16px rgba(0,0,0,0.15); transition:background 0.3s, transform 0.2s; z-index:999; display:none; }
+        .admin-edit-btn:hover { background:#9e4d47; transform:scale(1.05); }
+        .admin-edit-btn.show { display:block; }
+
+        /* ===== ADMIN MODAL ===== */
+        .admin-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center; }
+        .admin-modal.show { display:flex; }
+        .admin-modal-content { background:#ffffff; border-radius:20px; padding:40px 45px; max-width:500px; width:90%; box-shadow:0 20px 60px rgba(0,0,0,0.3); position:relative; }
+        .admin-modal-content .close-modal { position:absolute; top:12px; right:18px; font-size:1.5rem; cursor:pointer; color:#8a7a77; transition:color 0.3s; }
+        .admin-modal-content .close-modal:hover { color:#1e1e1e; }
+        .admin-modal-content h3 { font-family:'Playfair Display',serif; font-size:1.6rem; color:#1e1e1e; margin-bottom:8px; }
+        .admin-modal-content p { color:#5a4a47; font-weight:300; font-size:0.95rem; margin-bottom:20px; }
+        .admin-modal-content .form-group { margin-bottom:16px; }
+        .admin-modal-content .form-group label { display:block; font-weight:500; font-size:0.9rem; color:#1e1e1e; margin-bottom:4px; }
+        .admin-modal-content .form-group input, .admin-modal-content .form-group textarea { width:100%; padding:12px 16px; border:2px solid #f0ebe8; border-radius:10px; font-size:1rem; font-family:'Inter',sans-serif; transition:border-color 0.3s; background:#fcf9f7; color:#1e1e1e; }
+        .admin-modal-content .form-group input:focus, .admin-modal-content .form-group textarea:focus { border-color:#b5655e; outline:none; background:#ffffff; }
+        .admin-modal-content .form-group textarea { resize:vertical; min-height:100px; }
+        .admin-modal-content .btn { padding:14px 40px; font-size:1rem; width:100%; }
+        .admin-modal-content .btn-secondary { background:transparent; border:2px solid #b5655e; color:#b5655e; margin-top:10px; }
+        .admin-modal-content .btn-secondary:hover { background:#b5655e; color:#fff; }
+        .admin-modal-content .success-msg { display:none; background:#2d7d46; color:#fff; padding:12px 16px; border-radius:8px; margin-top:12px; font-weight:500; font-size:0.9rem; text-align:center; }
+        .admin-modal-content .success-msg.show { display:block; }
+
+        /* ===== BUTTONS ===== */
+        .btn { display:inline-block; background:#b5655e; color:#fff; padding:14px 40px; border-radius:8px; font-weight:600; font-size:1rem; border:none; cursor:pointer; transition:background 0.3s, transform 0.2s; }
+        .btn:hover { background:#9e4d47; transform:translateY(-2px); }
+        .btn:disabled { opacity:0.5; cursor:not-allowed; transform:none; }
+        .btn-outline { background:transparent; border:2px solid #b5655e; color:#b5655e; }
+        .btn-outline:hover { background:#b5655e; color:#fff; }
+        .btn-success { background:#2d7d46; }
+        .btn-success:hover { background:#1e5f34; }
+        .btn-secondary { background:transparent; border:2px solid #b5655e; color:#b5655e; }
+        .btn-secondary:hover { background:#b5655e; color:#fff; }
+        .btn-group { display:flex; justify-content:center; gap:20px; flex-wrap:wrap; margin-top:30px; }
+
+        /* ============================================================ */
+        /* ===== PRIVACY POLICY POPUP (Only Accept Button) ===== */
+        /* ============================================================ */
+        .privacy-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:2000; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(4px); }
+        .privacy-overlay.show { display:flex; }
+        .privacy-popup { background:#ffffff; border-radius:20px; padding:0; max-width:800px; width:100%; max-height:90vh; box-shadow:0 30px 80px rgba(0,0,0,0.3); display:flex; flex-direction:column; overflow:hidden; }
+        .privacy-popup-header { padding:28px 32px 20px 32px; border-bottom:1px solid #f0ebe8; display:flex; justify-content:space-between; align-items:center; flex-shrink:0; background:#fcf9f7; }
+        .privacy-popup-header h2 { font-family:'Playfair Display',serif; font-size:1.6rem; color:#1e1e1e; margin:0; }
+        .privacy-popup-header .badge { background:#b5655e; color:#fff; font-size:0.7rem; font-weight:600; padding:4px 12px; border-radius:30px; letter-spacing:0.5px; text-transform:uppercase; }
+        .privacy-popup-body { padding:24px 32px 16px 32px; overflow-y:auto; flex:1; font-size:0.9rem; color:#3d3d3d; line-height:1.7; }
+        .privacy-popup-body h3 { font-weight:600; color:#1e1e1e; font-size:1rem; margin-top:16px; margin-bottom:4px; }
+        .privacy-popup-body h3:first-of-type { margin-top:0; }
+        .privacy-popup-body p { margin-bottom:8px; }
+        .privacy-popup-body ul { padding-left:20px; margin-bottom:10px; }
+        .privacy-popup-body ul li { margin-bottom:4px; }
+        .privacy-popup-body .highlight { background:#fef6f4; padding:12px 16px; border-radius:8px; border-left:3px solid #b5655e; margin:12px 0; font-size:0.85rem; }
+        .privacy-popup-footer { padding:16px 32px 28px 32px; border-top:1px solid #f0ebe8; display:flex; gap:16px; justify-content:flex-end; flex-wrap:wrap; flex-shrink:0; background:#fcf9f7; }
+        .privacy-popup-footer .btn { padding:12px 32px; font-size:0.95rem; }
+
+        .privacy-popup-body::-webkit-scrollbar { width:6px; }
+        .privacy-popup-body::-webkit-scrollbar-track { background:#f5f0ee; border-radius:10px; }
+        .privacy-popup-body::-webkit-scrollbar-thumb { background:#d4c5c0; border-radius:10px; }
+        .privacy-popup-body::-webkit-scrollbar-thumb:hover { background:#b5655e; }
+
+        /* ============================================================ */
+        /* ===== PAGE SECTIONS ===== */
+        /* ============================================================ */
+        .page-section { padding:50px 0; display:none; }
+        .page-section.active { display:block; }
+        .back-btn { display:inline-block; margin-bottom:30px; color:#b5655e; font-weight:500; cursor:pointer; font-size:0.95rem; }
+        .back-btn:hover { color:#9e4d47; }
+        .section-title { font-family:'Playfair Display',serif; font-size:2.4rem; color:#1e1e1e; text-align:center; margin-bottom:8px; }
+        .section-sub { text-align:center; color:#5a4a47; font-weight:300; margin-bottom:40px; font-size:1.05rem; }
+
+        /* ===== HOME PAGE ===== */
+        .home-headline { text-align:center; font-family:'Playfair Display',serif; font-size:3.6rem; font-weight:700; color:#1e1e1e; margin-bottom:30px; }
+        .home-headline span { color:#b5655e; }
+        .home-box { display:grid; grid-template-columns:1fr 1fr; gap:0; background:#ffffff; border-radius:16px; overflow:hidden; box-shadow:0 4px 24px rgba(0,0,0,0.05); border:1px solid #f0ebe8; min-height:320px; }
+        .home-box-left { padding:50px 40px; display:flex; flex-direction:column; justify-content:center; background:#fcf9f7; }
+        .home-box-left h2 { font-family:'Playfair Display',serif; font-size:2.6rem; color:#1e1e1e; line-height:1.2; }
+        .home-box-left h2 span { color:#b5655e; }
+        .home-box-left .home-description { font-size:1.1rem; color:#5a4a47; font-weight:300; margin-top:12px; line-height:1.7; max-width:480px; }
+        .home-box-right { background:#f0e8e5; min-height:320px; display:flex; align-items:center; justify-content:center; color:#8a7a77; font-weight:300; font-size:1rem; border-left:1px solid #f0ebe8; background-repeat:no-repeat; background-position:center; background-size:cover; cursor:pointer; transition:background-color 0.3s; position:relative; }
+        .home-box-right:hover { background-color:#e8ddd8; }
+        .home-box-right .placeholder-text { margin-top:70px; background:rgba(255,255,255,0.85); padding:6px 20px; border-radius:40px; font-size:0.9rem; }
+        .home-box-right img { width:100%; height:100%; object-fit:cover; display:block; }
+        .click-hint { position:absolute; bottom:12px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.6); color:#fff; font-size:0.7rem; padding:4px 14px; border-radius:20px; opacity:0; transition:opacity 0.3s; pointer-events:none; white-space:nowrap; }
+        .clickable-image:hover .click-hint { opacity:1; }
+
+        /* ===== MENU PAGE ===== */
+        .menu-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:30px; }
+        .menu-item { background:#ffffff; border-radius:14px; padding:20px 20px 16px; box-shadow:0 4px 16px rgba(0,0,0,0.04); border:1px solid #f0ebe8; text-align:center; transition:transform 0.3s, box-shadow 0.3s; }
+        .menu-item:hover { transform:translateY(-4px); box-shadow:0 8px 30px rgba(0,0,0,0.08); }
+        .menu-item-image { width:100%; height:200px; background:#f3edeb; border-radius:10px; margin-bottom:12px; display:flex; align-items:center; justify-content:center; color:#8a7a77; font-weight:300; font-size:0.9rem; border:1px dashed #d4c5c0; background-repeat:no-repeat; background-position:center; background-size:cover; cursor:pointer; transition:background-color 0.3s; position:relative; }
+        .menu-item-image:hover { background-color:#e8ddd8; }
+        .menu-item-image img { width:100%; height:100%; object-fit:cover; border-radius:10px; display:block; }
+        .menu-item-image .placeholder-text { font-size:0.85rem; background:rgba(255,255,255,0.8); padding:4px 12px; border-radius:20px; }
+        .menu-item h3 { font-family:'Playfair Display',serif; font-size:1.2rem; color:#1e1e1e; margin-top:4px; }
+        .menu-item .menu-price { font-size:1rem; font-weight:600; color:#b5655e; margin-top:4px; }
+        .menu-item .menu-price small { font-size:0.75rem; font-weight:400; color:#7a6a77; }
+
+        /* ===== ORDER NOW PAGE (Cake Grid) ===== */
+        .order-grid-cakes { display:grid; grid-template-columns:repeat(3,1fr); gap:30px; margin-bottom:20px; }
+        .order-cake-item { background:#ffffff; border-radius:16px; padding:24px 20px 20px; box-shadow:0 4px 16px rgba(0,0,0,0.04); border:1px solid #f0ebe8; text-align:center; cursor:pointer; transition:transform 0.3s, box-shadow 0.3s, border-color 0.3s; }
+        .order-cake-item:hover { transform:translateY(-6px); box-shadow:0 12px 40px rgba(0,0,0,0.08); border-color:#b5655e; }
+        .order-cake-item .cake-thumb { width:100%; height:200px; background:#f3edeb; border-radius:12px; margin-bottom:14px; display:flex; align-items:center; justify-content:center; color:#8a7a77; font-size:0.85rem; font-weight:300; border:1px solid #e4dbd7; background-repeat:no-repeat; background-position:center; background-size:cover; position:relative; }
+        .order-cake-item .cake-thumb img { width:100%; height:100%; object-fit:cover; border-radius:12px; display:block; }
+        .order-cake-item .cake-thumb .placeholder-text { font-size:0.85rem; background:rgba(255,255,255,0.85); padding:4px 14px; border-radius:20px; }
+        .order-cake-item h3 { font-family:'Playfair Display',serif; font-size:1.2rem; color:#1e1e1e; }
+        .order-cake-item .order-price { font-size:0.9rem; font-weight:600; color:#b5655e; margin-top:4px; }
+        .order-cake-item .order-price small { font-size:0.7rem; font-weight:400; color:#7a6a77; }
+        .order-cake-item .click-hint { font-size:0.75rem; color:#8a7a77; margin-top:6px; font-weight:300; position:static; background:none; color:#8a7a77; opacity:1; padding:0; transform:none; }
+
+        /* ===== CAKE DETAIL PAGE (NO IMAGE) ===== */
+        .cake-detail-layout { display:grid; grid-template-columns:1fr; gap:0; background:#ffffff; border-radius:20px; padding:40px; box-shadow:0 4px 24px rgba(0,0,0,0.05); border:1px solid #f0ebe8; margin:10px 0 30px; max-width:800px; margin-left:auto; margin-right:auto; }
+        .cake-detail-info { display:flex; flex-direction:column; gap:12px; width:100%; }
+        .cake-detail-info .cake-name { font-family:'Playfair Display',serif; font-size:2.2rem; color:#1e1e1e; line-height:1.2; text-align:center; }
+        .cake-detail-info .cake-price { font-size:1.4rem; font-weight:600; color:#b5655e; text-align:center; }
+        .cake-detail-info .cake-price small { font-size:0.8rem; font-weight:400; color:#7a6a77; }
+        .quantity-selector { display:flex; align-items:center; justify-content:center; gap:16px; margin:4px 0; }
+        .quantity-selector button { width:44px; height:44px; border-radius:50%; border:2px solid #f0ebe8; background:#fcf9f7; font-size:1.4rem; font-weight:300; cursor:pointer; transition:border-color 0.3s, background 0.3s; color:#1e1e1e; }
+        .quantity-selector button:hover:not(:disabled) { border-color:#b5655e; background:#fef6f4; }
+        .quantity-selector button:disabled { opacity:0.3; cursor:not-allowed; }
+        .quantity-selector span { font-size:1.4rem; font-weight:600; min-width:40px; text-align:center; color:#1e1e1e; }
+        .freshly-baked { font-size:0.95rem; color:#7a6a66; font-style:italic; font-weight:300; border-top:1px solid #f0ebe8; padding-top:12px; margin-top:2px; text-align:center; }
+        .size-options { display:flex; gap:16px; margin:2px 0; justify-content:center; flex-wrap:wrap; }
+        .size-options .size-btn { padding:10px 28px; border-radius:30px; border:2px solid #f0ebe8; background:#fcf9f7; font-weight:500; font-size:0.95rem; cursor:pointer; transition:border-color 0.3s, background 0.3s; color:#1e1e1e; }
+        .size-options .size-btn:hover { border-color:#d4c5c0; }
+        .size-options .size-btn.active { border-color:#b5655e; background:#fef6f4; color:#b5655e; }
+        .size-options .size-btn .size-price { font-size:0.7rem; font-weight:400; color:#7a6a77; display:block; }
+        .size-options .size-btn.active .size-price { color:#b5655e; }
+
+        /* ===== PER-CAKE PREFERENCES ===== */
+        .preference-section { margin:4px 0; border-top:1px solid #f0ebe8; padding-top:12px; }
+        .preference-section .pref-label { font-weight:600; font-size:1rem; color:#1e1e1e; margin-bottom:6px; display:block; text-align:center; }
+        .preference-section .pref-hint { font-size:0.8rem; color:#8a7a77; font-weight:300; margin-bottom:8px; display:block; text-align:center; }
+        .pref-options-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; max-width:500px; margin:0 auto; }
+        .pref-option-btn { padding:8px 12px; border-radius:30px; border:2px solid #f0ebe8; background:#fcf9f7; font-weight:400; font-size:0.85rem; cursor:pointer; transition:border-color 0.3s, background 0.3s; color:#1e1e1e; text-align:center; }
+        .pref-option-btn:hover { border-color:#d4c5c0; }
+        .pref-option-btn.active { border-color:#b5655e; background:#fef6f4; color:#b5655e; font-weight:500; }
+        .pref-option-btn.none-active { border-color:#8a7a77; background:#f5f0ee; color:#5a4a47; }
+        .pref-option-btn .pref-price { font-size:0.65rem; font-weight:400; color:#8a7a77; display:block; }
+        .pref-option-btn.active .pref-price { color:#b5655e; }
+
+        /* ===== SUGAR SELECTION ===== */
+        .sugar-section { margin:4px 0; border-top:1px solid #f0ebe8; padding-top:12px; }
+        .sugar-section .sugar-label { font-weight:600; font-size:1rem; color:#1e1e1e; margin-bottom:6px; display:block; text-align:center; }
+        .sugar-section .sugar-hint { font-size:0.8rem; color:#8a7a77; font-weight:300; margin-bottom:8px; display:block; text-align:center; }
+        .sugar-options-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; max-width:500px; margin:0 auto; }
+        .sugar-option-btn { padding:8px 12px; border-radius:30px; border:2px solid #f0ebe8; background:#fcf9f7; font-weight:400; font-size:0.85rem; cursor:pointer; transition:border-color 0.3s, background 0.3s; color:#1e1e1e; text-align:center; }
+        .sugar-option-btn:hover { border-color:#d4c5c0; }
+        .sugar-option-btn.active { border-color:#b5655e; background:#fef6f4; color:#b5655e; font-weight:500; }
+        .sugar-option-btn .sugar-price { font-size:0.65rem; font-weight:400; color:#8a7a77; display:block; }
+        .sugar-option-btn.active .sugar-price { color:#b5655e; }
+
+        /* ===== EXTRAS ===== */
+        .extras-section { margin:4px 0; }
+        .extras-section .extras-label { font-weight:600; font-size:1rem; color:#1e1e1e; margin-bottom:6px; display:block; text-align:center; }
+        .extra-item { border:2px solid #f0ebe8; border-radius:10px; margin-bottom:8px; background:#fcf9f7; transition:border-color 0.3s, background 0.3s; overflow:hidden; max-width:500px; margin-left:auto; margin-right:auto; }
+        .extra-item:hover { border-color:#d4c5c0; }
+        .extra-item-header { display:flex; align-items:center; gap:12px; padding:10px 16px; cursor:pointer; transition:background 0.3s; }
+        .extra-item-header:hover { background:#f8f4f2; }
+        .extra-item-header input[type="checkbox"] { width:18px; height:18px; accent-color:#b5655e; flex-shrink:0; cursor:pointer; }
+        .extra-item-header label { font-weight:400; font-size:0.95rem; color:#3d3d3d; cursor:pointer; flex:1; }
+        .extra-item-header .extra-price { font-size:0.85rem; color:#b5655e; font-weight:500; }
+        .extra-item-header .expand-icon { font-size:1.2rem; color:#8a7a77; transition:transform 0.3s; }
+        .extra-item.expanded .expand-icon { transform:rotate(180deg); }
+        .extra-item-body { max-height:0; overflow:hidden; transition:max-height 0.4s ease, padding 0.3s ease; padding:0 16px; }
+        .extra-item.expanded .extra-item-body { max-height:300px; padding:0 16px 16px 16px; }
+        .extra-item-body label { font-size:0.85rem; font-weight:500; color:#3d3d3d; display:block; margin-bottom:4px; }
+        .extra-item-body input[type="text"], .extra-item-body select { width:100%; padding:10px 14px; border:2px solid #f0ebe8; border-radius:8px; font-size:0.95rem; font-family:'Inter',sans-serif; transition:border-color 0.3s; background:#ffffff; color:#1e1e1e; }
+        .extra-item-body input[type="text"]:focus, .extra-item-body select:focus { border-color:#b5655e; outline:none; }
+        .extra-item-body .char-count { font-size:0.75rem; color:#8a7a77; text-align:right; margin-top:4px; }
+        .extra-item-body .char-count.warning { color:#b5655e; }
+        .extra-item-body .char-count.danger { color:#c0392b; }
+        .extra-item-body .field-group { margin-top:10px; }
+        .extra-item-body .field-group:first-child { margin-top:0; }
+
+        .detail-actions { display:flex; gap:12px; margin-top:8px; flex-wrap:wrap; justify-content:center; }
+        .detail-actions .btn { flex:1; padding:16px; font-size:1.1rem; min-width:120px; max-width:250px; }
+        .detail-actions .btn-secondary { background:transparent; border:2px solid #b5655e; color:#b5655e; flex:0.5; max-width:200px; }
+        .detail-actions .btn-secondary:hover { background:#b5655e; color:#fff; }
+
+        /* ===== BASKET SUMMARY ===== */
+        .basket-summary { background:#ffffff; border-radius:16px; padding:24px 30px; box-shadow:0 4px 16px rgba(0,0,0,0.04); border:1px solid #f0ebe8; margin:30px 0 20px; display:none; }
+        .basket-summary.show { display:block; }
+        .basket-summary h4 { font-family:'Playfair Display',serif; font-size:1.3rem; color:#1e1e1e; margin-bottom:12px; }
+        .basket-summary .basket-item { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid #f0ebe8; font-size:0.95rem; }
+        .basket-summary .basket-item:last-child { border-bottom:none; }
+        .basket-summary .basket-item .item-name { font-weight:500; }
+        .basket-summary .basket-item .item-details { color:#5a4a47; font-weight:300; font-size:0.85rem; }
+        .basket-summary .basket-item .item-pref { color:#b5655e; font-weight:400; font-size:0.8rem; }
+        .basket-summary .basket-item .item-remove { color:#b5655e; cursor:pointer; font-weight:500; font-size:0.8rem; background:none; border:none; padding:4px 10px; border-radius:20px; transition:background 0.3s; }
+        .basket-summary .basket-item .item-remove:hover { background:#fef6f4; }
+        .basket-summary .basket-total-count { margin-top:12px; padding-top:12px; border-top:2px solid #f0ebe8; display:flex; justify-content:space-between; font-weight:600; font-size:1.05rem; color:#1e1e1e; }
+        .basket-actions { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-top:10px; }
+        .basket-actions .btn { padding:12px 36px; font-size:1rem; }
+        .basket-actions .btn-secondary { background:transparent; border:2px solid #b5655e; color:#b5655e; }
+        .basket-actions .btn-secondary:hover { background:#b5655e; color:#fff; }
+        .basket-full { text-align:center; padding:12px 20px; background:#fef6f4; border:1px solid #f0e0dc; border-radius:10px; color:#b5655e; font-weight:500; margin-top:10px; display:none; }
+        .basket-full.show { display:block; }
+
+        /* ===== HOW TO ORDER PAGE ===== */
+        .hto-big-box { display:grid; grid-template-columns:1.2fr 0.8fr; gap:0; background:#ffffff; border-radius:16px; overflow:hidden; box-shadow:0 4px 24px rgba(0,0,0,0.05); border:1px solid #f0ebe8; margin-bottom:40px; min-height:280px; }
+        .hto-big-box-left { padding:45px 45px 45px 40px; display:flex; flex-direction:column; justify-content:center; background:#fcf9f7; }
+        .hto-big-box-left h2 { font-family:'Playfair Display',serif; font-size:2.2rem; color:#1e1e1e; line-height:1.2; }
+        .hto-big-box-left h2 span { color:#b5655e; }
+        .hto-big-box-left .sub-text { font-size:1.2rem; color:#5a4a47; font-weight:300; margin-top:4px; }
+        .hto-big-box-right { background:#f0e8e5; min-height:280px; display:flex; align-items:center; justify-content:center; color:#8a7a77; font-weight:300; font-size:1rem; border-left:1px solid #f0ebe8; background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="%23b5655e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15L16 10L5 21"/></svg>'); background-repeat:no-repeat; background-position:center; background-size:50px; cursor:pointer; transition:background-color 0.3s; position:relative; }
+        .hto-big-box-right:hover { background-color:#e8ddd8; }
+        .hto-big-box-right .placeholder-text { margin-top:70px; background:rgba(255,255,255,0.85); padding:6px 20px; border-radius:40px; font-size:0.9rem; }
+        .hto-big-box-right img { width:100%; height:100%; object-fit:cover; display:block; }
+
+        .hto-two-boxes { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:40px; }
+        .hto-small-box { background:#ffffff; border-radius:14px; padding:28px 30px; box-shadow:0 4px 16px rgba(0,0,0,0.04); border:1px solid #f0ebe8; transition:transform 0.3s; }
+        .hto-small-box:hover { transform:translateY(-3px); }
+        .hto-small-box h3 { font-family:'Playfair Display',serif; font-size:1.5rem; color:#1e1e1e; margin-bottom:6px; }
+        .hto-small-box p { color:#5a4a47; font-weight:300; font-size:1rem; line-height:1.7; }
+
+        /* Delivery Area Box - Updated to 100 km */
+        .delivery-area-box { background:#ffffff; border-radius:16px; padding:28px 32px; margin-bottom:30px; border:2px solid #b5655e; box-shadow:0 4px 16px rgba(181,101,94,0.1); }
+        .delivery-area-box .area-header { display:flex; align-items:center; gap:12px; margin-bottom:12px; }
+        .delivery-area-box .area-header span { font-size:2rem; }
+        .delivery-area-box .area-header h3 { font-family:'Playfair Display',serif; font-size:1.5rem; color:#1e1e1e; margin:0; }
+        .delivery-area-box .area-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:8px 16px; font-size:0.95rem; }
+        .delivery-area-box .area-grid div { padding:6px 0; border-bottom:1px solid #f5f0ee; }
+        .delivery-area-box .area-note { margin-top:14px; padding:12px 16px; background:#fef6f4; border-radius:8px; border-left:4px solid #b5655e; font-size:0.85rem; color:#5a4a47; }
+
+        .important-note { background:#fef6f4; border:1px solid #f0e0dc; border-radius:12px; padding:20px 24px; margin-bottom:30px; text-align:center; }
+        .important-note p { color:#3d3d3d; font-size:0.95rem; margin:0; }
+        .important-note strong { color:#b5655e; }
+        .hto-bottom-box { display:grid; grid-template-columns:1fr 1fr; gap:0; background:#ffffff; border-radius:16px; overflow:hidden; box-shadow:0 4px 24px rgba(0,0,0,0.05); border:1px solid #f0ebe8; min-height:220px; }
+        .hto-bottom-left { display:flex; align-items:center; justify-content:center; background:#fcf9f7; padding:30px; }
+        .hto-bottom-left .btn { padding:18px 60px; font-size:1.2rem; font-weight:600; }
+        .hto-bottom-right { background:#f0e8e5; min-height:220px; display:flex; align-items:center; justify-content:center; color:#8a7a77; font-weight:300; font-size:1rem; border-left:1px solid #f0ebe8; background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="%23b5655e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15L16 10L5 21"/></svg>'); background-repeat:no-repeat; background-position:center; background-size:50px; cursor:pointer; transition:background-color 0.3s; position:relative; }
+        .hto-bottom-right:hover { background-color:#e8ddd8; }
+        .hto-bottom-right .placeholder-text { margin-top:70px; background:rgba(255,255,255,0.85); padding:6px 20px; border-radius:40px; font-size:0.9rem; }
+        .hto-bottom-right img { width:100%; height:100%; object-fit:cover; display:block; }
+        .payment-info-box { background:#fff8f6; border:1px solid #f0e0dc; border-radius:14px; padding:30px 35px; margin-top:30px; box-shadow:0 4px 16px rgba(0,0,0,0.04); }
+        .payment-info-box h3 { font-family:'Playfair Display',serif; font-size:1.6rem; color:#b5655e; margin-bottom:8px; }
+        .payment-info-box p { color:#3d3d3d; font-weight:300; font-size:1rem; line-height:1.7; margin-bottom:4px; }
+        .payment-info-box p:last-child { margin-bottom:0; }
+
+        /* ===== ORDER SUMMARY PAGE ===== */
+        .order-summary-box { background:#ffffff; border-radius:16px; padding:35px 40px; box-shadow:0 4px 24px rgba(0,0,0,0.05); border:1px solid #f0ebe8; max-width:800px; margin:0 auto 30px; }
+        .order-summary-box h3 { font-family:'Playfair Display',serif; font-size:1.6rem; color:#1e1e1e; margin-bottom:16px; text-align:center; }
+        .order-summary-box .summary-item { display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #f0ebe8; }
+        .order-summary-box .summary-item:last-child { border-bottom:none; }
+        .order-summary-box .summary-item .item-left { display:flex; flex-direction:column; }
+        .order-summary-box .summary-item .item-left .item-name { font-weight:500; font-size:1rem; }
+        .order-summary-box .summary-item .item-left .item-details { font-size:0.85rem; color:#5a4a47; }
+        .order-summary-box .summary-item .item-price { font-weight:600; color:#b5655e; font-size:1rem; }
+        .order-summary-box .summary-total { margin-top:16px; padding-top:16px; border-top:2px solid #f0ebe8; display:flex; justify-content:space-between; font-weight:700; font-size:1.2rem; }
+        .order-summary-box .summary-total .total-amount { color:#b5655e; font-size:1.4rem; }
+        .order-summary-box .summary-note { margin-top:16px; padding:14px 18px; background:#fef6f4; border-radius:8px; font-size:0.9rem; color:#5a4a47; border-left:4px solid #b5655e; }
+        .order-summary-box .summary-actions { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-top:20px; }
+        .order-summary-box .summary-actions .btn { padding:14px 40px; font-size:1rem; }
+
+        /* ===== PICKUP OR DELIVERY PAGE ===== */
+        .delivery-options { display:grid; grid-template-columns:1fr 1fr; gap:30px; max-width:700px; margin:10px auto 25px; }
+        .delivery-option { background:#ffffff; border:2px solid #f0ebe8; border-radius:16px; padding:35px 30px; text-align:center; cursor:pointer; transition:border-color 0.3s, background 0.3s, transform 0.2s; position:relative; }
+        .delivery-option:hover { border-color:#d4c5c0; transform:translateY(-3px); }
+        .delivery-option.selected { border-color:#b5655e; background:#fef8f6; box-shadow:0 4px 16px rgba(181,101,94,0.15); }
+        .delivery-option input[type="radio"] { position:absolute; opacity:0; width:0; height:0; }
+        .delivery-option .delivery-label { font-size:1.4rem; font-weight:600; color:#1e1e1e; display:block; }
+        .delivery-option .delivery-desc { font-size:1rem; color:#5a4a47; font-weight:300; margin-top:4px; line-height:1.5; }
+        .delivery-option .delivery-check { display:none; margin-top:12px; color:#b5655e; font-size:0.9rem; font-weight:600; }
+        .delivery-option.selected .delivery-check { display:block; }
+
+        .delivery-address-form { display:none; max-width:700px; margin:0 auto 30px; background:#ffffff; border-radius:16px; padding:30px 35px; box-shadow:0 4px 16px rgba(0,0,0,0.04); border:1px solid #f0ebe8; }
+        .delivery-address-form.show { display:block; }
+        .delivery-address-form h4 { font-family:'Playfair Display',serif; font-size:1.3rem; color:#1e1e1e; margin-bottom:16px; }
+        .delivery-address-form .form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+        .delivery-address-form .form-group { margin-bottom:16px; }
+        .delivery-address-form .form-group label { display:block; font-weight:500; font-size:0.95rem; color:#1e1e1e; margin-bottom:4px; }
+        .delivery-address-form .form-group label .required { color:#b5655e; }
+        .delivery-address-form .form-group input { width:100%; padding:12px 16px; border:2px solid #f0ebe8; border-radius:10px; font-size:1rem; font-family:'Inter',sans-serif; transition:border-color 0.3s; background:#fcf9f7; color:#1e1e1e; }
+        .delivery-address-form .form-group input:focus { border-color:#b5655e; outline:none; background:#ffffff; }
+        .delivery-address-form .form-hint { font-size:0.8rem; color:#8a7a77; font-weight:300; margin-top:4px; }
+        .delivery-address-form .distance-result-box { display:none; margin-top:16px; padding:16px 20px; background:#f8f4f2; border-radius:10px; border:1px solid #e0d6d2; }
+        .delivery-address-form .distance-result-box.show { display:block; }
+        .delivery-address-form .distance-result-box .result-row { display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid #f0ebe8; }
+        .delivery-address-form .distance-result-box .result-row:last-child { border-bottom:none; }
+        .delivery-address-form .distance-result-box .result-row .label { color:#5a4a47; }
+        .delivery-address-form .distance-result-box .result-row .value { font-weight:600; color:#1e1e1e; }
+        .delivery-address-form .distance-result-box .result-row .value.fee { color:#b5655e; font-size:1.1rem; font-weight:700; }
+        .delivery-address-form .distance-result-box .warning { display:none; margin-top:10px; padding:10px 14px; background:#fef6f4; border-radius:8px; border-left:4px solid #b5655e; font-size:0.85rem; color:#b5655e; }
+        .delivery-address-form .distance-result-box .warning.show { display:block; }
+        .delivery-address-form .distance-result-box .note { margin-top:10px; font-size:0.8rem; color:#8a7a77; text-align:center; }
+
+        /* Distance warning - updated to 100 km */
+        .distance-warning-box { display:none; margin-top:16px; padding:16px 20px; background:#fef6f4; border-radius:10px; border:2px solid #b5655e; text-align:center; }
+        .distance-warning-box.show { display:block; }
+        .distance-warning-box .warning-icon { font-size:2.5rem; display:block; margin-bottom:8px; }
+        .distance-warning-box .warning-title { font-weight:700; color:#b5655e; font-size:1.1rem; }
+        .distance-warning-box .warning-text { color:#5a4a47; font-size:0.95rem; margin-top:4px; }
+        .distance-warning-box .warning-suggestion { margin-top:10px; padding:10px 16px; background:#ffffff; border-radius:8px; border:1px solid #e0d6d2; font-size:0.9rem; color:#3d3d3d; }
+        .distance-warning-box .warning-suggestion strong { color:#b5655e; }
+
+        .delivery-details { max-width:700px; margin:0 auto 30px; display:none; background:#ffffff; border-radius:16px; padding:30px 35px; box-shadow:0 4px 16px rgba(0,0,0,0.04); border:1px solid #f0ebe8; }
+        .delivery-details.show { display:block; }
+        .delivery-details h4 { font-family:'Playfair Display',serif; font-size:1.3rem; color:#1e1e1e; margin-bottom:16px; }
+        .delivery-details .form-group { margin-bottom:16px; }
+        .delivery-details .form-group label { display:block; font-weight:500; font-size:0.95rem; color:#1e1e1e; margin-bottom:4px; }
+        .delivery-details .form-group label .required { color:#b5655e; }
+        .delivery-details .form-group input, .delivery-details .form-group select, .delivery-details .form-group textarea { width:100%; padding:12px 16px; border:2px solid #f0ebe8; border-radius:10px; font-size:1rem; font-family:'Inter',sans-serif; transition:border-color 0.3s; background:#fcf9f7; color:#1e1e1e; }
+        .delivery-details .form-group input:focus, .delivery-details .form-group select:focus, .delivery-details .form-group textarea:focus { border-color:#b5655e; outline:none; background:#ffffff; }
+        .delivery-details .form-group textarea { resize:vertical; min-height:80px; }
+        .delivery-details .form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+        .delivery-details .form-hint { font-size:0.8rem; color:#8a7a77; font-weight:300; margin-top:4px; }
+
+        /* Pickup details with simplified time slots */
+        .pickup-details { max-width:700px; margin:0 auto 30px; display:none; background:#ffffff; border-radius:16px; padding:30px 35px; box-shadow:0 4px 16px rgba(0,0,0,0.04); border:1px solid #f0ebe8; }
+        .pickup-details.show { display:block; }
+        .pickup-details h4 { font-family:'Playfair Display',serif; font-size:1.3rem; color:#1e1e1e; margin-bottom:16px; }
+        .pickup-details .form-group { margin-bottom:16px; }
+        .pickup-details .form-group label { display:block; font-weight:500; font-size:0.95rem; color:#1e1e1e; margin-bottom:4px; }
+        .pickup-details .form-group label .required { color:#b5655e; }
+        .pickup-details .form-group input, .pickup-details .form-group select { width:100%; padding:12px 16px; border:2px solid #f0ebe8; border-radius:10px; font-size:1rem; font-family:'Inter',sans-serif; transition:border-color 0.3s; background:#fcf9f7; color:#1e1e1e; }
+        .pickup-details .form-group input:focus, .pickup-details .form-group select:focus { border-color:#b5655e; outline:none; background:#ffffff; }
+        .pickup-details .form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+        .pickup-details .form-hint { font-size:0.8rem; color:#8a7a77; font-weight:300; margin-top:4px; }
+
+        .delivery-next { text-align:center; margin-top:10px; }
+        .delivery-next .btn { padding:16px 60px; font-size:1.1rem; }
+
+        /* ===== PAYMENT PAGE (Redesigned with expandable panels) ===== */
+        .payment-box { background:#ffffff; border-radius:16px; padding:40px 45px; box-shadow:0 4px 24px rgba(0,0,0,0.05); border:1px solid #f0ebe8; max-width:700px; margin:20px auto 0; }
+        .payment-box .payment-icon { font-size:3.5rem; margin-bottom:16px; text-align:center; }
+        .payment-box h3 { font-family:'Playfair Display',serif; font-size:1.8rem; color:#1e1e1e; margin-bottom:12px; text-align:center; }
+
+        .payment-method-selector { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0; }
+        .payment-method-btn { padding:24px 20px; border:2px solid #f0ebe8; border-radius:12px; background:#fcf9f7; cursor:pointer; transition:border-color 0.3s, background 0.3s, transform 0.2s; text-align:center; }
+        .payment-method-btn:hover { border-color:#d4c5c0; transform:translateY(-2px); }
+        .payment-method-btn .method-icon { font-size:2.5rem; display:block; margin-bottom:6px; }
+        .payment-method-btn .method-label { font-weight:600; font-size:1.1rem; color:#1e1e1e; }
+        .payment-method-btn .method-desc { font-size:0.85rem; color:#8a7a77; font-weight:300; }
+
+        .payment-details-panel { display:none; margin-top:16px; padding:20px 24px; background:#f8f4f2; border-radius:12px; border:1px solid #e0d6d2; text-align:left; }
+        .payment-details-panel.show { display:block; }
+
+        .payment-details-panel .detail-row { display:grid; grid-template-columns:1fr 1fr; gap:8px 16px; font-size:0.95rem; padding:4px 0; }
+        .payment-details-panel .detail-row .label { color:#5a4a47; font-weight:500; }
+        .payment-details-panel .detail-row .value { font-weight:600; color:#1e1e1e; word-break:break-all; }
+
+        .payment-details-panel .paypal-email { color:#b5655e; font-weight:600; }
+
+        .payment-details-panel .cash-confirm { margin-top:12px; }
+        .payment-details-panel .cash-confirm label { display:flex; align-items:center; gap:12px; font-weight:500; cursor:pointer; }
+        .payment-details-panel .cash-confirm input[type="checkbox"] { width:20px; height:20px; accent-color:#b5655e; cursor:pointer; }
+
+        .payment-details-panel .cash-note { margin-top:12px; padding:12px 16px; background:#fef6f4; border-radius:8px; border-left:4px solid #b5655e; font-size:0.85rem; color:#b5655e; }
+        .payment-details-panel .cash-note strong { display:block; margin-bottom:4px; }
+
+        .paypal-timer { display:none; background:#f8f4f2; border-radius:12px; padding:16px 20px; margin-top:12px; border:1px solid #e0d6d2; text-align:center; }
+        .paypal-timer.show { display:block; }
+        .paypal-timer .timer { font-size:1.8rem; font-weight:700; color:#b5655e; }
+        .paypal-timer .timer-label { font-size:0.85rem; color:#8a7a77; }
+
+        .payment-note { background:#fef6f4; border-radius:10px; padding:16px 20px; margin:16px 0 20px; border-left:4px solid #b5655e; font-size:0.9rem; color:#3d3d3d; }
+        .payment-note p { margin:4px 0; }
+        .payment-note strong { color:#b5655e; }
+
+        .payment-buttons { display:flex; justify-content:center; gap:16px; flex-wrap:wrap; margin-top:10px; }
+        .payment-buttons .btn { padding:16px 50px; font-size:1.1rem; }
+
+        /* ===== CONFIRMATION PAGE ===== */
+        .confirmation-box { background:#ffffff; border-radius:16px; padding:50px 45px; box-shadow:0 4px 24px rgba(0,0,0,0.05); border:1px solid #f0ebe8; max-width:700px; margin:20px auto 0; text-align:center; }
+        .confirmation-box .check-icon { font-size:4rem; margin-bottom:16px; }
+        .confirmation-box h3 { font-family:'Playfair Display',serif; font-size:2rem; color:#2d7d46; margin-bottom:12px; }
+        .confirmation-box p { color:#5a4a47; font-weight:300; font-size:1.05rem; line-height:1.8; max-width:500px; margin:0 auto 8px; }
+        .confirmation-box .order-details { background:#f8f4f2; border-radius:12px; padding:20px 24px; margin:20px 0 30px; text-align:left; max-height:300px; overflow-y:auto; }
+        .confirmation-box .order-details p { font-size:0.95rem; margin:4px 0; color:#3d3d3d; }
+        .confirmation-box .order-details .detail-label { font-weight:600; color:#1e1e1e; }
+
+        /* ===== INVOICE TEMPLATE ===== */
+        .invoice-box { background:#ffffff; border-radius:16px; padding:30px 35px; box-shadow:0 4px 24px rgba(0,0,0,0.05); border:2px solid #b5655e; max-width:700px; margin:20px auto 30px; text-align:left; }
+        .invoice-box .invoice-header { text-align:center; border-bottom:2px solid #b5655e; padding-bottom:16px; margin-bottom:16px; }
+        .invoice-box .invoice-header h2 { font-family:'Playfair Display',serif; font-size:1.8rem; color:#1e1e1e; }
+        .invoice-box .invoice-header h2 span { color:#b5655e; }
+        .invoice-box .invoice-header .sub { font-size:0.85rem; color:#8a7a77; }
+        .invoice-box .invoice-row { display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid #f0ebe8; font-size:0.9rem; }
+        .invoice-box .invoice-row:last-child { border-bottom:none; }
+        .invoice-box .invoice-row .label { color:#5a4a47; }
+        .invoice-box .invoice-row .value { font-weight:500; color:#1e1e1e; }
+        .invoice-box .invoice-total { display:flex; justify-content:space-between; padding-top:12px; margin-top:8px; border-top:2px solid #b5655e; font-weight:700; font-size:1.2rem; }
+        .invoice-box .invoice-total .total-amount { color:#b5655e; font-size:1.3rem; }
+        .invoice-box .invoice-footer { margin-top:16px; padding-top:12px; border-top:1px solid #f0ebe8; font-size:0.8rem; color:#8a7a77; text-align:center; }
+        .invoice-box .invoice-footer strong { color:#b5655e; }
+        .invoice-print-btn { display:block; margin:10px auto 0; background:#b5655e; color:#fff; border:none; border-radius:30px; padding:10px 30px; font-size:0.9rem; font-weight:600; cursor:pointer; transition:background 0.3s; }
+        .invoice-print-btn:hover { background:#9e4d47; }
+
+        /* ===== FOOTER ===== */
+        footer { background:#1e1e1e; color:#d4cdca; padding:40px 0 20px; text-align:center; margin-top:20px; }
+        footer .logo { font-size:1.4rem; color:#f0ebe8; }
+        footer .logo span { color:#b5655e; }
+        footer p { margin-top:6px; font-weight:300; font-size:0.9rem; }
+        footer .footer-links { display:flex; justify-content:center; gap:30px; flex-wrap:wrap; margin:12px 0 8px; }
+        footer .footer-links a { color:#d4cdca; font-size:0.85rem; transition:color 0.3s; }
+        footer .footer-links a:hover { color:#b5655e; }
+        footer .imprint { font-size:0.8rem; color:#8a7a77; margin-top:12px; line-height:1.6; }
+        footer .imprint a { color:#b5655e; }
+        footer small { display:block; margin-top:14px; opacity:0.5; font-size:0.8rem; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width:768px) {
+            .header-inner { flex-direction:column; gap:10px; }
+            nav a { margin:0 14px; font-size:0.85rem; }
+            .basket-indicator { margin-left:0; margin-top:8px; }
+            .home-headline { font-size:2.6rem; }
+            .home-box { grid-template-columns:1fr; min-height:auto; }
+            .home-box-left { padding:30px 28px; text-align:center; }
+            .home-box-left h2 { font-size:2rem; }
+            .home-box-left .home-description { font-size:1rem; max-width:100%; text-align:center; }
+            .home-box-right { min-height:200px; border-left:none; border-top:1px solid #f0ebe8; }
+            .menu-grid { grid-template-columns:repeat(2,1fr); gap:20px; }
+            .order-grid-cakes { grid-template-columns:repeat(2,1fr); gap:20px; }
+            .cake-detail-layout { padding:24px; }
+            .hto-big-box { grid-template-columns:1fr; min-height:auto; }
+            .hto-big-box-left { padding:30px 28px; text-align:center; }
+            .hto-big-box-left h2 { font-size:1.8rem; }
+            .hto-big-box-right { min-height:200px; border-left:none; border-top:1px solid #f0ebe8; }
+            .hto-two-boxes { grid-template-columns:1fr; }
+            .hto-bottom-box { grid-template-columns:1fr; min-height:auto; }
+            .hto-bottom-left { padding:30px 20px; min-height:120px; }
+            .hto-bottom-right { min-height:180px; border-left:none; border-top:1px solid #f0ebe8; }
+            .payment-info-box { padding:24px 24px; }
+            .delivery-options { grid-template-columns:1fr 1fr; gap:20px; }
+            .delivery-address-form { padding:24px; }
+            .delivery-address-form .form-row { grid-template-columns:1fr; }
+            .delivery-details { padding:24px; }
+            .delivery-details .form-row { grid-template-columns:1fr; }
+            .pickup-details { padding:24px; }
+            .pickup-details .form-row { grid-template-columns:1fr; }
+            .payment-box { padding:30px 24px; }
+            .payment-box .payment-icon { font-size:2.8rem; }
+            .payment-box h3 { font-size:1.5rem; }
+            .payment-method-selector { grid-template-columns:1fr 1fr; gap:12px; }
+            .payment-details-panel .detail-row { grid-template-columns:1fr; gap:4px; }
+            .confirmation-box { padding:30px 24px; }
+            .confirmation-box .check-icon { font-size:3rem; }
+            .confirmation-box h3 { font-size:1.6rem; }
+            .btn { padding:12px 28px; font-size:0.95rem; }
+            .btn-group { gap:14px; }
+            .detail-actions .btn { flex:1 1 100%; }
+            .pref-options-grid { grid-template-columns:1fr 1fr; }
+            .sugar-options-grid { grid-template-columns:1fr 1fr; }
+            .admin-modal-content { padding:30px 24px; }
+            .size-options { flex-wrap:wrap; }
+            .order-summary-box { padding:24px 20px; }
+            .order-summary-box .summary-actions .btn { padding:12px 28px; font-size:0.95rem; flex:1 1 100%; }
+            footer .footer-links { gap:16px; }
+            .privacy-popup { max-width:95%; }
+            .privacy-popup-header { padding:20px 20px 16px 20px; flex-direction:column; gap:8px; align-items:flex-start; }
+            .privacy-popup-body { padding:16px 20px 12px 20px; font-size:0.85rem; }
+            .privacy-popup-footer { padding:12px 20px 20px 20px; flex-direction:column; }
+            .privacy-popup-footer .btn { width:100%; justify-content:center; text-align:center; }
+            .invoice-box { padding:20px; }
+            .delivery-area-box { padding:20px; }
+            .delivery-area-box .area-grid { grid-template-columns:1fr 1fr; }
+            .payment-buttons .btn { padding:12px 30px; font-size:0.95rem; }
+        }
+        @media (max-width:500px) {
+            .menu-grid { grid-template-columns:1fr; }
+            .order-grid-cakes { grid-template-columns:1fr 1fr; }
+            nav a { margin:0 10px; font-size:0.8rem; }
+            .home-headline { font-size:2rem; }
+            .home-box-left h2 { font-size:1.6rem; }
+            .home-box-left .home-description { font-size:0.95rem; }
+            .section-title { font-size:2rem; }
+            .cake-detail-layout { padding:16px; }
+            .cake-detail-info .cake-name { font-size:1.8rem; }
+            .size-options { flex-direction:column; gap:10px; align-items:center; }
+            .hto-big-box-left h2 { font-size:1.5rem; }
+            .hto-small-box h3 { font-size:1.3rem; }
+            .hto-bottom-left .btn { padding:14px 36px; font-size:1rem; }
+            .payment-info-box { padding:20px 18px; }
+            .payment-info-box h3 { font-size:1.3rem; }
+            .delivery-options { grid-template-columns:1fr; gap:16px; }
+            .delivery-option { padding:28px 20px; }
+            .delivery-option .delivery-label { font-size:1.2rem; }
+            .delivery-address-form { padding:20px 18px; }
+            .delivery-details { padding:20px 18px; }
+            .pickup-details { padding:20px 18px; }
+            .payment-box { padding:24px 18px; }
+            .payment-box .payment-icon { font-size:2.4rem; }
+            .payment-box h3 { font-size:1.3rem; }
+            .payment-method-selector { grid-template-columns:1fr; gap:10px; }
+            .payment-method-btn { padding:18px 14px; }
+            .payment-details-panel { padding:16px; }
+            .payment-details-panel .detail-row { font-size:0.85rem; }
+            .payment-buttons .btn { padding:12px 28px; font-size:0.9rem; }
+            .confirmation-box { padding:24px 18px; }
+            .confirmation-box .check-icon { font-size:2.6rem; }
+            .confirmation-box h3 { font-size:1.3rem; }
+            .confirmation-box p { font-size:0.95rem; }
+            .confirmation-box .order-details { padding:14px 16px; }
+            .confirmation-box .order-details p { font-size:0.85rem; }
+            .extra-item-body { padding:0 12px; }
+            .extra-item.expanded .extra-item-body { padding:0 12px 12px 12px; }
+            .basket-summary { padding:16px 18px; }
+            .basket-actions .btn { padding:10px 24px; font-size:0.9rem; flex:1 1 100%; }
+            .pref-options-grid { grid-template-columns:1fr 1fr; }
+            .pref-option-btn { font-size:0.75rem; padding:6px 10px; }
+            .sugar-options-grid { grid-template-columns:1fr 1fr; }
+            .sugar-option-btn { font-size:0.75rem; padding:6px 10px; }
+            .admin-modal-content { padding:24px 18px; }
+            .order-summary-box { padding:18px 14px; }
+            .order-summary-box h3 { font-size:1.3rem; }
+            .order-summary-box .summary-item { flex-direction:column; align-items:flex-start; gap:4px; }
+            .order-summary-box .summary-total { font-size:1rem; }
+            .order-summary-box .summary-total .total-amount { font-size:1.2rem; }
+            .order-summary-box .summary-actions .btn { padding:12px 24px; font-size:0.9rem; }
+            footer .footer-links { flex-direction:column; gap:8px; }
+            footer .imprint { font-size:0.7rem; }
+            .privacy-popup-body { font-size:0.8rem; padding:12px 16px 10px 16px; }
+            .privacy-popup-body h3 { font-size:0.9rem; }
+            .privacy-popup-header h2 { font-size:1.3rem; }
+            .privacy-popup-footer .btn { font-size:0.85rem; padding:10px 20px; }
+            .invoice-box { padding:16px; }
+            .invoice-box .invoice-header h2 { font-size:1.4rem; }
+            .invoice-box .invoice-row { font-size:0.8rem; flex-wrap:wrap; gap:4px; }
+            .invoice-box .invoice-total { font-size:1rem; flex-wrap:wrap; }
+            .delivery-area-box { padding:16px; }
+            .delivery-area-box .area-grid { grid-template-columns:1fr; }
+        }
+
+        .clickable-image { cursor:pointer; position:relative; }
+        .clickable-image .click-hint { position:absolute; bottom:10px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.65); color:#fff; font-size:0.7rem; padding:4px 14px; border-radius:20px; opacity:0; transition:opacity 0.3s; pointer-events:none; white-space:nowrap; font-weight:400; }
+        .clickable-image:hover .click-hint { opacity:1; }
+        .clickable-image img { width:100%; height:100%; object-fit:cover; display:block; }
+
+        .admin-only { display:none; }
+        .admin-only.show { display:block; }
+        .admin-edit-btn { position:fixed; bottom:20px; right:20px; background:#b5655e; color:#fff; border:none; border-radius:50px; padding:10px 20px; font-size:0.8rem; font-weight:600; cursor:pointer; box-shadow:0 4px 16px rgba(0,0,0,0.15); transition:background 0.3s, transform 0.2s; z-index:999; display:none; }
+        .admin-edit-btn:hover { background:#9e4d47; transform:scale(1.05); }
+        .admin-edit-btn.show { display:block; }
+        .email-link { color:#b5655e; font-weight:500; text-decoration:underline; }
+        .email-link:hover { color:#9e4d47; }
+        .distance-warning-box .warning-suggestion strong { color:#b5655e; }
+    </style>
+</head>
+<body>
+
+    <!-- ===== PRIVACY POLICY POPUP (Only Accept Button) ===== -->
+    <div class="privacy-overlay" id="privacyOverlay">
+        <div class="privacy-popup">
+            <div class="privacy-popup-header">
+                <h2>Privacy Policy</h2>
+                <span class="badge">Last updated: July 12, 2026</span>
+            </div>
+            <div class="privacy-popup-body">
+                <p><strong>Responsible Party</strong><br />Maira Khan, Bakednextdoor<br />Kurtschuhmacherstr. 7<br />67663, Kaiserslautern, Germany</p>
+                <p>Email: <a href="mailto:mairawardag@gmail.com">mairawardag@gmail.com</a><br />Phone: 017631660515</p>
+                <h3>Overview of Data Processing</h3>
+                <p><strong>Types of data processed:</strong> Inventory data, contact data, content data, contract data, usage data, meta/communication data, payment data, log data.</p>
+                <p><strong>Categories of data subjects:</strong> Customers, interested parties, communication partners, users, business partners.</p>
+                <p><strong>Purposes of processing:</strong> Contract performance, communication, security measures, marketing, feedback, provision of online offering.</p>
+                <h3>Legal Bases</h3>
+                <ul><li>Consent (Art. 6 para. 1 lit. a) GDPR)</li><li>Contract performance (Art. 6 para. 1 lit. b) GDPR)</li><li>Legal obligation (Art. 6 para. 1 lit. c) GDPR)</li><li>Legitimate interests (Art. 6 para. 1 lit. f) GDPR)</li></ul>
+                <h3>Cookies</h3>
+                <p>We use cookies to provide our online services. You can manage your cookie preferences in your browser settings.</p>
+                <div class="highlight"><p><strong>Your rights:</strong> You have the right to access, rectify, delete, restrict, and object to the processing of your personal data. You also have the right to lodge a complaint with a supervisory authority.</p></div>
+                <p>For the full privacy policy, please contact us at <a href="mailto:mairawardag@gmail.com">mairawardag@gmail.com</a>.</p>
+            </div>
+            <div class="privacy-popup-footer">
+                <button class="btn" onclick="acceptPrivacy()">Accept</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== HEADER ===== -->
+    <header>
+        <div class="container header-inner">
+            <div class="logo">Baked<span>nextdoor</span></div>
+            <nav>
+                <a href="#" onclick="showPage('home')">Home</a>
+                <a href="#" onclick="showPage('menu')">Menu</a>
+                <a href="#" onclick="showPage('howtoorder')">How to Order</a>
+                <a href="#" onclick="showPage('ordergrid')" style="color:#b5655e; font-weight:600;">Order Now</a>
+                <span class="basket-indicator" onclick="showPage('ordergrid')">
+                    <span class="basket-icon">🛒</span>
+                    <span class="basket-count" id="basketCount">0</span>
+                    <span class="basket-max">/ 4</span>
+                </span>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ===== HOME PAGE ===== -->
+    <section id="page-home" class="page-section active">
+        <div class="container">
+            <h1 class="home-headline">Baked<span>nextdoor</span></h1>
+            <div class="home-box">
+                <div class="home-box-left">
+                    <h2 id="homeHeadline">Your personalized <span>cake</span></h2>
+                    <p class="home-description" id="homeDescription">Bakednextdoor is a small home-based business. I bake every order myself with fresh ingredients and attention to detail. Balancing this with school keeps me busy, but I make sure every cake is done right.</p>
+                </div>
+                <div class="home-box-right clickable-image" onclick="uploadImage(this)">
+                    <span class="placeholder-text">Click to add image</span>
+                    <span class="click-hint">Click to upload</span>
+                </div>
+            </div>
+            <div class="btn-group">
+                <a href="#" onclick="showPage('menu')" class="btn">View the menu</a>
+                <a href="#" onclick="showPage('howtoorder')" class="btn btn-outline">How to order</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== MENU PAGE ===== -->
+    <section id="page-menu" class="page-section">
+        <div class="container">
+            <a href="#" onclick="showPage('home')" class="back-btn">← Back to Home</a>
+            <h2 class="section-title">Our Cakes</h2>
+            <p class="section-sub">Choose your favorite — <strong>Medium: +€5.00</strong></p>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <div class="menu-item-image clickable-image" onclick="uploadImage(this)" style="background-image: url('https://placehold.co/400x400/f0e8e5/b5655e?text=Baked+Chocolate+Cheesecake');">
+                        <span class="placeholder-text">📸 Baked Chocolate Cheesecake</span>
+                        <span class="click-hint">Click to upload</span>
+                    </div>
+                    <h3>Baked Chocolate Cheesecake</h3>
+                    <div class="menu-price">€45.00 <small>(Medium: €50.00)</small></div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-image clickable-image" onclick="uploadImage(this)" style="background-image: url('https://placehold.co/400x400/f0e8e5/b5655e?text=Cheesecake');">
+                        <span class="placeholder-text">📸 Cheesecake</span>
+                        <span class="click-hint">Click to upload</span>
+                    </div>
+                    <h3>Cheesecake</h3>
+                    <div class="menu-price">€50.00 <small>(Medium: €55.00)</small></div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-image clickable-image" onclick="uploadImage(this)" style="background-image: url('https://placehold.co/400x400/f0e8e5/b5655e?text=Sheet+Pan+Almond+Cake');">
+                        <span class="placeholder-text">📸 Sheet Pan Almond Cake</span>
+                        <span class="click-hint">Click to upload</span>
+                    </div>
+                    <h3>Sheet Pan Almond Cake</h3>
+                    <div class="menu-price">€45.00 <small>(Medium: €50.00)</small></div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-image clickable-image" onclick="uploadImage(this)" style="background-image: url('https://placehold.co/400x400/f0e8e5/b5655e?text=Banana+Cake');">
+                        <span class="placeholder-text">📸 Banana Cake</span>
+                        <span class="click-hint">Click to upload</span>
+                    </div>
+                    <h3>Banana Cake</h3>
+                    <div class="menu-price">€45.00 <small>(Medium: €50.00)</small></div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-image clickable-image" onclick="uploadImage(this)" style="background-image: url('https://placehold.co/400x400/f0e8e5/b5655e?text=Brownies');">
+                        <span class="placeholder-text">📸 Brownies</span>
+                        <span class="click-hint">Click to upload</span>
+                    </div>
+                    <h3>Brownies</h3>
+                    <div class="menu-price">€45.00 <small>(Medium: €50.00)</small></div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-image clickable-image" onclick="uploadImage(this)" style="background-image: url('https://placehold.co/400x400/f0e8e5/b5655e?text=Black+Forest+Cake');">
+                        <span class="placeholder-text">📸 Black Forest Cake</span>
+                        <span class="click-hint">Click to upload</span>
+                    </div>
+                    <h3>Black Forest Cake</h3>
+                    <div class="menu-price">€55.00 <small>(Medium: €60.00)</small></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== HOW TO ORDER PAGE ===== -->
+    <section id="page-howtoorder" class="page-section">
+        <div class="container">
+            <a href="#" onclick="showPage('home')" class="back-btn">← Back to Home</a>
+            <h2 class="section-title">How to order Bakednextdoor</h2>
+            <div class="hto-big-box">
+                <div class="hto-big-box-left">
+                    <h2>Your own <span>cake</span>.<br />Pick up or <span>delivery</span></h2>
+                    <p class="sub-text">order below</p>
+                </div>
+                <div class="hto-big-box-right clickable-image" onclick="uploadImage(this)">
+                    <span class="placeholder-text">Click to add image</span>
+                    <span class="click-hint">Click to upload</span>
+                </div>
+            </div>
+            <h3 style="font-family:'Playfair Display',serif; font-size:1.8rem; color:#1e1e1e; text-align:center; margin-bottom:24px;">How to order in 2 steps</h3>
+            <div class="hto-two-boxes">
+                <div class="hto-small-box">
+                    <h3>Choose your cake</h3>
+                    <p>You can choose up to 4 cakes. Make sure to order them 2 days before you need them. Medium size is +€5.00!</p>
+                </div>
+                <div class="hto-small-box">
+                    <h3>Pick up or delivery</h3>
+                    <p>You can choose to pick up your cakes from my location, or I can deliver them to you. Full details about pickup times and delivery fees will be provided when you place your order.</p>
+                </div>
+            </div>
+            <div class="delivery-area-box">
+                <div class="area-header">
+                    <span>🚚</span>
+                    <h3>Delivery Area</h3>
+                </div>
+                <p style="color:#5a4a47; font-weight:300; font-size:1rem; margin-bottom:12px;">I deliver to the following cities within a <strong style="color:#b5655e;">100 km</strong> radius from Kaiserslautern:</p>
+                <div class="area-grid">
+                    <div>📍 Kaiserslautern</div>
+                    <div>📍 Mannheim</div>
+                    <div>📍 Ludwigshafen</div>
+                    <div>📍 Worms</div>
+                    <div>📍 Neustadt a.d.W.</div>
+                    <div>📍 Landau i.d.Pfalz</div>
+                    <div>📍 Speyer</div>
+                    <div>📍 Frankenthal</div>
+                    <div>📍 Zweibrücken</div>
+                    <div>📍 Pirmasens</div>
+                    <div>📍 Saarbrücken</div>
+                    <div>📍 Bad Kreuznach</div>
+                    <div>📍 Bingen am Rhein</div>
+                    <div>📍 Alzey</div>
+                    <div>📍 Mainz</div>
+                    <div>📍 Homburg (Saar)</div>
+                    <div>📍 Trier</div>
+                    <div>📍 Koblenz</div>
+                    <div>📍 Heidelberg</div>
+                    <div>📍 Darmstadt</div>
+                    <div>📍 Wiesbaden (parts)</div>
+                    <div>📍 Frankfurt (parts)</div>
+                </div>
+                <div class="area-note">
+                    <strong style="color:#b5655e;">⚠️ Note:</strong> Delivery fee is calculated based on distance (€0.30/km round trip). 
+                    Maximum delivery distance is <strong>100 km</strong> (driving distance). 
+                    For addresses outside this radius, please choose <strong>pickup</strong> instead.
+                </div>
+            </div>
+            <div class="important-note">
+                <p><strong>⚠️ Important:</strong> Once your order has been paid, it cannot be changed. Please review your order carefully before payment.</p>
+            </div>
+            <div class="hto-bottom-box">
+                <div class="hto-bottom-left">
+                    <a href="#" onclick="showPage('ordergrid')" class="btn">Order now</a>
+                </div>
+                <div class="hto-bottom-right clickable-image" onclick="uploadImage(this)">
+                    <span class="placeholder-text">Click to add image</span>
+                    <span class="click-hint">Click to upload</span>
+                </div>
+            </div>
+            <div class="payment-info-box">
+                <h3>Payment</h3>
+                <p>Payment is required after submitting the form. Your order is only confirmed once payment is sent.</p>
+                <p>If payment is not sent, your order may not be held.</p>
+            </div>
+            <div style="text-align:center; margin-top:25px; padding:20px; background:#f8f4f2; border-radius:12px; border:1px solid #f0ebe8;">
+                <p style="color:#3d3d3d; font-weight:300; font-size:1rem;">
+                    ❓ Questions? Contact me at:<br />
+                    <a href="mailto:mairawardag@gmail.com" class="email-link">mairawardag@gmail.com</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ORDER NOW PAGE (Cake Grid) ===== -->
+    <section id="page-ordergrid" class="page-section">
+        <div class="container">
+            <a href="#" onclick="showPage('howtoorder')" class="back-btn">← Back to How to Order</a>
+            <h2 class="section-title">Order now Bakednextdoor</h2>
+            <p class="section-sub">Click on a cake to customize. Max 4 cakes. <strong>Medium = +€5.00!</strong></p>
+            <div id="basketFullMessage" class="basket-full">⚠️ Your basket is full (4 cakes). Please go to checkout or remove some items.</div>
+            <div class="order-grid-cakes">
+                <div class="order-cake-item" data-cake='{"name":"Baked Chocolate Cheesecake","price":45.00,"display":"€45.00"}'>
+                    <div class="cake-thumb clickable-image" onclick="event.stopPropagation(); uploadImage(this)" style="background-image: url('https://placehold.co/400x400/f0e8e5/b5655e?text=Baked+Chocolate+Cheesecake');">
+                        <span class="placeholder-text">📸 Baked Chocolate Cheesecake</span>
+                        <span class="click-hint">Click to upload</span>
+                    </div>
+                    <h3>Baked Chocolate Cheesecake</h3>
+                    <div class="order-price">€45.00 <small>(Medium: €50.00)</small></div>
+                    <div class="click-hint">Click to order →</div>
+                </div>
+                <div class="order-cake-item" data-cake='{"name":"Cheesecake","price":50.00,"display":"€50.00"}'>
+                    <div class="cake-thumb clickable-image" onclick="event.stopPropagation(); uploadImage(this)" style="background-image: url('https://placehold.co/400x400/f0e8e5/b5655e?text=Cheesecake');">
+                        <span class="placeholder-text">📸 Cheesecake</span>
+                        <span class="click-hint">Click to upload</span>
+                    </div>
+                    <h3>Cheesecake</h3>
+                    <div class="order-price">€50.00 <small>(Medium: €55.00)</small></div>
+                    <div class="click-hint">Click to order →</div>
+                </div>
+                <div class="order-cake-item" data-cake='{"name":"Sheet Pan Almond Cake","price":45.00,"display":"€45.00"}'>
+                    <div class="cake-thumb clickable-image" onclick="event.stopPropagation(); uploadImage(this)" style="background-image: url('https://placehold.co/400x400/f0e8e5/b5655e?text=Sheet+Pan+Almond+Cake');">
+                        <span class="placeholder-text">📸 Sheet Pan Almond Cake</span>
+                        <span class="click-hint">Click to upload</span>
+                    </div>
+                    <h3>Sheet Pan Almond Cake</h3>
+                    <div class="order-price">€45.00 <small>(Medium: €50.00)</small></div>
+                    <div class="click-hint">Click to order →</div>
+                </div>
+                <div class="order-cake-item" data-cake='{"name":"Banana Cake","price":45.00,"display":"€45.00"}'>
+                    <div class="cake-thumb clickable-image" onclick="event.stopPropagation(); uploadImage(this)" style="background-image: url('https://placehold.co/400x400/f0e8e5/b5655e?text=Banana+Cake');">
+                        <span class="placeholder-text">📸 Banana Cake</span>
+                        <span class="click-hint">Click to upload</span>
+                    </div>
+                    <h3>Banana Cake</h3>
+                    <div class="order-price">€45.00 <small>(Medium: €50.00)</small></div>
+                    <div class="click-hint">Click to order →</div>
+                </div>
+                <div class="order-cake-item" data-cake='{"name":"Brownies","price":45.00,"display":"€45.00"}'>
+                    <div class="cake-thumb clickable-image" onclick="event.stopPropagation(); uploadImage(this)" style="background-image: url('https://placehold.co/400x400/f0e8e5/b5655e?text=Brownies');">
+                        <span class="placeholder-text">📸 Brownies</span>
+                        <span class="click-hint">Click to upload</span>
+                    </div>
+                    <h3>Brownies</h3>
+                    <div class="order-price">€45.00 <small>(Medium: €50.00)</small></div>
+                    <div class="click-hint">Click to order →</div>
+                </div>
+                <div class="order-cake-item" data-cake='{"name":"Black Forest Cake","price":55.00,"display":"€55.00"}'>
+                    <div class="cake-thumb clickable-image" onclick="event.stopPropagation(); uploadImage(this)" style="background-image: url('https://placehold.co/400x400/f0e8e5/b5655e?text=Black+Forest+Cake');">
+                        <span class="placeholder-text">📸 Black Forest Cake</span>
+                        <span class="click-hint">Click to upload</span>
+                    </div>
+                    <h3>Black Forest Cake</h3>
+                    <div class="order-price">€55.00 <small>(Medium: €60.00)</small></div>
+                    <div class="click-hint">Click to order →</div>
+                </div>
+            </div>
+            <div class="basket-summary" id="basketSummary">
+                <h4>🛒 Your Basket</h4>
+                <div id="basketItems"></div>
+                <div class="basket-total-count"><span>Total cakes:</span><span id="basketTotalCount">0 / 4</span></div>
+                <div class="basket-actions">
+                    <button class="btn btn-secondary" onclick="clearBasket()">Clear Basket</button>
+                    <button class="btn btn-success" id="checkoutBtn" onclick="goToDelivery()">Next →</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CAKE DETAIL PAGE ===== -->
+    <section id="page-cakedetail" class="page-section">
+        <div class="container">
+            <a href="#" onclick="showPage('ordergrid')" class="back-btn">← Back to all cakes</a>
+            <div class="cake-detail-layout">
+                <div class="cake-detail-info">
+                    <div class="cake-name" id="detailCakeName">Cake Name</div>
+                    <div class="cake-price" id="detailCakePrice">€45.00 <small>(Medium: €50.00)</small></div>
+                    <div class="quantity-selector">
+                        <button onclick="changeQuantity(-1)">−</button>
+                        <span id="detailQuantity">1</span>
+                        <button onclick="changeQuantity(1)">+</button>
+                    </div>
+                    <div class="freshly-baked">✦ daily freshly baked by hand</div>
+                    <div class="size-options">
+                        <button class="size-btn active" onclick="selectSize(this, 0)">Small <span class="size-price">(regular price)</span></button>
+                        <button class="size-btn" onclick="selectSize(this, 1)">Medium <span class="size-price">(+€5.00)</span></button>
+                    </div>
+                    <div class="preference-section">
+                        <span class="pref-label">Dietary preference</span>
+                        <span class="pref-hint">Select one option for this cake (optional)</span>
+                        <div class="pref-options-grid" id="prefOptionsGrid">
+                            <button class="pref-option-btn none-active" onclick="selectPreferenceForCake(this, 'None', 0)">None <span class="pref-price">(€0.00)</span></button>
+                            <button class="pref-option-btn" onclick="selectPreferenceForCake(this, 'Gluten-free', 5.00)">🌾 Gluten-free <span class="pref-price">(+€5.00)</span></button>
+                            <button class="pref-option-btn" onclick="selectPreferenceForCake(this, 'Lactose-free', 5.00)">🥛 Lactose-free <span class="pref-price">(+€5.00)</span></button>
+                            <button class="pref-option-btn" onclick="selectPreferenceForCake(this, 'Nut-free', 2.00)">🥜 Nut-free <span class="pref-price">(+€2.00)</span></button>
+                            <button class="pref-option-btn" onclick="selectPreferenceForCake(this, 'Egg-free', 5.00)">🥚 Egg-free <span class="pref-price">(+€5.00)</span></button>
+                        </div>
+                    </div>
+                    <div class="sugar-section">
+                        <span class="sugar-label">🍬 Sugar type</span>
+                        <span class="sugar-hint">Select your preferred sugar (Coconut sugar +€1.50)</span>
+                        <div class="sugar-options-grid" id="sugarOptionsGrid">
+                            <button class="sugar-option-btn active" onclick="selectSugar(this, 'White sugar', 0)">White sugar <span class="sugar-price">(€0.00)</span></button>
+                            <button class="sugar-option-btn" onclick="selectSugar(this, 'Brown sugar', 0)">Brown sugar <span class="sugar-price">(€0.00)</span></button>
+                            <button class="sugar-option-btn" onclick="selectSugar(this, 'Raw cane sugar', 0)">Raw cane sugar <span class="sugar-price">(€0.00)</span></button>
+                            <button class="sugar-option-btn" onclick="selectSugar(this, 'Coconut sugar', 1.50)">🥥 Coconut sugar <span class="sugar-price">(+€1.50)</span></button>
+                        </div>
+                    </div>
+                    <div class="extras-section">
+                        <span class="extras-label">Add some extras</span>
+                        <div class="extra-item" id="extraGreetingItem">
+                            <div class="extra-item-header" onclick="toggleExtra('extraGreetingItem')">
+                                <input type="checkbox" id="extraGreeting" onclick="event.stopPropagation(); toggleExtra('extraGreetingItem')" />
+                                <label for="extraGreeting">Greeting card with a personal message</label>
+                                <span class="extra-price">+€3.00</span>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="extra-item-body">
+                                <div class="field-group">
+                                    <label for="greetingMessage">Your message (max 50 characters)</label>
+                                    <input type="text" id="greetingMessage" maxlength="50" placeholder="Write your message here..." oninput="updateCharCount('greetingMessage', 'greetingCount', 50)" />
+                                    <div class="char-count" id="greetingCount">0 / 50</div>
+                                </div>
+                                <div class="field-group">
+                                    <label for="cardType">Card type (optional)</label>
+                                    <select id="cardType">
+                                        <option value="">Select a card type...</option>
+                                        <option value="birthday">Birthday</option>
+                                        <option value="anniversary">Anniversary</option>
+                                        <option value="congratulations">Congratulations</option>
+                                        <option value="thankyou">Thank You</option>
+                                        <option value="sympathy">Sympathy</option>
+                                        <option value="justbecause">Just Because</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="extra-item" id="extraWritingItem">
+                            <div class="extra-item-header" onclick="toggleExtra('extraWritingItem')">
+                                <input type="checkbox" id="extraWriting" onclick="event.stopPropagation(); toggleExtra('extraWritingItem')" />
+                                <label for="extraWriting">Writing on the cake</label>
+                                <span class="extra-price">+€2.00</span>
+                                <span class="expand-icon">▼</span>
+                            </div>
+                            <div class="extra-item-body">
+                                <div class="field-group">
+                                    <label for="writingText">What should it say? (max 20 characters)</label>
+                                    <input type="text" id="writingText" maxlength="20" placeholder="e.g. Happy Birthday!" oninput="updateCharCount('writingText', 'writingCount', 20)" />
+                                    <div class="char-count" id="writingCount">0 / 20</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="detail-actions">
+                        <button class="btn btn-secondary" onclick="showPage('ordergrid')">← Back</button>
+                        <button class="btn" onclick="addToBasket()">Add to Basket →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PICKUP OR DELIVERY PAGE ===== -->
+    <section id="page-delivery" class="page-section">
+        <div class="container">
+            <a href="#" onclick="showPage('ordergrid')" class="back-btn">← Back to Order Now</a>
+            <h2 class="section-title">Pick up or delivery</h2>
+            <p style="text-align:center; color:#5a4a47; font-weight:300; font-size:1.05rem; max-width:700px; margin:0 auto 35px; line-height:1.7;">You can either pick up your cake from my location, or I can deliver it to you.</p>
+            <div class="delivery-options">
+                <div class="delivery-option" onclick="selectDelivery(this, 'pickup')">
+                    <input type="radio" name="deliveryOption" value="pickup" />
+                    <span class="delivery-label">📍 Pick up</span>
+                    <span class="delivery-desc">Pick up location: Kurtschuhmacherstr. 7</span>
+                    <span class="delivery-check">✓ Selected</span>
+                </div>
+                <div class="delivery-option" onclick="selectDelivery(this, 'delivery')">
+                    <input type="radio" name="deliveryOption" value="delivery" />
+                    <span class="delivery-label">🚗 Delivery</span>
+                    <span class="delivery-desc">I charge €0.30 per kilometer (round trip)</span>
+                    <span class="delivery-check">✓ Selected</span>
+                </div>
+            </div>
+            <div class="delivery-address-form" id="deliveryAddressForm">
+                <h4>📍 Delivery Address</h4>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="deliveryCity">City <span class="required">*</span></label>
+                        <input type="text" id="deliveryCity" placeholder="e.g. Mannheim" />
+                    </div>
+                    <div class="form-group">
+                        <label for="deliveryPostcode">Postcode <span class="required">*</span></label>
+                        <input type="text" id="deliveryPostcode" placeholder="e.g. 68159" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="deliveryStreet">Street and House Number <span class="required">*</span></label>
+                    <input type="text" id="deliveryStreet" placeholder="e.g. Hauptstraße 12" />
+                    <div class="form-hint">Please enter your full street name and house number.</div>
+                </div>
+                <button class="btn" onclick="calculateDeliveryDistance()" style="width:100%; padding:14px; font-size:1rem; margin-top:8px;">🔄 Calculate Delivery Fee</button>
+                <div class="distance-result-box" id="distanceResultBox">
+                    <div class="result-row">
+                        <span class="label">📍 Distance (one way):</span>
+                        <span class="value" id="deliveryDistKm">0 km</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="label">🔄 Round trip distance:</span>
+                        <span class="value" id="deliveryRoundTrip">0 km</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="label">🚗 Delivery fee (€0.30/km):</span>
+                        <span class="value fee" id="deliveryFeeDisplay">€0.00</span>
+                    </div>
+                    <div class="warning" id="deliveryWarning">⚠️ Sorry, we don't deliver this far. Maximum distance is 100 km. Please choose pickup.</div>
+                    <div class="note">✅ The delivery fee will be added to your total automatically.</div>
+                </div>
+                <div class="distance-warning-box" id="distanceWarningBox">
+                    <span class="warning-icon">🚫</span>
+                    <div class="warning-title">Distance Too Far!</div>
+                    <div class="warning-text">The distance to your address is <strong id="warningDistanceText">0 km</strong>, which is more than our maximum delivery distance of <strong>100 km</strong>.</div>
+                    <div class="warning-suggestion"><strong>💡 Suggestion:</strong> Please choose <strong>Pick up</strong> instead, or if you're outside the delivery area, you can still place an order for pickup at:<br /><strong style="color:#b5655e;">📍 Kurtschuhmacherstr. 7, 67655 Kaiserslautern</strong></div>
+                </div>
+            </div>
+            <div class="delivery-details" id="deliveryDetails">
+                <h4>Delivery Details</h4>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="deliveryDate">Delivery Date <span class="required">*</span></label>
+                        <input type="date" id="deliveryDate" />
+                        <div class="form-hint">Orders must be placed at least 2 days in advance.</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="deliveryTime">Preferred Delivery Time</label>
+                        <input type="text" id="deliveryTime" placeholder="e.g. 16:30 or 17:50" />
+                        <div class="form-hint">Deliveries available between <strong>15:00 - 19:00</strong>. Please enter your preferred time.</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="deliveryNotes">Additional delivery notes (optional)</label>
+                    <textarea id="deliveryNotes" placeholder="e.g. Gate code, special instructions for the driver..."></textarea>
+                </div>
+            </div>
+            <div class="pickup-details" id="pickupDetails">
+                <h4>Pickup Details</h4>
+                <div class="form-group">
+                    <label for="pickupDate">Pickup Date <span class="required">*</span></label>
+                    <input type="date" id="pickupDate" />
+                    <div class="form-hint">Orders must be placed at least 2 days in advance.</div>
+                </div>
+                <div class="form-group">
+                    <label for="pickupTime">Pickup Time <span class="required">*</span></label>
+                    <select id="pickupTime">
+                        <option value="">Select a time slot...</option>
+                        <option value="14:00 - 15:00">14:00 - 15:00</option>
+                        <option value="15:00 - 16:00">15:00 - 16:00</option>
+                        <option value="16:00 - 17:00">16:00 - 17:00</option>
+                        <option value="17:00 - 18:00">17:00 - 18:00</option>
+                    </select>
+                    <div class="form-hint">Pickup is available on Thursdays (4-6 PM) and Saturdays (10 AM - 12 PM).</div>
+                </div>
+                <div class="form-group">
+                    <label for="pickupNotes">Additional notes (optional)</label>
+                    <textarea id="pickupNotes" placeholder="Any special requests or notes..."></textarea>
+                </div>
+            </div>
+            <div class="delivery-details" id="emailSection" style="display:block; max-width:700px; margin:0 auto 30px; background:#ffffff; border-radius:16px; padding:30px 35px; box-shadow:0 4px 16px rgba(0,0,0,0.04); border:1px solid #f0ebe8;">
+                <h4>Your Contact Information</h4>
+                <div class="form-group">
+                    <label for="customerEmail">Your Email Address <span class="required">*</span></label>
+                    <input type="email" id="customerEmail" placeholder="yourname@gmail.com" />
+                    <div class="form-hint">We'll send your order confirmation to this email.</div>
+                </div>
+                <div class="form-group">
+                    <label for="customerName">Your Name <span class="required">*</span></label>
+                    <input type="text" id="customerName" placeholder="Your full name" />
+                </div>
+            </div>
+            <div class="delivery-next">
+                <button class="btn" onclick="goToOrderSummary()">Review Order →</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ORDER SUMMARY PAGE ===== -->
+    <section id="page-summary" class="page-section">
+        <div class="container">
+            <a href="#" onclick="showPage('delivery')" class="back-btn">← Back to Pickup or Delivery</a>
+            <h2 class="section-title">Order Summary</h2>
+            <p class="section-sub">Please review your order carefully before proceeding to payment.</p>
+            <div class="order-summary-box">
+                <h3>📋 Your Order</h3>
+                <div id="summaryItems"></div>
+                <div id="summaryDeliveryFee" style="display:none; margin-top:8px; padding:8px 0; border-bottom:1px solid #f0ebe8; display:flex; justify-content:space-between; font-size:1rem;">
+                    <span style="color:#5a4a47;">🚗 Delivery fee (round trip):</span>
+                    <span style="color:#b5655e; font-weight:600;" id="summaryDeliveryFeeAmount">€0.00</span>
+                </div>
+                <div class="summary-total">
+                    <span>Total:</span>
+                    <span class="total-amount" id="summaryTotalPrice">€0.00</span>
+                </div>
+                <div id="summaryDeliveryInfo" style="margin-top:12px; padding:12px 16px; background:#f8f4f2; border-radius:8px; font-size:0.9rem; color:#5a4a47; border:1px solid #f0ebe8;">
+                    <strong>📍 Delivery/Pickup:</strong> <span id="summaryDeliveryType">—</span><br />
+                    <span id="summaryDeliveryAddress" style="display:none;"><strong>Address:</strong> <span id="summaryDeliveryAddressText"></span><br /></span>
+                    <strong>📅 Date:</strong> <span id="summaryDeliveryDate">—</span><br />
+                    <strong>⏰ Time:</strong> <span id="summaryDeliveryTime">—</span>
+                </div>
+                <div class="summary-note">
+                    <strong>⚠️ Important:</strong> Once you confirm and pay for your order, it cannot be changed. Please review all details carefully.
+                </div>
+                <div class="summary-actions">
+                    <button class="btn btn-secondary" onclick="showPage('delivery')">← Back</button>
+                    <button class="btn btn-success" onclick="goToPayment()">Proceed to Payment →</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PAYMENT PAGE ===== -->
+    <section id="page-payment" class="page-section">
+        <div class="container">
+            <a href="#" onclick="showPage('summary')" class="back-btn">← Back to Order Summary</a>
+            <h2 class="section-title">Payment</h2>
+            <p class="section-sub">Choose your payment method</p>
+            <div class="payment-box">
+                <div class="payment-icon">💳</div>
+                <h3>Select Payment Method</h3>
+                <div style="background:#fef6f4; border-radius:12px; padding:20px 24px; margin-bottom:20px; border:2px solid #b5655e; text-align:center;">
+                    <p style="font-size:0.9rem; color:#5a4a47; margin-bottom:4px;">Total Amount:</p>
+                    <p style="font-size:2rem; font-weight:700; color:#b5655e;" id="paymentTotalPrice">€0.00</p>
+                    <p style="font-size:0.8rem; color:#7a6a77; margin-top:4px;">Includes cakes, extras, preferences and delivery fee (if applicable)</p>
+                </div>
+                <div class="payment-method-selector">
+                    <div class="payment-method-btn" id="paypalMethod" onclick="selectPaymentMethod('paypal')">
+                        <span class="method-icon">💲</span>
+                        <span class="method-label">PayPal</span>
+                        <span class="method-desc">Pay online via PayPal</span>
+                    </div>
+                    <div class="payment-method-btn" id="cashMethod" onclick="selectPaymentMethod('cash')">
+                        <span class="method-icon">💶</span>
+                        <span class="method-label">Cash</span>
+                        <span class="method-desc">Pay at pickup or delivery</span>
+                    </div>
+                </div>
+                <div class="payment-details-panel" id="paypalPanel">
+                    <h4 style="font-family:'Playfair Display',serif; font-size:1.2rem; color:#1e1e1e; margin-bottom:12px;">💲 PayPal</h4>
+                    <p style="margin-bottom:12px; color:#5a4a47;">Send payment to: <span class="paypal-email">zebikhan@gmail.com</span></p>
+                    <p style="font-size:0.85rem; color:#7a6a77; margin-bottom:12px;">Please include your order number in the payment description.</p>
+                    <div class="detail-row">
+                        <span class="label">Empfänger:</span>
+                        <span class="value">Maira Khan</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">IBAN:</span>
+                        <span class="value" style="color:#b5655e;">DE11 7603 0080 0380 4632 95</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">BIC:</span>
+                        <span class="value" style="color:#b5655e;">CSDBDE71XXX</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">Verwendungszweck:</span>
+                        <span class="value" style="color:#b5655e; font-weight:700; background:#fef6f4; padding:2px 12px; border-radius:4px; border:1px solid #b5655e; word-break:break-all;" id="paymentReference">Order MC-2026-0000</span>
+                    </div>
+                    <div class="paypal-timer" id="paypalTimer">
+                        <p style="font-weight:500; color:#1e1e1e;">⏳ Please complete your payment within:</p>
+                        <div class="timer" id="paypalTimerDisplay">20:00</div>
+                        <div class="timer-label">Minutes remaining</div>
+                        <p style="margin-top:6px; font-size:0.8rem; color:#8a7a77;">After 20 minutes, your order will be cancelled automatically.</p>
+                    </div>
+                </div>
+                <div class="payment-details-panel" id="cashPanel">
+                    <h4 style="font-family:'Playfair Display',serif; font-size:1.2rem; color:#1e1e1e; margin-bottom:12px;">💶 Cash</h4>
+                    <p style="color:#5a4a47; margin-bottom:8px;">You will pay with cash when you pick up your cake or when it is delivered to you.</p>
+                    <div class="cash-confirm">
+                        <label>
+                            <input type="checkbox" id="cashConfirmCheck" />
+                            I confirm that I will pay with cash when I pick up my cake or when it is delivered to me.
+                        </label>
+                        <div class="cash-note">
+                            <strong>⚠️ This cannot be undone!</strong>
+                            Once you confirm cash payment, you are committed to paying in cash. 
+                            If you don't pay, we reserve the right to refuse future orders.
+                        </div>
+                    </div>
+                </div>
+                <div class="payment-note" id="paymentNote">
+                    <p><strong>⚠️ Important:</strong> Your order is only confirmed once payment is sent or you confirm cash payment.</p>
+                    <p>For PayPal payments, your order will be confirmed once we receive the payment.</p>
+                    <p><strong>After payment, this order cannot be changed.</strong></p>
+                </div>
+                <div class="payment-buttons">
+                    <button class="btn" id="confirmOrderBtn" onclick="confirmOrder()" disabled>Select a payment method</button>
+                    <button class="btn btn-secondary" onclick="showPage('summary')">Back</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CONFIRMATION PAGE ===== -->
+    <section id="page-confirmation" class="page-section">
+        <div class="container">
+            <h2 class="section-title">Order Confirmed!</h2>
+            <div class="confirmation-box">
+                <div class="check-icon">✅</div>
+                <h3>Thank you for your order!</h3>
+                <p>Your cakes are now being prepared with love.</p>
+                <div class="order-details" id="confirmationDetails">
+                    <p><span class="detail-label">Order Summary</span></p>
+                    <div id="confirmationItems"></div>
+                    <p style="margin-top:10px; border-top:1px solid #e0d6d2; padding-top:10px;"><span class="detail-label">Delivery/Pickup: </span><span id="confirmationDeliveryInfo" style="color:#b5655e; font-weight:500;"></span></p>
+                    <p style="margin-top:6px;"><span class="detail-label">Payment: </span><span id="confirmationPaymentInfo" style="color:#b5655e; font-weight:500;">PayPal to zebikhan@gmail.com OR cash on pickup/delivery</span></p>
+                    <p style="margin-top:6px;"><span class="detail-label">Total: </span><span id="confirmationTotalPrice" style="color:#b5655e; font-weight:700; font-size:1.1rem;"></span></p>
+                </div>
+                <p style="font-size:0.95rem; color:#7a6a66;">📧 A confirmation email has been sent to <strong id="confirmationEmailDisplay"></strong></p>
+                <p style="font-size:0.9rem; color:#7a6a66; margin-top:6px;">⚠️ This order cannot be changed after payment.</p>
+                <div style="margin-top:20px;"><a href="#" onclick="showPage('home')" class="btn">Back to Home</a></div>
+            </div>
+            <div class="invoice-box" id="invoiceBox">
+                <div class="invoice-header">
+                    <h2>Baked<span>nextdoor</span></h2>
+                    <div class="sub">Kurtschuhmacherstr. 7 · 67655 Kaiserslautern · Germany</div>
+                    <div class="sub">Email: mairawardag@gmail.com · Phone: 017631660515</div>
+                </div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-size:0.9rem;">
+                    <div><strong>Invoice #:</strong> <span id="invoiceNumber">MC-2026-0001</span></div>
+                    <div><strong>Date:</strong> <span id="invoiceDate">13.07.2026</span></div>
+                </div>
+                <div style="margin-bottom:12px; font-size:0.9rem;">
+                    <strong>Customer:</strong> <span id="invoiceCustomerName">—</span><br />
+                    <strong>Email:</strong> <span id="invoiceCustomerEmail">—</span>
+                </div>
+                <div style="margin-bottom:12px; border-bottom:2px solid #b5655e; padding-bottom:8px;">
+                    <strong>Order Details:</strong>
+                </div>
+                <div id="invoiceItems"></div>
+                <div class="invoice-total">
+                    <span>Total:</span>
+                    <span class="total-amount" id="invoiceTotalPrice">€0.00</span>
+                </div>
+                <div style="margin-top:8px; font-size:0.85rem; color:#5a4a47; text-align:center; border-bottom:1px solid #f0ebe8; padding-bottom:8px;">
+                    ⚠️ <strong>Kleinunternehmer gemäß §19 UStG</strong> — No VAT shown.
+                </div>
+                <div class="invoice-footer">
+                    <strong>Payment:</strong> <span id="invoicePaymentMethod">PayPal to zebikhan@gmail.com OR cash on pickup/delivery</span><br />
+                    Thank you for your order! ❤️
+                </div>
+                <button class="invoice-print-btn" onclick="printInvoice()">🖨️ Print Invoice</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ADMIN EDIT MODAL ===== -->
+    <div class="admin-modal" id="adminModal">
+        <div class="admin-modal-content">
+            <span class="close-modal" onclick="closeAdminModal()">×</span>
+            <h3>✏️ Edit Home Page</h3>
+            <p>Update the text on your home page. Changes will appear immediately.</p>
+            <div class="form-group"><label for="editHeadline">Headline</label><input type="text" id="editHeadline" value="Your personalized cake" /></div>
+            <div class="form-group"><label for="editDescription">Description</label><textarea id="editDescription" rows="4">Bakednextdoor is a small home-based business. I bake every order myself with fresh ingredients and attention to detail. Balancing this with school keeps me busy, but I make sure every cake is done right.</textarea></div>
+            <button class="btn" onclick="saveHomePageChanges()">💾 Save Changes</button>
+            <button class="btn btn-secondary" onclick="closeAdminModal()">Cancel</button>
+            <div class="success-msg" id="adminSuccessMsg">✅ Changes saved successfully!</div>
+        </div>
+    </div>
+    <button class="admin-edit-btn" id="adminEditBtn" onclick="openAdminModal()">✏️ Edit Home Page</button>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="container">
+            <div class="logo">Baked<span>nextdoor</span></div>
+            <p>Your personalized cake. Delivered in 2 days.</p>
+            <div class="footer-links"><a href="#" onclick="showPage('home')">Home</a><a href="#" onclick="showPage('menu')">Menu</a><a href="#" onclick="showPage('howtoorder')">How to Order</a><a href="#" onclick="showPage('ordergrid')">Order Now</a></div>
+            <div class="imprint">
+                <strong>Imprint</strong><br />
+                Maira Khan<br />
+                Kurtschuhmacherstr. 7<br />
+                67655 Kaiserslautern<br />
+                Germany<br />
+                Email: <a href="mailto:mairawardag@gmail.com">mairawardag@gmail.com</a><br />
+                <strong>Tax Number (Steuernummer):</strong> <span style="color:#b5655e;">[Add your tax number here]</span><br />
+                <strong>VAT ID:</strong> Kleinunternehmer gemäß §19 UStG
+            </div>
+            <small>&copy; 2026 Bakednextdoor. All rights reserved.</small>
+        </div>
+    </footer>
+
+    <!-- ============================================================ -->
+    <!-- ===== JAVASCRIPT ===== -->
+    <!-- ============================================================ -->
+    <script>
+        // ===== PRIVACY POLICY =====
+        if (localStorage.getItem('privacyAccepted') === 'true') {
+            document.getElementById('privacyOverlay').classList.remove('show');
+        } else {
+            document.getElementById('privacyOverlay').classList.add('show');
+        }
+        function acceptPrivacy() { localStorage.setItem('privacyAccepted', 'true'); document.getElementById('privacyOverlay').classList.remove('show'); }
+
+        // ===== ADMIN SYSTEM =====
+        let isAdmin = false;
+        if (localStorage.getItem('mairaCakesAdmin') === 'true') { isAdmin = true; document.getElementById('adminEditBtn').classList.add('show'); }
+        document.querySelector('.logo').addEventListener('dblclick', function() {
+            const password = prompt('Enter admin password to enable editing:');
+            if (password === 'Golu4molu') { localStorage.setItem('mairaCakesAdmin', 'true'); isAdmin = true; document.getElementById('adminEditBtn').classList.add('show'); alert('✅ Admin mode enabled!'); }
+            else if (password !== null) alert('❌ Incorrect password.');
+        });
+        function openAdminModal() {
+            if (!isAdmin) { alert('You need to enable admin mode first. Double-click the logo.'); return; }
+            document.getElementById('editHeadline').value = document.getElementById('homeHeadline').textContent.replace('Your personalized ','').replace('cake','').trim() || 'Your personalized cake';
+            document.getElementById('editDescription').value = document.getElementById('homeDescription').textContent;
+            document.getElementById('adminModal').classList.add('show');
+            document.getElementById('adminSuccessMsg').classList.remove('show');
+        }
+        function closeAdminModal() { document.getElementById('adminModal').classList.remove('show'); }
+        function saveHomePageChanges() {
+            if (!isAdmin) return;
+            const h = document.getElementById('editHeadline').value.trim(), d = document.getElementById('editDescription').value.trim();
+            if (!h || !d) { alert('Please fill in both fields.'); return; }
+            document.getElementById('homeHeadline').innerHTML = h + ' <span>cake</span>';
+            document.getElementById('homeDescription').textContent = d;
+            document.getElementById('adminSuccessMsg').classList.add('show');
+            setTimeout(closeAdminModal, 2000);
+        }
+        document.getElementById('adminModal').addEventListener('click', function(e) { if (e.target === this) closeAdminModal(); });
+
+        // ===== PAGE NAVIGATION =====
+        function showPage(pageId) {
+            document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+            const target = document.getElementById('page-' + pageId);
+            if (target) target.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            updateBasketDisplay();
+        }
+
+        // ===== IMAGE UPLOAD =====
+        function uploadImage(element) {
+            if (!isAdmin) { alert('Only the shop owner can upload images. Double-click the logo to enable admin mode.'); return; }
+            const input = document.createElement('input'); input.type = 'file'; input.accept = 'image/*';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    const placeholder = element.querySelector('.placeholder-text');
+                    if (placeholder) placeholder.remove();
+                    const existing = element.querySelector('img');
+                    if (existing) existing.remove();
+                    element.style.backgroundImage = 'none';
+                    const img = document.createElement('img');
+                    img.src = ev.target.result;
+                    img.alt = 'Uploaded image';
+                    element.appendChild(img);
+                    const hint = element.querySelector('.click-hint');
+                    if (hint) hint.textContent = 'Click to change';
+                };
+                reader.readAsDataURL(file);
+            };
+            input.click();
+        }
+
+        // ===== CHARACTER COUNTER =====
+        function updateCharCount(inputId, countId, maxLength) {
+            const input = document.getElementById(inputId);
+            const count = document.getElementById(countId);
+            if (input && count) {
+                const len = input.value.length;
+                count.textContent = len + ' / ' + maxLength;
+                count.classList.remove('warning','danger');
+                if (len > maxLength * 0.8) count.classList.add('warning');
+                if (len >= maxLength) count.classList.add('danger');
+            }
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCharCount('greetingMessage', 'greetingCount', 50);
+            updateCharCount('writingText', 'writingCount', 20);
+            const today = new Date();
+            const twoDaysLater = new Date(today);
+            twoDaysLater.setDate(today.getDate() + 2);
+            const year = twoDaysLater.getFullYear();
+            const month = String(twoDaysLater.getMonth() + 1).padStart(2, '0');
+            const day = String(twoDaysLater.getDate()).padStart(2, '0');
+            const dateStr = year + '-' + month + '-' + day;
+            const deliveryDate = document.getElementById('deliveryDate');
+            const pickupDate = document.getElementById('pickupDate');
+            if (deliveryDate) { deliveryDate.min = dateStr; deliveryDate.value = dateStr; }
+            if (pickupDate) { pickupDate.min = dateStr; pickupDate.value = dateStr; }
+        });
+
+        // ===== PREFERENCES =====
+        let selectedCakePreference = 'None';
+        let selectedPreferencePrice = 0;
+        let currentCakePrice = 45.00;
+        let isCheesecake = false;
+        function selectPreferenceForCake(btn, value, price) {
+            const parent = btn.parentElement;
+            parent.querySelectorAll('.pref-option-btn').forEach(b => b.classList.remove('active','none-active'));
+            let actualPrice = price;
+            if (isCheesecake && value === 'Egg-free') { actualPrice = 0; }
+            if (value === 'None') { btn.classList.add('none-active'); selectedCakePreference = 'None'; selectedPreferencePrice = 0; }
+            else { btn.classList.add('active'); selectedCakePreference = value; selectedPreferencePrice = actualPrice; }
+            updatePriceDisplay();
+        }
+
+        // ===== SUGAR SELECTION =====
+        let selectedSugar = 'White sugar';
+        let selectedSugarPrice = 0;
+        function selectSugar(btn, name, price) {
+            const parent = btn.parentElement;
+            parent.querySelectorAll('.sugar-option-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            selectedSugar = name;
+            selectedSugarPrice = price;
+            updatePriceDisplay();
+        }
+
+        // ===== SIZE =====
+        let selectedSize = 'small';
+        function selectSize(btn, size) {
+            btn.parentElement.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            selectedSize = size === 0 ? 'small' : 'medium';
+            updatePriceDisplay();
+        }
+        function updatePriceDisplay() {
+            const display = document.getElementById('detailCakePrice');
+            let price = currentCakePrice;
+            if (selectedSize === 'medium') price = currentCakePrice + 5;
+            let totalPrice = price + selectedPreferencePrice + (selectedSugarPrice || 0);
+            display.innerHTML = '€' + totalPrice.toFixed(2) + ' <small>(' + selectedSize.charAt(0).toUpperCase() + selectedSize.slice(1) + ')</small>';
+        }
+
+        // ===== BASKET =====
+        const MAX_CAKES = 4;
+        let basket = [];
+        function addToBasket() {
+            const name = document.getElementById('detailCakeName').textContent;
+            const quantity = parseInt(document.getElementById('detailQuantity').textContent) || 1;
+            const sizeBtn = document.querySelector('.size-btn.active');
+            let sizeText = sizeBtn ? sizeBtn.textContent.trim().replace(/\(.*\)/,'').trim() : 'Small';
+            let price = currentCakePrice;
+            if (sizeText.toLowerCase() === 'medium') price = currentCakePrice + 5;
+            const totalInBasket = basket.reduce((s,i) => s + i.quantity, 0);
+            if (totalInBasket + quantity > MAX_CAKES) { alert('⚠️ You can only add up to ' + MAX_CAKES + ' cakes total. You have ' + totalInBasket + ' cakes.'); return; }
+            const greetingChecked = document.getElementById('extraGreeting').checked;
+            const writingChecked = document.getElementById('extraWriting').checked;
+            let extraTotal = 0;
+            if (greetingChecked) extraTotal += 3.00;
+            if (writingChecked) extraTotal += 2.00;
+            const item = {
+                name, quantity, size: sizeText, price,
+                preference: selectedCakePreference, preferencePrice: selectedPreferencePrice,
+                sugar: selectedSugar, sugarPrice: selectedSugarPrice,
+                extras: { greeting: greetingChecked, greetingText: document.getElementById('greetingMessage').value.trim() || '', cardType: document.getElementById('cardType').value || '', writing: writingChecked, writingText: document.getElementById('writingText').value.trim() || '' },
+                extraTotal
+            };
+            basket.push(item);
+            document.getElementById('detailQuantity').textContent = 1;
+            document.querySelectorAll('.size-btn').forEach(b => { b.classList.remove('active'); if (b.textContent.toLowerCase().includes('small')) { b.classList.add('active'); selectedSize='small'; } });
+            document.getElementById('extraGreeting').checked = false;
+            document.getElementById('extraWriting').checked = false;
+            document.getElementById('greetingMessage').value = '';
+            document.getElementById('writingText').value = '';
+            document.getElementById('cardType').value = '';
+            updateCharCount('greetingMessage','greetingCount',50);
+            updateCharCount('writingText','writingCount',20);
+            document.querySelectorAll('.extra-item').forEach(el => el.classList.remove('expanded'));
+            document.querySelectorAll('.pref-option-btn').forEach(b => { b.classList.remove('active','none-active'); if (b.textContent.trim().startsWith('None')) b.classList.add('none-active'); });
+            document.querySelectorAll('.sugar-option-btn').forEach(b => { b.classList.remove('active'); if (b.textContent.trim().startsWith('White sugar')) b.classList.add('active'); });
+            selectedCakePreference = 'None'; selectedPreferencePrice = 0;
+            selectedSugar = 'White sugar'; selectedSugarPrice = 0;
+            updatePriceDisplay();
+            updateBasketDisplay();
+            showPage('ordergrid');
+        }
+        function removeFromBasket(index) { basket.splice(index,1); updateBasketDisplay(); }
+        function clearBasket() { if (basket.length === 0) return; if (confirm('Clear basket?')) { basket = []; updateBasketDisplay(); } }
+        function updateBasketDisplay() {
+            const count = basket.reduce((s,i) => s + i.quantity, 0);
+            document.getElementById('basketCount').textContent = count;
+            const summary = document.getElementById('basketSummary');
+            const items = document.getElementById('basketItems');
+            const total = document.getElementById('basketTotalCount');
+            const full = document.getElementById('basketFullMessage');
+            const btn = document.getElementById('checkoutBtn');
+            if (count === 0) { summary.classList.remove('show'); full.classList.remove('show'); if(btn) btn.disabled = true; return; }
+            summary.classList.add('show'); if(btn) btn.disabled = false;
+            if (count >= MAX_CAKES) full.classList.add('show'); else full.classList.remove('show');
+            let html = '';
+            basket.forEach((item, idx) => {
+                let extras = '';
+                if (item.extras.greeting) extras += ' | Greeting card';
+                if (item.extras.writing) extras += ' | Writing on cake';
+                let pref = '';
+                if (item.preference && item.preference !== 'None') pref = ' | 🏷️ ' + item.preference + ' (+€' + item.preferencePrice.toFixed(2) + ')';
+                let sugar = '';
+                if (item.sugar && item.sugar !== 'White sugar') sugar = ' | 🍬 ' + item.sugar + (item.sugarPrice > 0 ? ' (+€' + item.sugarPrice.toFixed(2) + ')' : '');
+                html += `<div class="basket-item"><div><span class="item-name">${item.name}</span><span class="item-details"> x${item.quantity} - ${item.size}${extras}${pref}${sugar}</span></div><button class="item-remove" onclick="removeFromBasket(${idx})">✕</button></div>`;
+            });
+            items.innerHTML = html;
+            total.textContent = count + ' / ' + MAX_CAKES;
+        }
+
+        // ===== ORDER SUMMARY =====
+        function goToOrderSummary() {
+            const count = basket.reduce((s,i) => s + i.quantity, 0);
+            if (count === 0) { alert('Your basket is empty!'); return; }
+            updateOrderSummaryWithDelivery();
+            showPage('summary');
+        }
+        function updateOrderSummaryWithDelivery() {
+            const container = document.getElementById('summaryItems');
+            let html = '', total = 0;
+            basket.forEach(item => {
+                let extras = '', extraCost = 0;
+                if (item.extras.greeting) { extras += ' | Greeting card'; extraCost += 3.00; }
+                if (item.extras.writing) { extras += ' | Writing on cake'; extraCost += 2.00; }
+                let pref = '', prefCost = 0;
+                if (item.preference && item.preference !== 'None') { pref = ' | ' + item.preference + ' (+€' + item.preferencePrice.toFixed(2) + ')'; prefCost = item.preferencePrice; }
+                let sugar = '', sugarCost = 0;
+                if (item.sugar && item.sugar !== 'White sugar') { sugar = ' | 🍬 ' + item.sugar + (item.sugarPrice > 0 ? ' (+€' + item.sugarPrice.toFixed(2) + ')' : ''); sugarCost = item.sugarPrice; }
+                const itemTotal = (item.price * item.quantity) + (extraCost * item.quantity) + (prefCost * item.quantity) + (sugarCost * item.quantity);
+                total += itemTotal;
+                html += `<div class="summary-item"><div class="item-left"><span class="item-name">${item.name} (x${item.quantity})</span><span class="item-details">${item.size}${extras}${pref}${sugar}</span></div><span class="item-price">€${itemTotal.toFixed(2)}</span></div>`;
+            });
+            const deliveryFeeDiv = document.getElementById('summaryDeliveryFee');
+            if (deliveryFee > 0) {
+                deliveryFeeDiv.style.display = 'flex';
+                document.getElementById('summaryDeliveryFeeAmount').textContent = '€' + deliveryFee.toFixed(2);
+                total += deliveryFee;
+            } else {
+                deliveryFeeDiv.style.display = 'none';
+            }
+            container.innerHTML = html;
+            document.getElementById('summaryTotalPrice').textContent = '€' + total.toFixed(2);
+            window.orderTotalForSummary = total;
+            if (window.deliveryInfo) {
+                const info = window.deliveryInfo;
+                document.getElementById('summaryDeliveryType').textContent = info.type;
+                if (info.type === 'Delivery') {
+                    document.getElementById('summaryDeliveryAddress').style.display = 'inline';
+                    document.getElementById('summaryDeliveryAddressText').textContent = info.address;
+                } else {
+                    document.getElementById('summaryDeliveryAddress').style.display = 'none';
+                }
+                document.getElementById('summaryDeliveryDate').textContent = info.date;
+                document.getElementById('summaryDeliveryTime').textContent = info.time;
+            }
+            window.orderTotal = total;
+        }
+        function goToDelivery() { showPage('delivery'); }
+
+        // ===== CAKE DETAIL =====
+        function openCakeDetail(name, priceDisplay, priceValue) {
+            document.getElementById('detailCakeName').textContent = name;
+            currentCakePrice = priceValue;
+            isCheesecake = (name === 'Cheesecake');
+            selectedSize = 'small';
+            document.getElementById('detailQuantity').textContent = 1;
+            document.querySelectorAll('.size-btn').forEach(b => { b.classList.remove('active'); if (b.textContent.toLowerCase().includes('small')) b.classList.add('active'); });
+            document.querySelectorAll('.pref-option-btn').forEach(b => { b.classList.remove('active','none-active'); if (b.textContent.trim().startsWith('None')) b.classList.add('none-active'); });
+            document.querySelectorAll('.sugar-option-btn').forEach(b => { b.classList.remove('active'); if (b.textContent.trim().startsWith('White sugar')) b.classList.add('active'); });
+            document.getElementById('extraGreeting').checked = false;
+            document.getElementById('extraWriting').checked = false;
+            document.getElementById('greetingMessage').value = '';
+            document.getElementById('writingText').value = '';
+            document.getElementById('cardType').value = '';
+            updateCharCount('greetingMessage','greetingCount',50);
+            updateCharCount('writingText','writingCount',20);
+            document.querySelectorAll('.extra-item').forEach(el => el.classList.remove('expanded'));
+            selectedCakePreference = 'None'; selectedPreferencePrice = 0;
+            selectedSugar = 'White sugar'; selectedSugarPrice = 0;
+            updatePriceDisplay();
+            showPage('cakedetail');
+        }
+        function toggleExtra(itemId) {
+            const item = document.getElementById(itemId);
+            const checkbox = item.querySelector('input[type="checkbox"]');
+            if (checkbox.checked) item.classList.add('expanded');
+            else {
+                item.classList.remove('expanded');
+                const text = item.querySelector('input[type="text"]');
+                if (text) { text.value = ''; const c = document.getElementById(text.id.replace('message','Count').replace('Text','Count')); if(c) c.textContent = '0 / ' + text.maxLength; }
+                if (itemId === 'extraGreetingItem') document.getElementById('cardType').value = '';
+            }
+        }
+        function changeQuantity(delta) {
+            const span = document.getElementById('detailQuantity');
+            let v = parseInt(span.textContent) + delta;
+            if (v < 1) v = 1;
+            if (v > 20) v = 20;
+            span.textContent = v;
+        }
+
+        // ===== DELIVERY / PICKUP =====
+        let selectedDeliveryOption = null;
+        let deliveryFee = 0;
+        let deliveryDistance = 0;
+        let calculatedDistance = 0;
+        let isWithinRange = true;
+
+        function selectDelivery(element, type) {
+            document.querySelectorAll('.delivery-option').forEach(opt => {
+                opt.classList.remove('selected');
+                const r = opt.querySelector('input[type="radio"]');
+                if (r) r.checked = false;
+            });
+            element.classList.add('selected');
+            const radio = element.querySelector('input[type="radio"]');
+            if (radio) radio.checked = true;
+            selectedDeliveryOption = type;
+            const addressForm = document.getElementById('deliveryAddressForm');
+            const deliveryDetails = document.getElementById('deliveryDetails');
+            const pickupDetails = document.getElementById('pickupDetails');
+            if (type === 'delivery') {
+                addressForm.classList.add('show');
+                deliveryDetails.classList.add('show');
+                pickupDetails.classList.remove('show');
+                deliveryFee = 0; deliveryDistance = 0;
+                document.getElementById('distanceResultBox').classList.remove('show');
+                document.getElementById('deliveryWarning').classList.remove('show');
+                document.getElementById('distanceWarningBox').classList.remove('show');
+            } else {
+                addressForm.classList.remove('show');
+                deliveryDetails.classList.remove('show');
+                pickupDetails.classList.add('show');
+                deliveryFee = 0; deliveryDistance = 0;
+            }
+        }
+
+        function calculateDeliveryDistance() {
+            const city = document.getElementById('deliveryCity').value.trim();
+            const postcode = document.getElementById('deliveryPostcode').value.trim();
+            const street = document.getElementById('deliveryStreet').value.trim();
+            if (!city) { alert('Please enter your city.'); document.getElementById('deliveryCity').focus(); return; }
+            if (!postcode) { alert('Please enter your postcode.'); document.getElementById('deliveryPostcode').focus(); return; }
+            if (!street) { alert('Please enter your street and house number.'); document.getElementById('deliveryStreet').focus(); return; }
+            const fullAddress = street + ', ' + postcode + ' ' + city + ', Germany';
+            const resultBox = document.getElementById('distanceResultBox');
+            resultBox.classList.add('show');
+            const url = 'https://nominatim.openstreetmap.org/search?q=' + encodeURIComponent(fullAddress) + '&format=json&limit=5';
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.length > 0) {
+                        let bestMatch = data[0];
+                        for (let i = 0; i < data.length; i++) {
+                            const displayName = data[i].display_name.toLowerCase();
+                            const searchCity = city.toLowerCase();
+                            if (displayName.includes(searchCity) || searchCity.includes(displayName.split(',')[0].trim())) {
+                                bestMatch = data[i];
+                                break;
+                            }
+                        }
+                        const lat = parseFloat(bestMatch.lat);
+                        const lng = parseFloat(bestMatch.lon);
+                        const distance = calculateHaversineDistance(49.4430, 7.7675, lat, lng);
+                        const distanceKm = Math.round(distance * 10) / 10;
+                        calculatedDistance = distanceKm;
+                        const roundTrip = distanceKm * 2;
+                        const fee = Math.round((roundTrip * 0.30) * 100) / 100;
+                        document.getElementById('deliveryDistKm').textContent = distanceKm.toFixed(1) + ' km';
+                        document.getElementById('deliveryRoundTrip').textContent = roundTrip.toFixed(1) + ' km';
+                        document.getElementById('deliveryFeeDisplay').textContent = '€' + fee.toFixed(2);
+                        const warning = document.getElementById('deliveryWarning');
+                        const distanceWarningBox = document.getElementById('distanceWarningBox');
+                        if (distanceKm > 100) {
+                            isWithinRange = false;
+                            warning.classList.add('show');
+                            document.getElementById('deliveryFeeDisplay').style.color = '#b5655e';
+                            distanceWarningBox.classList.add('show');
+                            document.getElementById('warningDistanceText').textContent = distanceKm.toFixed(1) + ' km';
+                        } else {
+                            isWithinRange = true;
+                            warning.classList.remove('show');
+                            distanceWarningBox.classList.remove('show');
+                            document.getElementById('deliveryFeeDisplay').style.color = '#b5655e';
+                            deliveryFee = fee;
+                            deliveryDistance = distanceKm;
+                        }
+                        resultBox.classList.add('show');
+                    } else {
+                        const relaxedUrl = 'https://nominatim.openstreetmap.org/search?q=' + encodeURIComponent(postcode + ' ' + city + ', Germany') + '&format=json&limit=1';
+                        fetch(relaxedUrl)
+                            .then(res => res.json())
+                            .then(relaxedData => {
+                                if (relaxedData && relaxedData.length > 0) {
+                                    const lat = parseFloat(relaxedData[0].lat);
+                                    const lng = parseFloat(relaxedData[0].lon);
+                                    const distance = calculateHaversineDistance(49.4430, 7.7675, lat, lng);
+                                    const distanceKm = Math.round(distance * 10) / 10;
+                                    calculatedDistance = distanceKm;
+                                    const roundTrip = distanceKm * 2;
+                                    const fee = Math.round((roundTrip * 0.30) * 100) / 100;
+                                    document.getElementById('deliveryDistKm').textContent = distanceKm.toFixed(1) + ' km (approx.)';
+                                    document.getElementById('deliveryRoundTrip').textContent = roundTrip.toFixed(1) + ' km';
+                                    document.getElementById('deliveryFeeDisplay').textContent = '€' + fee.toFixed(2);
+                                    if (distanceKm > 100) {
+                                        isWithinRange = false;
+                                        document.getElementById('deliveryWarning').classList.add('show');
+                                        document.getElementById('deliveryFeeDisplay').style.color = '#b5655e';
+                                        document.getElementById('distanceWarningBox').classList.add('show');
+                                        document.getElementById('warningDistanceText').textContent = distanceKm.toFixed(1) + ' km';
+                                    } else {
+                                        isWithinRange = true;
+                                        document.getElementById('deliveryWarning').classList.remove('show');
+                                        document.getElementById('distanceWarningBox').classList.remove('show');
+                                        document.getElementById('deliveryFeeDisplay').style.color = '#b5655e';
+                                        deliveryFee = fee;
+                                        deliveryDistance = distanceKm;
+                                    }
+                                    resultBox.classList.add('show');
+                                } else {
+                                    alert('Address not found. Please check your input and try again.');
+                                    resultBox.classList.remove('show');
+                                }
+                            });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error calculating distance. Please try again.');
+                    resultBox.classList.remove('show');
+                });
+        }
+
+        function calculateHaversineDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371;
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                      Math.sin(dLon/2) * Math.sin(dLon/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c;
+        }
+
+        // ===== GO TO ORDER SUMMARY =====
+        function goToOrderSummary() {
+            const count = basket.reduce((s,i) => s + i.quantity, 0);
+            if (count === 0) { alert('Your basket is empty! Please add some cakes first.'); return; }
+            if (!selectedDeliveryOption) { alert('Please choose either Pickup or Delivery.'); return; }
+            const email = document.getElementById('customerEmail').value.trim();
+            const name = document.getElementById('customerName').value.trim();
+            if (!email) { alert('Please enter your email.'); document.getElementById('customerEmail').focus(); return; }
+            if (!name) { alert('Please enter your name.'); document.getElementById('customerName').focus(); return; }
+            if (selectedDeliveryOption === 'delivery') {
+                if (calculatedDistance === 0) { alert('Please calculate the delivery distance first by entering your address and clicking "Calculate Delivery Fee".'); return; }
+                if (!isWithinRange) { alert('⚠️ Your delivery address is too far (more than 100 km). Please choose pickup instead.'); return; }
+                const city = document.getElementById('deliveryCity').value.trim();
+                const postcode = document.getElementById('deliveryPostcode').value.trim();
+                const street = document.getElementById('deliveryStreet').value.trim();
+                const date = document.getElementById('deliveryDate').value;
+                const time = document.getElementById('deliveryTime').value.trim();
+                if (!city) { alert('Please enter your city.'); return; }
+                if (!postcode) { alert('Please enter your postcode.'); return; }
+                if (!street) { alert('Please enter your street and house number.'); return; }
+                if (!date) { alert('Please select a delivery date.'); return; }
+                if (!time) { alert('Please enter your preferred delivery time (e.g. 16:30).'); return; }
+                const fullAddress = street + ', ' + postcode + ' ' + city;
+                deliveryFee = parseFloat(document.getElementById('deliveryFeeDisplay').textContent.replace('€', '')) || 0;
+                deliveryDistance = calculatedDistance;
+                window.deliveryInfo = { type:'Delivery', address:fullAddress, date, time, notes:document.getElementById('deliveryNotes').value.trim(), distance:deliveryDistance, fee:deliveryFee };
+            } else {
+                const date = document.getElementById('pickupDate').value;
+                const time = document.getElementById('pickupTime').value;
+                if (!date) { alert('Please select a pickup date.'); return; }
+                if (!time) { alert('Please select a pickup time slot.'); return; }
+                deliveryFee = 0; deliveryDistance = 0;
+                window.deliveryInfo = { type:'Pickup', location:'Kurtschuhmacherstr. 7', date, time, notes:document.getElementById('pickupNotes').value.trim(), distance:0, fee:0 };
+            }
+            window.customerEmail = email; window.customerName = name;
+            updateOrderSummaryWithDelivery();
+            showPage('summary');
+        }
+
+        // ===== PAYMENT METHOD =====
+        let selectedPaymentMethod = null;
+        let paypalTimerInterval = null;
+        let paypalTimeLeft = 1200;
+
+        function selectPaymentMethod(method) {
+            selectedPaymentMethod = method;
+            document.getElementById('paypalMethod').classList.remove('selected');
+            document.getElementById('cashMethod').classList.remove('selected');
+            document.getElementById('paypalPanel').classList.remove('show');
+            document.getElementById('cashPanel').classList.remove('show');
+            if (method === 'paypal') {
+                document.getElementById('paypalMethod').classList.add('selected');
+                document.getElementById('paypalPanel').classList.add('show');
+                if (!paypalTimerInterval) { paypalTimeLeft = 1200; startPaypalTimer(); }
+                const email = document.getElementById('customerEmail').value.trim();
+                if (!email) { alert('Please enter your email address first.'); document.getElementById('paypalMethod').classList.remove('selected'); document.getElementById('paypalPanel').classList.remove('show'); selectedPaymentMethod = null; return; }
+            } else if (method === 'cash') {
+                document.getElementById('cashMethod').classList.add('selected');
+                document.getElementById('cashPanel').classList.add('show');
+                if (paypalTimerInterval) { clearInterval(paypalTimerInterval); paypalTimerInterval = null; }
+            }
+            updateConfirmButton();
+        }
+        function startPaypalTimer() {
+            if (paypalTimerInterval) clearInterval(paypalTimerInterval);
+            paypalTimerInterval = setInterval(function() {
+                paypalTimeLeft--;
+                const minutes = Math.floor(paypalTimeLeft / 60);
+                const seconds = paypalTimeLeft % 60;
+                document.getElementById('paypalTimerDisplay').textContent = String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
+                if (paypalTimeLeft <= 0) {
+                    clearInterval(paypalTimerInterval); paypalTimerInterval = null;
+                    document.getElementById('paypalTimerDisplay').textContent = '00:00';
+                    alert('⏰ Time is up! Your order has been cancelled. Please start a new order.');
+                    selectedPaymentMethod = null;
+                    document.getElementById('paypalMethod').classList.remove('selected');
+                    document.getElementById('paypalPanel').classList.remove('show');
+                    document.getElementById('confirmOrderBtn').disabled = true;
+                    document.getElementById('confirmOrderBtn').textContent = 'Select a payment method';
+                }
+            }, 1000);
+        }
+        function updateConfirmButton() {
+            const btn = document.getElementById('confirmOrderBtn');
+            if (selectedPaymentMethod === 'paypal') { btn.disabled = false; btn.textContent = '✅ Confirm PayPal Payment'; }
+            else if (selectedPaymentMethod === 'cash') { const checked = document.getElementById('cashConfirmCheck').checked; btn.disabled = !checked; btn.textContent = checked ? '✅ Confirm Cash Payment' : '☑️ Please confirm cash payment'; }
+            else { btn.disabled = true; btn.textContent = 'Select a payment method'; }
+        }
+        document.getElementById('cashConfirmCheck').addEventListener('change', function() { updateConfirmButton(); });
+
+        function goToPayment() {
+            if (!window.orderTotal || window.orderTotal === 0) { alert('Please review your order first.'); return; }
+            document.getElementById('paymentTotalPrice').textContent = '€' + window.orderTotal.toFixed(2);
+            const now = new Date();
+            const ref = 'Order MC-' + now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + String(now.getDate()).padStart(2,'0') + '-' + String(Math.floor(Math.random()*10000)).padStart(4,'0');
+            document.getElementById('paymentReference').textContent = ref;
+            window.currentOrderRef = ref;
+            showPage('payment');
+        }
+
+        function printInvoice() {
+            const invoiceBox = document.getElementById('invoiceBox');
+            const originalDisplay = invoiceBox.style.display;
+            invoiceBox.style.display = 'block';
+            window.print();
+            invoiceBox.style.display = originalDisplay;
+        }
+
+        function confirmOrder() {
+            if (!selectedPaymentMethod) { alert('Please select a payment method first.'); return; }
+            if (selectedPaymentMethod === 'paypal' && paypalTimeLeft <= 0) { alert('⏰ PayPal payment time has expired. Please go back and select PayPal again to restart the timer.'); return; }
+            if (selectedPaymentMethod === 'cash' && !document.getElementById('cashConfirmCheck').checked) { alert('Please confirm that you will pay in cash.'); return; }
+            const now = new Date();
+            const orderNumber = window.currentOrderRef || 'MC-' + now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + String(now.getDate()).padStart(2,'0') + '-' + String(Math.floor(Math.random()*10000)).padStart(4,'0');
+            document.getElementById('invoiceNumber').textContent = orderNumber;
+            document.getElementById('invoiceDate').textContent = now.toLocaleDateString('en-GB');
+            document.getElementById('invoiceCustomerName').textContent = window.customerName || '—';
+            document.getElementById('invoiceCustomerEmail').textContent = window.customerEmail || '—';
+            const paymentText = selectedPaymentMethod === 'paypal' ? 'PayPal to zebikhan@gmail.com (please include order number)' : 'Cash on pickup/delivery (confirmed)';
+            document.getElementById('invoicePaymentMethod').textContent = paymentText;
+            let invoiceItemsHtml = '';
+            let invoiceTotal = 0;
+            basket.forEach((item, idx) => {
+                let extras = '', extraCost = 0;
+                if (item.extras.greeting) { extras += ' | Greeting card'; extraCost += 3.00; }
+                if (item.extras.writing) { extras += ' | Writing on cake'; extraCost += 2.00; }
+                let pref = '', prefCost = 0;
+                if (item.preference && item.preference !== 'None') { pref = ' | ' + item.preference + ' (+€' + item.preferencePrice.toFixed(2) + ')'; prefCost = item.preferencePrice; }
+                let sugar = '', sugarCost = 0;
+                if (item.sugar && item.sugar !== 'White sugar') { sugar = ' | 🍬 ' + item.sugar + (item.sugarPrice > 0 ? ' (+€' + item.sugarPrice.toFixed(2) + ')' : ''); sugarCost = item.sugarPrice; }
+                const itemTotal = (item.price * item.quantity) + (extraCost * item.quantity) + (prefCost * item.quantity) + (sugarCost * item.quantity);
+                invoiceTotal += itemTotal;
+                invoiceItemsHtml += `<div class="invoice-row"><span class="label">${item.name} x${item.quantity}${extras}${pref}${sugar}</span><span class="value">€${itemTotal.toFixed(2)}</span></div>`;
+            });
+            if (deliveryFee > 0) {
+                invoiceItemsHtml += `<div class="invoice-row"><span class="label">🚗 Delivery fee (${deliveryDistance.toFixed(1)} km round trip)</span><span class="value">€${deliveryFee.toFixed(2)}</span></div>`;
+                invoiceTotal += deliveryFee;
+            }
+            document.getElementById('invoiceItems').innerHTML = invoiceItemsHtml;
+            document.getElementById('invoiceTotalPrice').textContent = '€' + invoiceTotal.toFixed(2);
+            let emailBody = '🎂 ORDER CONFIRMATION\n\nThank you for your order, ' + window.customerName + '!\n\nOrder Number: #' + orderNumber + '\nTotal: €' + invoiceTotal.toFixed(2) + '\n\nPayment: ' + paymentText + '\n\nYour cakes will be prepared with love.\n';
+            if (window.deliveryInfo) {
+                const info = window.deliveryInfo;
+                emailBody += '\nDelivery/Pickup: ' + info.type + '\nDate: ' + info.date + '\nTime: ' + info.time + '\n';
+                if (info.type === 'Delivery') emailBody += 'Address: ' + info.address + '\nDistance: ' + info.distance.toFixed(1) + ' km\nFee: €' + info.fee.toFixed(2) + '\n';
+            }
+            emailBody += '\nBank transfer details:\nIBAN: DE11 7603 0080 0380 4632 95\nBIC: CSDBDE71XXX\nReference: ' + orderNumber + '\n\nThank you for choosing Bakednextdoor!';
+            const itemsDiv = document.getElementById('confirmationItems');
+            let html = '';
+            let totalDisplay = 0;
+            basket.forEach(item => {
+                let extras = '', extraCost = 0;
+                if (item.extras.greeting) { extras += ' | Greeting card'; extraCost += 3.00; }
+                if (item.extras.writing) { extras += ' | Writing on cake'; extraCost += 2.00; }
+                let pref = '', prefCost = 0;
+                if (item.preference && item.preference !== 'None') { pref = ' [' + item.preference + ' (+€' + item.preferencePrice.toFixed(2) + ')]'; prefCost = item.preferencePrice; }
+                let sugar = '', sugarCost = 0;
+                if (item.sugar && item.sugar !== 'White sugar') { sugar = ' 🍬' + item.sugar + (item.sugarPrice > 0 ? ' (+€' + item.sugarPrice.toFixed(2) + ')' : ''); sugarCost = item.sugarPrice; }
+                const itemTotal = (item.price * item.quantity) + (extraCost * item.quantity) + (prefCost * item.quantity) + (sugarCost * item.quantity);
+                totalDisplay += itemTotal;
+                html += `<p>• ${item.name} (x${item.quantity}) - ${item.size}${extras}${pref}${sugar} - €${itemTotal.toFixed(2)}</p>`;
+            });
+            itemsDiv.innerHTML = html;
+            if (window.deliveryInfo) {
+                const info = window.deliveryInfo;
+                let t = info.type + ' - ';
+                if (info.type === 'Delivery') t += info.address + ' (' + info.distance.toFixed(1) + ' km, fee: €' + info.fee.toFixed(2) + ') on ' + info.date + ' (' + info.time + ')';
+                else t += info.location + ' on ' + info.date + ' (' + info.time + ')';
+                if (info.notes) t += ' | Notes: ' + info.notes;
+                document.getElementById('confirmationDeliveryInfo').textContent = t;
+            }
+            document.getElementById('confirmationPaymentInfo').textContent = paymentText;
+            document.getElementById('confirmationTotalPrice').textContent = '€' + (totalDisplay + deliveryFee).toFixed(2);
+            document.getElementById('confirmationEmailDisplay').textContent = window.customerEmail;
+            const mailtoLink = 'mailto:' + window.customerEmail + '?cc=mairawardag@gmail.com&subject=' + encodeURIComponent('🎂 Your Order Confirmation - #' + orderNumber) + '&body=' + encodeURIComponent(emailBody);
+            window.open(mailtoLink, '_blank');
+            alert('📧 Confirmation email sent to: ' + window.customerEmail);
+            basket = [];
+            document.querySelectorAll('.delivery-option').forEach(opt => { opt.classList.remove('selected'); const r = opt.querySelector('input[type="radio"]'); if(r) r.checked = false; });
+            document.getElementById('deliveryAddressForm').classList.remove('show');
+            document.getElementById('deliveryDetails').classList.remove('show');
+            document.getElementById('pickupDetails').classList.remove('show');
+            document.getElementById('distanceResultBox').classList.remove('show');
+            document.getElementById('distanceWarningBox').classList.remove('show');
+            document.getElementById('paypalPanel').classList.remove('show');
+            document.getElementById('cashPanel').classList.remove('show');
+            document.getElementById('paypalMethod').classList.remove('selected');
+            document.getElementById('cashMethod').classList.remove('selected');
+            document.getElementById('cashConfirmCheck').checked = false;
+            document.getElementById('paypalTimer').classList.remove('show');
+            selectedPaymentMethod = null;
+            if (paypalTimerInterval) { clearInterval(paypalTimerInterval); paypalTimerInterval = null; }
+            deliveryFee = 0; deliveryDistance = 0; calculatedDistance = 0; isWithinRange = true;
+            document.getElementById('deliveryCity').value = '';
+            document.getElementById('deliveryPostcode').value = '';
+            document.getElementById('deliveryStreet').value = '';
+            document.getElementById('deliveryNotes').value = '';
+            document.getElementById('pickupNotes').value = '';
+            document.getElementById('customerEmail').value = '';
+            document.getElementById('customerName').value = '';
+            updateBasketDisplay();
+            showPage('confirmation');
+        }
+
+        // ===== EVENT LISTENER FOR CAKE CLICKS =====
+        document.addEventListener('DOMContentLoaded', function() {
+            const cakeItems = document.querySelectorAll('.order-cake-item[data-cake]');
+            cakeItems.forEach(function(item) {
+                item.addEventListener('click', function(e) {
+                    if (e.target.closest('.clickable-image')) return;
+                    const cakeData = JSON.parse(this.getAttribute('data-cake'));
+                    openCakeDetail(cakeData.name, cakeData.display, cakeData.price);
+                });
+            });
+            updateBasketDisplay();
+            document.getElementById('checkoutBtn').disabled = true;
+            updateCharCount('greetingMessage','greetingCount',50);
+            updateCharCount('writingText','writingCount',20);
+            document.querySelectorAll('.pref-option-btn').forEach(b => { if (b.textContent.trim().startsWith('None')) b.classList.add('none-active'); });
+            document.querySelectorAll('.sugar-option-btn').forEach(b => { if (b.textContent.trim().startsWith('White sugar')) b.classList.add('active'); });
+            document.querySelectorAll('.size-btn').forEach(b => { if (b.textContent.toLowerCase().includes('small')) { b.classList.add('active'); selectedSize = 'small'; } });
+            const today = new Date();
+            const twoDays = new Date(today); twoDays.setDate(today.getDate()+2);
+            const y = twoDays.getFullYear(), m = String(twoDays.getMonth()+1).padStart(2,'0'), d = String(twoDays.getDate()).padStart(2,'0');
+            const minDate = y+'-'+m+'-'+d;
+            const delDate = document.getElementById('deliveryDate');
+            const pickDate = document.getElementById('pickupDate');
+            if (delDate) { delDate.min = minDate; delDate.value = minDate; }
+            if (pickDate) { pickDate.min = minDate; pickDate.value = minDate; }
+            updateConfirmButton();
+        });
+    </script>
+</body>
+</html>
