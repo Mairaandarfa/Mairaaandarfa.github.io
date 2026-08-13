@@ -140,8 +140,10 @@
         .order-cake-item .order-price small { font-size:0.7rem; font-weight:400; color:#7a6a77; }
         .order-cake-item .click-hint { font-size:0.75rem; color:#8a7a77; margin-top:6px; font-weight:300; position:static; background:none; color:#8a7a77; opacity:1; padding:0; transform:none; }
 
-        /* ===== CAKE DETAIL PAGE (NO IMAGE) ===== */
-        .cake-detail-layout { display:grid; grid-template-columns:1fr; gap:0; background:#ffffff; border-radius:20px; padding:40px; box-shadow:0 4px 24px rgba(0,0,0,0.05); border:1px solid #f0ebe8; margin:10px 0 30px; max-width:800px; margin-left:auto; margin-right:auto; }
+        /* ===== CAKE DETAIL PAGE ===== */
+        .cake-detail-layout { display:grid; grid-template-columns:1fr 1fr; gap:30px; background:#ffffff; border-radius:20px; padding:40px; box-shadow:0 4px 24px rgba(0,0,0,0.05); border:1px solid #f0ebe8; margin:10px 0 30px; max-width:900px; margin-left:auto; margin-right:auto; }
+        .cake-detail-image { width:100%; height:300px; border-radius:16px; background:#f3edeb; background-repeat:no-repeat; background-position:center; background-size:cover; border:1px solid #f0ebe8; }
+        .cake-detail-image img { width:100%; height:100%; object-fit:cover; border-radius:16px; display:block; }
         .cake-detail-info { display:flex; flex-direction:column; gap:12px; width:100%; }
         .cake-detail-info .cake-name { font-family:'Playfair Display',serif; font-size:2.2rem; color:#1e1e1e; line-height:1.2; text-align:center; }
         .cake-detail-info .cake-price { font-size:1.4rem; font-weight:600; color:#b5655e; text-align:center; }
@@ -159,6 +161,11 @@
         .size-options .size-btn .size-price { font-size:0.7rem; font-weight:400; color:#7a6a77; display:block; }
         .size-options .size-btn.active .size-price { color:#b5655e; }
 
+        /* ===== RESPONSIVE FOR CAKE DETAIL ===== */
+        @media (max-width:768px) {
+            .cake-detail-layout { grid-template-columns:1fr; padding:24px; }
+            .cake-detail-image { height:200px; }
+        }
         /* ===== PER-CAKE PREFERENCES ===== */
         .preference-section { margin:4px 0; border-top:1px solid #f0ebe8; padding-top:12px; }
         .preference-section .pref-label { font-weight:600; font-size:1rem; color:#1e1e1e; margin-bottom:6px; display:block; text-align:center; }
