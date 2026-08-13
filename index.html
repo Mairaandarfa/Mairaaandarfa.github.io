@@ -66,7 +66,7 @@
         .btn-group { display:flex; justify-content:center; gap:20px; flex-wrap:wrap; margin-top:30px; }
 
         /* ============================================================ */
-        /* ===== PRIVACY POLICY POPUP (Only Accept Button) ===== */
+        /* ===== PRIVACY POLICY POPUP (Accept + Decline) ===== */
         /* ============================================================ */
         .privacy-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:2000; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(4px); }
         .privacy-overlay.show { display:flex; }
@@ -83,6 +83,8 @@
         .privacy-popup-body .highlight { background:#fef6f4; padding:12px 16px; border-radius:8px; border-left:3px solid #b5655e; margin:12px 0; font-size:0.85rem; }
         .privacy-popup-footer { padding:16px 32px 28px 32px; border-top:1px solid #f0ebe8; display:flex; gap:16px; justify-content:flex-end; flex-wrap:wrap; flex-shrink:0; background:#fcf9f7; }
         .privacy-popup-footer .btn { padding:12px 32px; font-size:0.95rem; }
+        .privacy-popup-footer .btn-decline { background:transparent; border:2px solid #8a7a77; color:#8a7a77; }
+        .privacy-popup-footer .btn-decline:hover { background:#8a7a77; color:#fff; }
 
         .privacy-popup-body::-webkit-scrollbar { width:6px; }
         .privacy-popup-body::-webkit-scrollbar-track { background:#f5f0ee; border-radius:10px; }
@@ -569,7 +571,7 @@
 </head>
 <body>
 
-    <!-- ===== PRIVACY POLICY POPUP (Only Accept Button) ===== -->
+    <!-- ===== PRIVACY POLICY POPUP (Accept + Decline) ===== -->
     <div class="privacy-overlay" id="privacyOverlay">
         <div class="privacy-popup">
             <div class="privacy-popup-header">
@@ -577,8 +579,6 @@
                 <span class="badge">Last updated: July 12, 2026</span>
             </div>
             <div class="privacy-popup-body">
-                <p><strong>Responsible Party</strong><br />Maira Khan, Bakednextdoor<br />Kurtschuhmacherstr. 7<br />67663, Kaiserslautern, Germany</p>
-                <p>Email: <a href="mailto:mairawardag@gmail.com">mairawardag@gmail.com</a><br />Phone: 017631660515</p>
                 <h3>Overview of Data Processing</h3>
                 <p><strong>Types of data processed:</strong> Inventory data, contact data, content data, contract data, usage data, meta/communication data, payment data, log data.</p>
                 <p><strong>Categories of data subjects:</strong> Customers, interested parties, communication partners, users, business partners.</p>
@@ -591,6 +591,7 @@
                 <p>For the full privacy policy, please contact us at <a href="mailto:mairawardag@gmail.com">mairawardag@gmail.com</a>.</p>
             </div>
             <div class="privacy-popup-footer">
+                <button class="btn btn-decline" onclick="declinePrivacy()">Decline</button>
                 <button class="btn" onclick="acceptPrivacy()">Accept</button>
             </div>
         </div>
@@ -643,7 +644,7 @@
             <p class="section-sub">Choose your favorite — <strong>Medium: +€5.00</strong></p>
             <div class="menu-grid">
                 <div class="menu-item">
-                    <div class="menu-item-image clickable-image" onclick="uploadImage(this)" style="background-image: url('https://placehold.co/400x400/f0e8e5/b5655e?text=Baked+Chocolate+Cheesecake');">
+                    <div class="menu-item-image clickable-image" onclick="uploadImage(this)" style="background-image: url('cheesecake.jpg');">
                         <span class="placeholder-text">📸 Baked Chocolate Cheesecake</span>
                         <span class="click-hint">Click to upload</span>
                     </div>
@@ -651,7 +652,7 @@
                     <div class="menu-price">€45.00 <small>(Medium: €50.00)</small></div>
                 </div>
                 <div class="menu-item">
-                    <div class="menu-item-image clickable-image" onclick="uploadImage(this)" style="background-image: url('https://placehold.co/400x400/f0e8e5/b5655e?text=Cheesecake');">
+                    <div class="menu-item-image clickable-image" onclick="uploadImage(this)" style="background-image: url('cheesecake.jpg');">
                         <span class="placeholder-text">📸 Cheesecake</span>
                         <span class="click-hint">Click to upload</span>
                     </div>
@@ -659,7 +660,7 @@
                     <div class="menu-price">€50.00 <small>(Medium: €55.00)</small></div>
                 </div>
                 <div class="menu-item">
-                    <div class="menu-item-image clickable-image" onclick="uploadImage(this)" style="background-image: url('https://placehold.co/400x400/f0e8e5/b5655e?text=Sheet+Pan+Almond+Cake');">
+                    <div class="menu-item-image clickable-image" onclick="uploadImage(this)" style="background-image: url('Mandel Blech Kuchen.jpg');">
                         <span class="placeholder-text">📸 Sheet Pan Almond Cake</span>
                         <span class="click-hint">Click to upload</span>
                     </div>
@@ -667,7 +668,7 @@
                     <div class="menu-price">€45.00 <small>(Medium: €50.00)</small></div>
                 </div>
                 <div class="menu-item">
-                    <div class="menu-item-image clickable-image" onclick="uploadImage(this)" style="background-image: url('https://placehold.co/400x400/f0e8e5/b5655e?text=Banana+Cake');">
+                    <div class="menu-item-image clickable-image" onclick="uploadImage(this)" style="background-image: url('Banana cake.png');">
                         <span class="placeholder-text">📸 Banana Cake</span>
                         <span class="click-hint">Click to upload</span>
                     </div>
@@ -675,7 +676,7 @@
                     <div class="menu-price">€45.00 <small>(Medium: €50.00)</small></div>
                 </div>
                 <div class="menu-item">
-                    <div class="menu-item-image clickable-image" onclick="uploadImage(this)" style="background-image: url('https://placehold.co/400x400/f0e8e5/b5655e?text=Brownies');">
+                    <div class="menu-item-image clickable-image" onclick="uploadImage(this)" style="background-image: url('Brownies.jpg');">
                         <span class="placeholder-text">📸 Brownies</span>
                         <span class="click-hint">Click to upload</span>
                     </div>
@@ -683,7 +684,7 @@
                     <div class="menu-price">€45.00 <small>(Medium: €50.00)</small></div>
                 </div>
                 <div class="menu-item">
-                    <div class="menu-item-image clickable-image" onclick="uploadImage(this)" style="background-image: url('https://placehold.co/400x400/f0e8e5/b5655e?text=Black+Forest+Cake');">
+                    <div class="menu-item-image clickable-image" onclick="uploadImage(this)" style="background-image: url('schwarzwaelder-kirschtorte.jpg');">
                         <span class="placeholder-text">📸 Black Forest Cake</span>
                         <span class="click-hint">Click to upload</span>
                     </div>
@@ -791,7 +792,7 @@
             <div id="basketFullMessage" class="basket-full">⚠️ Your basket is full (4 cakes). Please go to checkout or remove some items.</div>
             <div class="order-grid-cakes">
                 <div class="order-cake-item" data-cake='{"name":"Baked Chocolate Cheesecake","price":45.00,"display":"€45.00"}'>
-                    <div class="cake-thumb clickable-image" onclick="event.stopPropagation(); uploadImage(this)" style="background-image: url('https://placehold.co/400x400/f0e8e5/b5655e?text=Baked+Chocolate+Cheesecake');">
+                    <div class="cake-thumb clickable-image" onclick="event.stopPropagation(); uploadImage(this)" style="background-image: url('cheesecake.jpg');">
                         <span class="placeholder-text">📸 Baked Chocolate Cheesecake</span>
                         <span class="click-hint">Click to upload</span>
                     </div>
@@ -800,7 +801,7 @@
                     <div class="click-hint">Click to order →</div>
                 </div>
                 <div class="order-cake-item" data-cake='{"name":"Cheesecake","price":50.00,"display":"€50.00"}'>
-                    <div class="cake-thumb clickable-image" onclick="event.stopPropagation(); uploadImage(this)" style="background-image: url('https://placehold.co/400x400/f0e8e5/b5655e?text=Cheesecake');">
+                    <div class="cake-thumb clickable-image" onclick="event.stopPropagation(); uploadImage(this)" style="background-image: url('cheesecake.jpg');">
                         <span class="placeholder-text">📸 Cheesecake</span>
                         <span class="click-hint">Click to upload</span>
                     </div>
@@ -809,7 +810,7 @@
                     <div class="click-hint">Click to order →</div>
                 </div>
                 <div class="order-cake-item" data-cake='{"name":"Sheet Pan Almond Cake","price":45.00,"display":"€45.00"}'>
-                    <div class="cake-thumb clickable-image" onclick="event.stopPropagation(); uploadImage(this)" style="background-image: url('https://placehold.co/400x400/f0e8e5/b5655e?text=Sheet+Pan+Almond+Cake');">
+                    <div class="cake-thumb clickable-image" onclick="event.stopPropagation(); uploadImage(this)" style="background-image: url('Mandel Blech Kuchen.jpg');">
                         <span class="placeholder-text">📸 Sheet Pan Almond Cake</span>
                         <span class="click-hint">Click to upload</span>
                     </div>
@@ -818,7 +819,7 @@
                     <div class="click-hint">Click to order →</div>
                 </div>
                 <div class="order-cake-item" data-cake='{"name":"Banana Cake","price":45.00,"display":"€45.00"}'>
-                    <div class="cake-thumb clickable-image" onclick="event.stopPropagation(); uploadImage(this)" style="background-image: url('https://placehold.co/400x400/f0e8e5/b5655e?text=Banana+Cake');">
+                    <div class="cake-thumb clickable-image" onclick="event.stopPropagation(); uploadImage(this)" style="background-image: url('Banana cake.png');">
                         <span class="placeholder-text">📸 Banana Cake</span>
                         <span class="click-hint">Click to upload</span>
                     </div>
@@ -827,7 +828,7 @@
                     <div class="click-hint">Click to order →</div>
                 </div>
                 <div class="order-cake-item" data-cake='{"name":"Brownies","price":45.00,"display":"€45.00"}'>
-                    <div class="cake-thumb clickable-image" onclick="event.stopPropagation(); uploadImage(this)" style="background-image: url('https://placehold.co/400x400/f0e8e5/b5655e?text=Brownies');">
+                    <div class="cake-thumb clickable-image" onclick="event.stopPropagation(); uploadImage(this)" style="background-image: url('Brownies.jpg');">
                         <span class="placeholder-text">📸 Brownies</span>
                         <span class="click-hint">Click to upload</span>
                     </div>
@@ -836,7 +837,7 @@
                     <div class="click-hint">Click to order →</div>
                 </div>
                 <div class="order-cake-item" data-cake='{"name":"Black Forest Cake","price":55.00,"display":"€55.00"}'>
-                    <div class="cake-thumb clickable-image" onclick="event.stopPropagation(); uploadImage(this)" style="background-image: url('https://placehold.co/400x400/f0e8e5/b5655e?text=Black+Forest+Cake');">
+                    <div class="cake-thumb clickable-image" onclick="event.stopPropagation(); uploadImage(this)" style="background-image: url('schwarzwaelder-kirschtorte.jpg');">
                         <span class="placeholder-text">📸 Black Forest Cake</span>
                         <span class="click-hint">Click to upload</span>
                     </div>
@@ -1280,12 +1281,21 @@
     <!-- ============================================================ -->
     <script>
         // ===== PRIVACY POLICY =====
-        if (localStorage.getItem('privacyAccepted') === 'true') {
+        if (localStorage.getItem('privacyAccepted') === 'true' || localStorage.getItem('privacyDeclined') === 'true') {
             document.getElementById('privacyOverlay').classList.remove('show');
         } else {
             document.getElementById('privacyOverlay').classList.add('show');
         }
-        function acceptPrivacy() { localStorage.setItem('privacyAccepted', 'true'); document.getElementById('privacyOverlay').classList.remove('show'); }
+        function acceptPrivacy() { 
+            localStorage.setItem('privacyAccepted', 'true'); 
+            localStorage.removeItem('privacyDeclined');
+            document.getElementById('privacyOverlay').classList.remove('show'); 
+        }
+        function declinePrivacy() {
+            localStorage.setItem('privacyDeclined', 'true');
+            localStorage.removeItem('privacyAccepted');
+            document.getElementById('privacyOverlay').classList.remove('show');
+        }
 
         // ===== ADMIN SYSTEM =====
         let isAdmin = false;
@@ -1959,3 +1969,5 @@
     </script>
 </body>
 </html>
+                                  
+               
