@@ -667,7 +667,7 @@
                     <div class="menu-price">€50.00 <small>(Medium: €55.00)</small></div>
                 </div>
                 <div class="menu-item">
-                    <div class="menu-item-image clickable-image" onclick="uploadImage(this)" style="background-image: url('Mandel Blech Kuchen.jpg');">
+                    <div class="menu-item-image clickable-image" onclick="uploadImage(this)" style="background-image: url('Mandel_Blech_Kuchen.jpg');">
                         <span class="placeholder-text">📸 Sheet Pan Almond Cake</span>
                         <span class="click-hint">Click to upload</span>
                     </div>
@@ -675,7 +675,7 @@
                     <div class="menu-price">€45.00 <small>(Medium: €50.00)</small></div>
                 </div>
                 <div class="menu-item">
-                    <div class="menu-item-image clickable-image" onclick="uploadImage(this)" style="background-image: url('Banana cake.png');">
+                    <div class="menu-item-image clickable-image" onclick="uploadImage(this)" style="background-image: url('Banana_cake.png');">
                         <span class="placeholder-text">📸 Banana Cake</span>
                         <span class="click-hint">Click to upload</span>
                     </div>
@@ -798,7 +798,7 @@
             <p class="section-sub">Click on a cake to customize. Max 4 cakes. <strong>Medium = +€5.00!</strong></p>
             <div id="basketFullMessage" class="basket-full">⚠️ Your basket is full (4 cakes). Please go to checkout or remove some items.</div>
             <div class="order-grid-cakes">
-                <div class="order-cake-item" data-cake='{"name":"Baked Chocolate Cheesecake","price":45.00,"display":"€45.00"}'>
+                <div class="order-cake-item" data-cake='{"name":"Baked Chocolate Cheesecake","price":45.00,"display":"€45.00","image":"cheesecake.jpg"}'>
                     <div class="cake-thumb clickable-image" onclick="event.stopPropagation(); uploadImage(this)" style="background-image: url('cheesecake.jpg');">
                         <span class="placeholder-text">📸 Baked Chocolate Cheesecake</span>
                         <span class="click-hint">Click to upload</span>
@@ -807,7 +807,7 @@
                     <div class="order-price">€45.00 <small>(Medium: €50.00)</small></div>
                     <div class="click-hint">Click to order →</div>
                 </div>
-                <div class="order-cake-item" data-cake='{"name":"Cheesecake","price":50.00,"display":"€50.00"}'>
+                <div class="order-cake-item" data-cake='{"name":"Cheesecake","price":50.00,"display":"€50.00","image":"cheesecake.jpg"}'>
                     <div class="cake-thumb clickable-image" onclick="event.stopPropagation(); uploadImage(this)" style="background-image: url('cheesecake.jpg');">
                         <span class="placeholder-text">📸 Cheesecake</span>
                         <span class="click-hint">Click to upload</span>
@@ -816,8 +816,8 @@
                     <div class="order-price">€50.00 <small>(Medium: €55.00)</small></div>
                     <div class="click-hint">Click to order →</div>
                 </div>
-                <div class="order-cake-item" data-cake='{"name":"Sheet Pan Almond Cake","price":45.00,"display":"€45.00"}'>
-                    <div class="cake-thumb clickable-image" onclick="event.stopPropagation(); uploadImage(this)" style="background-image: url('Mandel Blech Kuchen.jpg');">
+                <div class="order-cake-item" data-cake='{"name":"Sheet Pan Almond Cake","price":45.00,"display":"€45.00","image":"Mandel_Blech_Kuchen.jpg"}'>
+                    <div class="cake-thumb clickable-image" onclick="event.stopPropagation(); uploadImage(this)" style="background-image: url('Mandel_Blech_Kuchen.jpg');">
                         <span class="placeholder-text">📸 Sheet Pan Almond Cake</span>
                         <span class="click-hint">Click to upload</span>
                     </div>
@@ -825,8 +825,8 @@
                     <div class="order-price">€45.00 <small>(Medium: €50.00)</small></div>
                     <div class="click-hint">Click to order →</div>
                 </div>
-                <div class="order-cake-item" data-cake='{"name":"Banana Cake","price":45.00,"display":"€45.00"}'>
-                    <div class="cake-thumb clickable-image" onclick="event.stopPropagation(); uploadImage(this)" style="background-image: url('Banana cake.png');">
+                <div class="order-cake-item" data-cake='{"name":"Banana Cake","price":45.00,"display":"€45.00","image":"Banana_cake.png"}'>
+                    <div class="cake-thumb clickable-image" onclick="event.stopPropagation(); uploadImage(this)" style="background-image: url('Banana_cake.png');">
                         <span class="placeholder-text">📸 Banana Cake</span>
                         <span class="click-hint">Click to upload</span>
                     </div>
@@ -834,7 +834,7 @@
                     <div class="order-price">€45.00 <small>(Medium: €50.00)</small></div>
                     <div class="click-hint">Click to order →</div>
                 </div>
-                <div class="order-cake-item" data-cake='{"name":"Brownies","price":45.00,"display":"€45.00"}'>
+                <div class="order-cake-item" data-cake='{"name":"Brownies","price":45.00,"display":"€45.00","image":"Brownies.jpg"}'>
                     <div class="cake-thumb clickable-image" onclick="event.stopPropagation(); uploadImage(this)" style="background-image: url('Brownies.jpg');">
                         <span class="placeholder-text">📸 Brownies</span>
                         <span class="click-hint">Click to upload</span>
@@ -843,7 +843,7 @@
                     <div class="order-price">€45.00 <small>(Medium: €50.00)</small></div>
                     <div class="click-hint">Click to order →</div>
                 </div>
-                <div class="order-cake-item" data-cake='{"name":"Black Forest Cake","price":55.00,"display":"€55.00"}'>
+                <div class="order-cake-item" data-cake='{"name":"Black Forest Cake","price":55.00,"display":"€55.00","image":"schwarzwaelder-kirschtorte.jpg"}'>
                     <div class="cake-thumb clickable-image" onclick="event.stopPropagation(); uploadImage(this)" style="background-image: url('schwarzwaelder-kirschtorte.jpg');">
                         <span class="placeholder-text">📸 Black Forest Cake</span>
                         <span class="click-hint">Click to upload</span>
@@ -870,6 +870,7 @@
         <div class="container">
             <a href="#" onclick="showPage('ordergrid')" class="back-btn">← Back to all cakes</a>
             <div class="cake-detail-layout">
+                <div class="cake-detail-image" id="detailCakeImage" style="background-image: url('cheesecake.jpg'); background-size:cover; background-position:center; border-radius:16px; min-height:250px;"></div>
                 <div class="cake-detail-info">
                     <div class="cake-name" id="detailCakeName">Cake Name</div>
                     <div class="cake-price" id="detailCakePrice">€45.00 <small>(Medium: €50.00)</small></div>
@@ -1558,8 +1559,9 @@
         function goToDelivery() { showPage('delivery'); }
 
         // ===== CAKE DETAIL =====
-        function openCakeDetail(name, priceDisplay, priceValue) {
+        function openCakeDetail(name, priceDisplay, priceValue, imageName) {
             document.getElementById('detailCakeName').textContent = name;
+            document.getElementById('detailCakeImage').style.backgroundImage = "url('" + imageName + "')";
             currentCakePrice = priceValue;
             isCheesecake = (name === 'Cheesecake');
             selectedSize = 'small';
@@ -1953,7 +1955,7 @@
                 item.addEventListener('click', function(e) {
                     if (e.target.closest('.clickable-image')) return;
                     const cakeData = JSON.parse(this.getAttribute('data-cake'));
-                    openCakeDetail(cakeData.name, cakeData.display, cakeData.price);
+                    openCakeDetail(cakeData.name, cakeData.display, cakeData.price, cakeData.image);
                 });
             });
             updateBasketDisplay();
@@ -1976,5 +1978,3 @@
     </script>
 </body>
 </html>
-                                  
-               
