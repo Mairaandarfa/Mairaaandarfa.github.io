@@ -17,11 +17,13 @@
         /* ===== HEADER ===== */
         header { background:#ffffff; padding:16px 0; border-bottom:1px solid #f0ebe8; position:sticky; top:0; z-index:100; }
         .header-inner { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; }
-        .logo { font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:700; color:#1e1e1e; }
+        .logo { font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:700; color:#1e1e1e; cursor:pointer; }
         .logo span { color:#b5655e; }
         nav { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
-        nav a { font-size:0.9rem; font-weight:500; margin-left:28px; color:#2d2d2d; transition:color 0.3s; }
+        nav a { font-size:0.9rem; font-weight:500; margin-left:28px; color:#2d2d2d; transition:color 0.3s; cursor:pointer; }
         nav a:hover { color:#b5655e; }
+        nav a.admin-link { display:none; color:#b5655e; font-weight:600; }
+        nav a.admin-link.show { display:inline; }
 
         .basket-indicator { display:flex; align-items:center; gap:8px; background:#fef6f4; border:1px solid #f0e0dc; border-radius:30px; padding:6px 16px 6px 12px; margin-left:20px; font-size:0.85rem; font-weight:500; cursor:pointer; transition:background 0.3s; }
         .basket-indicator:hover { background:#fcebe8; }
@@ -40,6 +42,19 @@
         .btn-secondary { background:transparent; border:2px solid #b5655e; color:#b5655e; }
         .btn-secondary:hover { background:#b5655e; color:#fff; }
         .btn-group { display:flex; justify-content:center; gap:20px; flex-wrap:wrap; margin-top:30px; }
+
+        /* ===== PASSWORD MODAL ===== */
+        .password-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:3000; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(4px); }
+        .password-overlay.show { display:flex; }
+        .password-popup { background:#ffffff; border-radius:20px; padding:40px 45px; max-width:420px; width:100%; box-shadow:0 30px 80px rgba(0,0,0,0.3); text-align:center; }
+        .password-popup h2 { font-family:'Playfair Display',serif; font-size:1.8rem; color:#1e1e1e; margin-bottom:8px; }
+        .password-popup h2 span { color:#b5655e; }
+        .password-popup p { color:#5a4a47; font-weight:300; font-size:0.95rem; margin-bottom:20px; }
+        .password-popup input { width:100%; padding:14px 18px; border:2px solid #f0ebe8; border-radius:10px; font-size:1rem; font-family:'Inter',sans-serif; transition:border-color 0.3s; background:#fcf9f7; color:#1e1e1e; margin-bottom:16px; }
+        .password-popup input:focus { border-color:#b5655e; outline:none; background:#ffffff; }
+        .password-popup .btn { width:100%; padding:14px; font-size:1rem; }
+        .password-popup .error-msg { color:#b5655e; font-size:0.85rem; margin-top:8px; display:none; }
+        .password-popup .error-msg.show { display:block; }
 
         /* ===== PRIVACY POLICY POPUP ===== */
         .privacy-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:2000; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(4px); }
@@ -356,6 +371,26 @@
         .invoice-print-btn { display:block; margin:10px auto 0; background:#b5655e; color:#fff; border:none; border-radius:30px; padding:10px 30px; font-size:0.9rem; font-weight:600; cursor:pointer; transition:background 0.3s; }
         .invoice-print-btn:hover { background:#9e4d47; }
 
+        /* ===== ORDERS PAGE (Admin) ===== */
+        .orders-container { max-width:1100px; margin:0 auto; }
+        .orders-container .order-card { background:#ffffff; border-radius:16px; padding:25px 30px; margin-bottom:25px; box-shadow:0 4px 16px rgba(0,0,0,0.06); border:1px solid #f0ebe8; border-left:4px solid #b5655e; }
+        .orders-container .order-card .order-header { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; margin-bottom:12px; padding-bottom:10px; border-bottom:1px solid #f0ebe8; }
+        .orders-container .order-card .order-header .order-number { font-weight:700; font-size:1.1rem; color:#1e1e1e; }
+        .orders-container .order-card .order-header .order-number span { color:#b5655e; }
+        .orders-container .order-card .order-header .order-date { color:#8a7a77; font-size:0.9rem; }
+        .orders-container .order-card .order-customer { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px; font-size:0.95rem; }
+        .orders-container .order-card .order-customer .label { color:#8a7a77; font-weight:400; }
+        .orders-container .order-card .order-customer .value { font-weight:500; color:#1e1e1e; }
+        .orders-container .order-card .order-items { margin:12px 0; padding:12px 16px; background:#f8f4f2; border-radius:8px; }
+        .orders-container .order-card .order-items .item-row { display:flex; justify-content:space-between; padding:4px 0; font-size:0.9rem; border-bottom:1px solid #f0ebe8; }
+        .orders-container .order-card .order-items .item-row:last-child { border-bottom:none; }
+        .orders-container .order-card .order-items .item-row .item-name { font-weight:500; }
+        .orders-container .order-card .order-items .item-row .item-price { color:#b5655e; font-weight:600; }
+        .orders-container .order-card .order-total { display:flex; justify-content:space-between; padding-top:10px; border-top:2px solid #f0ebe8; font-size:1.05rem; font-weight:700; }
+        .orders-container .order-card .order-total .total-amount { color:#b5655e; font-size:1.2rem; }
+        .orders-container .empty-orders { text-align:center; padding:60px 20px; color:#8a7a77; font-size:1.1rem; }
+        .orders-container .empty-orders .icon { font-size:4rem; display:block; margin-bottom:16px; }
+
         /* ===== FOOTER ===== */
         footer { background:#1e1e1e; color:#d4cdca; padding:40px 0 20px; text-align:center; margin-top:20px; }
         footer .logo { font-size:1.4rem; color:#f0ebe8; }
@@ -407,6 +442,8 @@
             .delivery-area-box { padding:20px; }
             .delivery-area-box .area-grid { grid-template-columns:1fr 1fr; }
             .section-title { font-size:2rem; }
+            .orders-container .order-card { padding:18px 20px; }
+            .orders-container .order-card .order-customer { grid-template-columns:1fr; }
         }
         @media (max-width:480px) {
             .order-grid-cakes { grid-template-columns:1fr; gap:16px; }
@@ -472,6 +509,11 @@
             .invoice-box .invoice-header h2 { font-size:1.4rem; }
             .invoice-box .invoice-row { font-size:0.8rem; flex-wrap:wrap; gap:4px; }
             .invoice-box .invoice-total { font-size:1rem; flex-wrap:wrap; }
+            .orders-container .order-card { padding:14px 16px; }
+            .orders-container .order-card .order-header { flex-direction:column; align-items:flex-start; gap:4px; }
+            .orders-container .order-card .order-customer { font-size:0.85rem; }
+            .password-popup { padding:30px 24px; }
+            .password-popup h2 { font-size:1.4rem; }
         }
 
         .email-link { color:#b5655e; font-weight:500; text-decoration:underline; }
@@ -482,6 +524,17 @@
     </style>
 </head>
 <body>
+
+    <!-- ===== PASSWORD MODAL ===== -->
+    <div class="password-overlay" id="passwordOverlay">
+        <div class="password-popup">
+            <h2>Baked<span>nextdoor</span></h2>
+            <p>Enter the admin password to view orders.</p>
+            <input type="password" id="adminPasswordInput" placeholder="Enter password..." onkeydown="if(event.key==='Enter') checkPassword()" />
+            <button class="btn" onclick="checkPassword()">Unlock</button>
+            <div class="error-msg" id="passwordError">❌ Incorrect password. Please try again.</div>
+        </div>
+    </div>
 
     <!-- ===== PRIVACY POLICY POPUP ===== -->
     <div class="privacy-overlay" id="privacyOverlay">
@@ -512,11 +565,12 @@
     <!-- ===== HEADER ===== -->
     <header>
         <div class="container header-inner">
-            <div class="logo">Baked<span>nextdoor</span></div>
+            <div class="logo" onclick="showPasswordModal()">Baked<span>nextdoor</span></div>
             <nav>
                 <a href="#" onclick="showPage('home')">Home</a>
                 <a href="#" onclick="showPage('ordergrid')" style="color:#b5655e; font-weight:600;">Menu</a>
                 <a href="#" onclick="showPage('howtoorder')">How to Order</a>
+                <a href="#" onclick="showPage('orders')" class="admin-link" id="ordersLink">📋 Orders</a>
                 <span class="basket-indicator" onclick="showPage('ordergrid')">
                     <span class="basket-icon">🛒</span>
                     <span class="basket-count" id="basketCount">0</span>
@@ -1075,6 +1129,17 @@
         </div>
     </section>
 
+    <!-- ===== ORDERS PAGE (Admin) ===== -->
+    <section id="page-orders" class="page-section">
+        <div class="container">
+            <h2 class="section-title">📋 Orders</h2>
+            <p class="section-sub">View all customer orders</p>
+            <div class="orders-container" id="ordersContainer">
+                <!-- Orders will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </section>
+
     <!-- ===== FOOTER ===== -->
     <footer>
         <div class="container">
@@ -1099,6 +1164,39 @@
     <!-- ===== JAVASCRIPT ===== -->
     <!-- ============================================================ -->
     <script>
+        // ===== ADMIN PASSWORD =====
+        let isAdmin = false;
+
+        function showPasswordModal() {
+            document.getElementById('passwordOverlay').classList.add('show');
+            document.getElementById('adminPasswordInput').value = '';
+            document.getElementById('passwordError').classList.remove('show');
+            document.getElementById('adminPasswordInput').focus();
+        }
+
+        function checkPassword() {
+            const password = document.getElementById('adminPasswordInput').value;
+            if (password === 'Golu4molu') {
+                isAdmin = true;
+                document.getElementById('passwordOverlay').classList.remove('show');
+                document.getElementById('ordersLink').classList.add('show');
+                alert('✅ Admin mode enabled! Orders page is now available.');
+                loadOrders();
+                showPage('orders');
+            } else {
+                document.getElementById('passwordError').classList.add('show');
+                document.getElementById('adminPasswordInput').value = '';
+                document.getElementById('adminPasswordInput').focus();
+            }
+        }
+
+        // Close password modal when clicking outside
+        document.getElementById('passwordOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('show');
+            }
+        });
+
         // ===== PRIVACY POLICY =====
         if (localStorage.getItem('privacyAccepted') === 'true' || localStorage.getItem('privacyDeclined') === 'true') {
             document.getElementById('privacyOverlay').classList.remove('show');
@@ -1123,6 +1221,9 @@
             if (target) target.classList.add('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
             updateBasketDisplay();
+            if (pageId === 'orders' && isAdmin) {
+                loadOrders();
+            }
         }
 
         // ===== CHARACTER COUNTER =====
@@ -1610,7 +1711,6 @@
                 if (!street) { alert('Please enter your street and house number.'); return; }
                 if (!date) { alert('Please select a delivery date.'); return; }
                 if (!time) { alert('Please select a delivery time slot.'); return; }
-                // Validate date
                 const deliveryDateObj = new Date(date);
                 const today = new Date();
                 today.setHours(0, 0, 0, 0);
@@ -1627,7 +1727,6 @@
                 const time = document.getElementById('pickupTime').value;
                 if (!date) { alert('Please select a pickup date.'); return; }
                 if (!time) { alert('Please select a pickup time slot.'); return; }
-                // Validate date
                 const pickupDateObj = new Date(date);
                 const today = new Date();
                 today.setHours(0, 0, 0, 0);
@@ -1712,18 +1811,145 @@
             invoiceBox.style.display = originalDisplay;
         }
 
+        // ===== LOAD ORDERS FROM LOCAL STORAGE =====
+        function loadOrders() {
+            const container = document.getElementById('ordersContainer');
+            const orders = JSON.parse(localStorage.getItem('bakednextdoor_orders')) || [];
+            
+            if (orders.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-orders">
+                        <span class="icon">📭</span>
+                        <p>No orders yet. Check back later!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            // Show newest orders first
+            const sortedOrders = [...orders].reverse();
+            
+            sortedOrders.forEach((order, index) => {
+                const actualIndex = orders.length - 1 - index;
+                const date = new Date(order.timestamp);
+                const formattedDate = date.toLocaleDateString('en-GB', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                // Build cakes list
+                let cakesHtml = '';
+                order.cakes.forEach(cake => {
+                    let details = [];
+                    if (cake.size) details.push(cake.size);
+                    if (cake.preference && cake.preference !== 'None') details.push('🏷️ ' + cake.preference + ' (+€' + cake.preferencePrice.toFixed(2) + ')');
+                    if (cake.sugar && cake.sugar !== 'White sugar') details.push('🍬 ' + cake.sugar + (cake.sugarPrice > 0 ? ' (+€' + cake.sugarPrice.toFixed(2) + ')' : ''));
+                    if (cake.extras.greeting) details.push('💌 Greeting card (+€3.00)');
+                    if (cake.extras.writing) details.push('✍️ Writing on cake (+€2.00)');
+                    const detailsText = details.length > 0 ? ' (' + details.join(', ') + ')' : '';
+                    cakesHtml += `
+                        <div class="item-row">
+                            <span class="item-name">${cake.name} x${cake.quantity}</span>
+                            <span class="item-price">€${cake.price.toFixed(2)}</span>
+                        </div>
+                        ${detailsText ? `<div style="font-size:0.8rem; color:#8a7a77; padding-left:10px; margin-bottom:4px;">${detailsText}</div>` : ''}
+                    `;
+                });
+                
+                // Delivery info
+                let deliveryInfo = '';
+                if (order.deliveryInfo) {
+                    const info = order.deliveryInfo;
+                    deliveryInfo = `<strong>Type:</strong> ${info.type}<br>`;
+                    deliveryInfo += `<strong>Date:</strong> ${info.date}<br>`;
+                    deliveryInfo += `<strong>Time:</strong> ${info.time}<br>`;
+                    if (info.type === 'Delivery') {
+                        deliveryInfo += `<strong>Address:</strong> ${info.address}<br>`;
+                        deliveryInfo += `<strong>Distance:</strong> ${info.distance.toFixed(1)} km<br>`;
+                        deliveryInfo += `<strong>Fee:</strong> €${info.fee.toFixed(2)}<br>`;
+                    }
+                    if (info.notes) {
+                        deliveryInfo += `<strong>Notes:</strong> ${info.notes}`;
+                    }
+                }
+                
+                html += `
+                    <div class="order-card">
+                        <div class="order-header">
+                            <div class="order-number">📦 Order #<span>${order.orderNumber || 'MC-' + String(actualIndex + 1).padStart(4, '0')}</span></div>
+                            <div class="order-date">${formattedDate}</div>
+                        </div>
+                        <div class="order-customer">
+                            <div><span class="label">Customer:</span> <span class="value">${order.customerName || '—'}</span></div>
+                            <div><span class="label">Email:</span> <span class="value">${order.customerEmail || '—'}</span></div>
+                        </div>
+                        <div style="margin-bottom:8px;"><strong>Payment:</strong> ${order.paymentMethod || '—'}</div>
+                        <div class="order-items">
+                            ${cakesHtml}
+                        </div>
+                        <div style="margin:8px 0; padding:8px 12px; background:#fef6f4; border-radius:6px; font-size:0.9rem; border-left:3px solid #b5655e;">
+                            <strong>📍 ${order.deliveryInfo ? order.deliveryInfo.type : '—'}</strong><br>
+                            ${deliveryInfo}
+                        </div>
+                        <div class="order-total">
+                            <span>Total:</span>
+                            <span class="total-amount">€${order.total.toFixed(2)}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // ===== CONFIRM ORDER =====
         function confirmOrder() {
             if (!selectedPaymentMethod) { alert('Please select a payment method first.'); return; }
             if (selectedPaymentMethod === 'paypal' && paypalTimeLeft <= 0) { alert('⏰ PayPal payment time has expired. Please go back and select PayPal again to restart the timer.'); return; }
             if (selectedPaymentMethod === 'cash' && !document.getElementById('cashConfirmCheck').checked) { alert('Please confirm that you will pay in cash.'); return; }
+            
             const now = new Date();
             const orderNumber = window.currentOrderRef || 'MC-' + now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + String(now.getDate()).padStart(2,'0') + '-' + String(Math.floor(Math.random()*10000)).padStart(4,'0');
+            
+            // ===== SAVE ORDER TO LOCAL STORAGE =====
+            const orderData = {
+                orderNumber: orderNumber,
+                timestamp: now.toISOString(),
+                customerName: window.customerName || '—',
+                customerEmail: window.customerEmail || '—',
+                paymentMethod: selectedPaymentMethod === 'paypal' ? 'PayPal to zebikhan@gmail.com' : 'Cash on pickup/delivery (confirmed)',
+                cakes: basket.map(item => ({
+                    name: item.name,
+                    quantity: item.quantity,
+                    size: item.size,
+                    price: item.price,
+                    preference: item.preference,
+                    preferencePrice: item.preferencePrice,
+                    sugar: item.sugar,
+                    sugarPrice: item.sugarPrice,
+                    extras: item.extras
+                })),
+                deliveryInfo: window.deliveryInfo || null,
+                total: window.orderTotal || 0
+            };
+            
+            // Save to localStorage
+            const existingOrders = JSON.parse(localStorage.getItem('bakednextdoor_orders')) || [];
+            existingOrders.push(orderData);
+            localStorage.setItem('bakednextdoor_orders', JSON.stringify(existingOrders));
+            
+            // ===== DISPLAY CONFIRMATION PAGE =====
             document.getElementById('invoiceNumber').textContent = orderNumber;
             document.getElementById('invoiceDate').textContent = now.toLocaleDateString('en-GB');
             document.getElementById('invoiceCustomerName').textContent = window.customerName || '—';
             document.getElementById('invoiceCustomerEmail').textContent = window.customerEmail || '—';
             const paymentText = selectedPaymentMethod === 'paypal' ? 'PayPal to zebikhan@gmail.com (please include order number)' : 'Cash on pickup/delivery (confirmed)';
             document.getElementById('invoicePaymentMethod').textContent = paymentText;
+            
             let invoiceItemsHtml = '';
             let invoiceTotal = 0;
             basket.forEach((item, idx) => {
@@ -1745,62 +1971,7 @@
             document.getElementById('invoiceItems').innerHTML = invoiceItemsHtml;
             document.getElementById('invoiceTotalPrice').textContent = '€' + invoiceTotal.toFixed(2);
             
-            // ===== EMAIL CONFIRMATION - SENT ONLY TO BAKERY OWNER =====
-            let emailBody = '🎂 NEW ORDER CONFIRMATION\n\n';
-            emailBody += 'A new order has been placed on Bakednextdoor!\n\n';
-            emailBody += '📋 ORDER DETAILS:\n';
-            emailBody += '----------------------------------------\n';
-            emailBody += 'Order Number: #' + orderNumber + '\n';
-            emailBody += 'Customer Name: ' + window.customerName + '\n';
-            emailBody += 'Customer Email: ' + window.customerEmail + '\n';
-            emailBody += 'Total Amount: €' + invoiceTotal.toFixed(2) + '\n';
-            emailBody += 'Payment Method: ' + paymentText + '\n\n';
-            
-            emailBody += '🛒 CAKES ORDERED:\n';
-            basket.forEach((item, idx) => {
-                let extras = '', extraCost = 0;
-                if (item.extras.greeting) { extras += ' | Greeting card'; extraCost += 3.00; }
-                if (item.extras.writing) { extras += ' | Writing on cake'; extraCost += 2.00; }
-                let pref = '';
-                if (item.preference && item.preference !== 'None') { pref = ' | ' + item.preference + ' (+€' + item.preferencePrice.toFixed(2) + ')'; }
-                let sugar = '';
-                if (item.sugar && item.sugar !== 'White sugar') { sugar = ' | 🍬 ' + item.sugar + (item.sugarPrice > 0 ? ' (+€' + item.sugarPrice.toFixed(2) + ')' : ''); }
-                const itemTotal = (item.price * item.quantity) + (extraCost * item.quantity) + (item.preferencePrice * item.quantity) + (item.sugarPrice * item.quantity);
-                emailBody += '  • ' + item.name + ' x' + item.quantity + ' - ' + item.size + extras + pref + sugar + ' (€' + itemTotal.toFixed(2) + ')\n';
-            });
-            
-            if (deliveryFee > 0) {
-                emailBody += '\n🚗 Delivery fee: €' + deliveryFee.toFixed(2) + ' (' + deliveryDistance.toFixed(1) + ' km round trip)\n';
-            }
-            
-            if (window.deliveryInfo) {
-                const info = window.deliveryInfo;
-                emailBody += '\n📍 ' + info.type + ' DETAILS:\n';
-                emailBody += '  Date: ' + info.date + '\n';
-                emailBody += '  Time: ' + info.time + '\n';
-                if (info.type === 'Delivery') {
-                    emailBody += '  Address: ' + info.address + '\n';
-                    emailBody += '  Distance: ' + info.distance.toFixed(1) + ' km\n';
-                    emailBody += '  Fee: €' + info.fee.toFixed(2) + '\n';
-                } else {
-                    emailBody += '  Location: ' + info.location + '\n';
-                }
-                if (info.notes) {
-                    emailBody += '  Notes: ' + info.notes + '\n';
-                }
-            }
-            
-            emailBody += '\n----------------------------------------\n';
-            emailBody += 'Please prepare this order for pickup/delivery.\n';
-            emailBody += 'Contact the customer at: ' + window.customerEmail + '\n';
-            emailBody += '\nThank you! 🎂\n';
-            
-            // Send email to bakery owner ONLY
-            const mailtoLink = 'mailto:mairawardag@gmail.com?subject=' + encodeURIComponent('🎂 NEW ORDER - #' + orderNumber + ' - ' + window.customerName) + '&body=' + encodeURIComponent(emailBody);
-            window.open(mailtoLink, '_blank');
-            alert('📧 Order confirmation sent to the bakery (mairawardag@gmail.com)');
-            
-            // ===== DISPLAY CONFIRMATION PAGE =====
+            // Confirmation items
             const itemsDiv = document.getElementById('confirmationItems');
             let html = '';
             let totalDisplay = 0;
@@ -1919,8 +2090,12 @@
             
             // Payment confirm button
             updateConfirmButton();
+            
+            // Check if admin is already logged in (from session)
+            if (isAdmin) {
+                document.getElementById('ordersLink').classList.add('show');
+            }
         });
     </script>
 </body>
 </html>
-                   
