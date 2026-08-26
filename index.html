@@ -8,13 +8,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
     <style>
-        /* ===== RESET & BASE ===== */
         * { margin:0; padding:0; box-sizing:border-box; }
         body { font-family:'Inter',sans-serif; color:#1e1e1e; background:#fcf9f7; line-height:1.6; -webkit-text-size-adjust:100%; }
         a { text-decoration:none; color:inherit; }
         .container { max-width:1100px; margin:0 auto; padding:0 24px; }
 
-        /* ===== HEADER ===== */
         header { background:#ffffff; padding:16px 0; border-bottom:1px solid #f0ebe8; position:sticky; top:0; z-index:100; }
         .header-inner { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; }
         .logo { font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:700; color:#1e1e1e; cursor:pointer; }
@@ -27,11 +25,9 @@
 
         .basket-indicator { display:flex; align-items:center; gap:8px; background:#fef6f4; border:1px solid #f0e0dc; border-radius:30px; padding:6px 16px 6px 12px; margin-left:20px; font-size:0.85rem; font-weight:500; cursor:pointer; transition:background 0.3s; }
         .basket-indicator:hover { background:#fcebe8; }
-        .basket-indicator .basket-icon { font-size:1.2rem; }
         .basket-indicator .basket-count { background:#b5655e; color:#fff; border-radius:50%; padding:0 8px; min-width:22px; height:22px; display:inline-flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:600; }
         .basket-indicator .basket-max { font-size:0.7rem; color:#8a7a77; }
 
-        /* ===== BUTTONS ===== */
         .btn { display:inline-block; background:#b5655e; color:#fff; padding:14px 40px; border-radius:8px; font-weight:600; font-size:1rem; border:none; cursor:pointer; transition:background 0.3s, transform 0.2s; }
         .btn:hover { background:#9e4d47; transform:translateY(-2px); }
         .btn:disabled { opacity:0.5; cursor:not-allowed; transform:none; }
@@ -43,7 +39,6 @@
         .btn-secondary:hover { background:#b5655e; color:#fff; }
         .btn-group { display:flex; justify-content:center; gap:20px; flex-wrap:wrap; margin-top:30px; }
 
-        /* ===== PASSWORD MODAL ===== */
         .password-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:3000; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(4px); }
         .password-overlay.show { display:flex; }
         .password-popup { background:#ffffff; border-radius:20px; padding:40px 45px; max-width:420px; width:100%; box-shadow:0 30px 80px rgba(0,0,0,0.3); text-align:center; }
@@ -56,7 +51,6 @@
         .password-popup .error-msg { color:#b5655e; font-size:0.85rem; margin-top:8px; display:none; }
         .password-popup .error-msg.show { display:block; }
 
-        /* ===== PRIVACY POLICY POPUP ===== */
         .privacy-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:2000; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(4px); }
         .privacy-overlay.show { display:flex; }
         .privacy-popup { background:#ffffff; border-radius:20px; padding:0; max-width:800px; width:100%; max-height:90vh; box-shadow:0 30px 80px rgba(0,0,0,0.3); display:flex; flex-direction:column; overflow:hidden; }
@@ -79,7 +73,6 @@
         .privacy-popup-body::-webkit-scrollbar-thumb { background:#d4c5c0; border-radius:10px; }
         .privacy-popup-body::-webkit-scrollbar-thumb:hover { background:#b5655e; }
 
-        /* ===== PAGE SECTIONS ===== */
         .page-section { padding:50px 0; display:none; }
         .page-section.active { display:block; }
         .back-btn { display:inline-block; margin-bottom:30px; color:#b5655e; font-weight:500; cursor:pointer; font-size:0.95rem; }
@@ -87,7 +80,6 @@
         .section-title { font-family:'Playfair Display',serif; font-size:2.4rem; color:#1e1e1e; text-align:center; margin-bottom:8px; }
         .section-sub { text-align:center; color:#5a4a47; font-weight:300; margin-bottom:40px; font-size:1.05rem; }
 
-        /* ===== HOME PAGE ===== */
         .home-headline { text-align:center; font-family:'Playfair Display',serif; font-size:3.6rem; font-weight:700; color:#1e1e1e; margin-bottom:30px; }
         .home-headline span { color:#b5655e; }
         .home-box { display:grid; grid-template-columns:1fr 1fr; gap:0; background:#ffffff; border-radius:16px; overflow:hidden; box-shadow:0 4px 24px rgba(0,0,0,0.05); border:1px solid #f0ebe8; min-height:320px; }
@@ -100,7 +92,6 @@
         .home-box-right .placeholder-text { margin-top:70px; background:rgba(255,255,255,0.85); padding:6px 20px; border-radius:40px; font-size:0.9rem; display:none; }
         .home-box-right img { width:100%; height:100%; object-fit:cover; display:block; }
 
-        /* ===== ORDER NOW PAGE (Menu) ===== */
         .order-grid-cakes { display:grid; grid-template-columns:repeat(3,1fr); gap:30px; margin-bottom:20px; }
         .order-cake-item { background:#ffffff; border-radius:16px; padding:24px 20px 20px; box-shadow:0 4px 16px rgba(0,0,0,0.04); border:1px solid #f0ebe8; text-align:center; cursor:pointer; transition:transform 0.3s, box-shadow 0.3s, border-color 0.3s; }
         .order-cake-item:hover { transform:translateY(-6px); box-shadow:0 12px 40px rgba(0,0,0,0.08); border-color:#b5655e; }
@@ -115,7 +106,6 @@
         .clickable-image .click-hint { position:absolute; bottom:10px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.65); color:#fff; font-size:0.7rem; padding:4px 14px; border-radius:20px; opacity:0; transition:opacity 0.3s; pointer-events:none; white-space:nowrap; font-weight:400; }
         .clickable-image:hover .click-hint { opacity:1; }
 
-        /* ===== BASKET SUMMARY ===== */
         .basket-summary { background:#ffffff; border-radius:16px; padding:24px 30px; box-shadow:0 4px 16px rgba(0,0,0,0.04); border:1px solid #f0ebe8; margin:30px 0 20px; display:none; }
         .basket-summary.show { display:block; }
         .basket-summary h4 { font-family:'Playfair Display',serif; font-size:1.3rem; color:#1e1e1e; margin-bottom:12px; }
@@ -133,7 +123,6 @@
         .basket-full { text-align:center; padding:12px 20px; background:#fef6f4; border:1px solid #f0e0dc; border-radius:10px; color:#b5655e; font-weight:500; margin-top:10px; display:none; }
         .basket-full.show { display:block; }
 
-        /* ===== HOW TO ORDER PAGE ===== */
         .hto-big-box { display:grid; grid-template-columns:1.2fr 0.8fr; gap:0; background:#ffffff; border-radius:16px; overflow:hidden; box-shadow:0 4px 24px rgba(0,0,0,0.05); border:1px solid #f0ebe8; margin-bottom:40px; min-height:280px; }
         .hto-big-box-left { padding:45px 45px 45px 40px; display:flex; flex-direction:column; justify-content:center; background:#fcf9f7; }
         .hto-big-box-left h2 { font-family:'Playfair Display',serif; font-size:2.2rem; color:#1e1e1e; line-height:1.2; }
@@ -176,7 +165,6 @@
         .important-note p { color:#3d3d3d; font-size:0.95rem; margin:0; }
         .important-note strong { color:#b5655e; }
 
-        /* ===== CAKE DETAIL PAGE ===== */
         .cake-detail-layout { display:grid; grid-template-columns:1fr 1fr; gap:30px; background:#ffffff; border-radius:20px; padding:40px; box-shadow:0 4px 24px rgba(0,0,0,0.05); border:1px solid #f0ebe8; margin:10px 0 30px; max-width:900px; margin-left:auto; margin-right:auto; }
         .cake-detail-image { width:100%; height:300px; border-radius:16px; background:#f3edeb; background-repeat:no-repeat; background-position:center; background-size:cover; border:1px solid #f0ebe8; }
         .cake-detail-info { display:flex; flex-direction:column; gap:12px; width:100%; }
@@ -240,7 +228,6 @@
         .detail-actions .btn-secondary { background:transparent; border:2px solid #b5655e; color:#b5655e; flex:0.5; max-width:200px; }
         .detail-actions .btn-secondary:hover { background:#b5655e; color:#fff; }
 
-        /* ===== PICKUP OR DELIVERY PAGE ===== */
         .delivery-options { display:grid; grid-template-columns:1fr 1fr; gap:30px; max-width:700px; margin:10px auto 25px; }
         .delivery-option { background:#ffffff; border:2px solid #f0ebe8; border-radius:16px; padding:35px 30px; text-align:center; cursor:pointer; transition:border-color 0.3s, background 0.3s, transform 0.2s; position:relative; }
         .delivery-option:hover { border-color:#d4c5c0; transform:translateY(-3px); }
@@ -301,7 +288,6 @@
         .delivery-next { text-align:center; margin-top:10px; }
         .delivery-next .btn { padding:16px 60px; font-size:1.1rem; }
 
-        /* ===== ORDER SUMMARY ===== */
         .order-summary-box { background:#ffffff; border-radius:16px; padding:35px 40px; box-shadow:0 4px 24px rgba(0,0,0,0.05); border:1px solid #f0ebe8; max-width:800px; margin:0 auto 30px; }
         .order-summary-box h3 { font-family:'Playfair Display',serif; font-size:1.6rem; color:#1e1e1e; margin-bottom:16px; text-align:center; }
         .order-summary-box .summary-item { display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #f0ebe8; }
@@ -316,7 +302,6 @@
         .order-summary-box .summary-actions { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-top:20px; }
         .order-summary-box .summary-actions .btn { padding:14px 40px; font-size:1rem; }
 
-        /* ===== PAYMENT PAGE ===== */
         .payment-box { background:#ffffff; border-radius:16px; padding:40px 45px; box-shadow:0 4px 24px rgba(0,0,0,0.05); border:1px solid #f0ebe8; max-width:700px; margin:20px auto 0; }
         .payment-box .payment-icon { font-size:3.5rem; margin-bottom:16px; text-align:center; }
         .payment-box h3 { font-family:'Playfair Display',serif; font-size:1.8rem; color:#1e1e1e; margin-bottom:12px; text-align:center; }
@@ -347,7 +332,6 @@
         .payment-buttons { display:flex; justify-content:center; gap:16px; flex-wrap:wrap; margin-top:10px; }
         .payment-buttons .btn { padding:16px 50px; font-size:1.1rem; }
 
-        /* ===== CONFIRMATION PAGE ===== */
         .confirmation-box { background:#ffffff; border-radius:16px; padding:50px 45px; box-shadow:0 4px 24px rgba(0,0,0,0.05); border:1px solid #f0ebe8; max-width:700px; margin:20px auto 0; text-align:center; }
         .confirmation-box .check-icon { font-size:4rem; margin-bottom:16px; }
         .confirmation-box h3 { font-family:'Playfair Display',serif; font-size:2rem; color:#2d7d46; margin-bottom:12px; }
@@ -371,7 +355,6 @@
         .invoice-print-btn { display:block; margin:10px auto 0; background:#b5655e; color:#fff; border:none; border-radius:30px; padding:10px 30px; font-size:0.9rem; font-weight:600; cursor:pointer; transition:background 0.3s; }
         .invoice-print-btn:hover { background:#9e4d47; }
 
-        /* ===== ORDERS PAGE (Admin) ===== */
         .orders-container { max-width:1100px; margin:0 auto; }
         .orders-container .order-card { background:#ffffff; border-radius:16px; padding:25px 30px; margin-bottom:25px; box-shadow:0 4px 16px rgba(0,0,0,0.06); border:1px solid #f0ebe8; border-left:4px solid #b5655e; }
         .orders-container .order-card .order-header { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; margin-bottom:12px; padding-bottom:10px; border-bottom:1px solid #f0ebe8; }
@@ -391,7 +374,6 @@
         .orders-container .empty-orders { text-align:center; padding:60px 20px; color:#8a7a77; font-size:1.1rem; }
         .orders-container .empty-orders .icon { font-size:4rem; display:block; margin-bottom:16px; }
 
-        /* ===== FOOTER ===== */
         footer { background:#1e1e1e; color:#d4cdca; padding:40px 0 20px; text-align:center; margin-top:20px; }
         footer .logo { font-size:1.4rem; color:#f0ebe8; }
         footer .logo span { color:#b5655e; }
@@ -403,7 +385,6 @@
         footer .imprint a { color:#b5655e; }
         footer small { display:block; margin-top:14px; opacity:0.5; font-size:0.8rem; }
 
-        /* ===== RESPONSIVE ===== */
         @media (max-width:1024px) {
             .order-grid-cakes { grid-template-columns:repeat(2,1fr); gap:25px; }
         }
@@ -525,18 +506,16 @@
 </head>
 <body>
 
-    <!-- ===== PASSWORD MODAL ===== -->
     <div class="password-overlay" id="passwordOverlay">
         <div class="password-popup">
             <h2>Baked<span>nextdoor</span></h2>
             <p>Enter the admin password to view orders.</p>
             <input type="password" id="adminPasswordInput" placeholder="Enter password..." onkeydown="if(event.key==='Enter') checkPassword()" />
             <button class="btn" onclick="checkPassword()">Unlock</button>
-            <div class="error-msg" id="passwordError">❌ Incorrect password. Please try again.</div>
+            <div class="error-msg" id="passwordError">Incorrect password. Please try again.</div>
         </div>
     </div>
 
-    <!-- ===== PRIVACY POLICY POPUP ===== -->
     <div class="privacy-overlay" id="privacyOverlay">
         <div class="privacy-popup">
             <div class="privacy-popup-header">
@@ -562,7 +541,6 @@
         </div>
     </div>
 
-    <!-- ===== HEADER ===== -->
     <header>
         <div class="container header-inner">
             <div class="logo" onclick="showPasswordModal()">Baked<span>nextdoor</span></div>
@@ -570,9 +548,9 @@
                 <a href="#" onclick="showPage('home')">Home</a>
                 <a href="#" onclick="showPage('ordergrid')" style="color:#b5655e; font-weight:600;">Menu</a>
                 <a href="#" onclick="showPage('howtoorder')">How to Order</a>
-                <a href="#" onclick="showPage('orders')" class="admin-link" id="ordersLink">📋 Orders</a>
+                <a href="#" onclick="showPage('orders')" class="admin-link" id="ordersLink">Orders</a>
                 <span class="basket-indicator" onclick="showPage('ordergrid')">
-                    <span class="basket-icon">🛒</span>
+                    <span class="basket-icon">B</span>
                     <span class="basket-count" id="basketCount">0</span>
                     <span class="basket-max">/ 4</span>
                 </span>
@@ -580,7 +558,6 @@
         </div>
     </header>
 
-    <!-- ===== HOME PAGE ===== -->
     <section id="page-home" class="page-section active">
         <div class="container">
             <h1 class="home-headline">Baked<span>nextdoor</span></h1>
@@ -599,12 +576,11 @@
         </div>
     </section>
 
-    <!-- ===== MENU + ORDER PAGE (Combined) ===== -->
     <section id="page-ordergrid" class="page-section">
         <div class="container">
             <h2 class="section-title">Our Menu</h2>
             <p class="section-sub">Choose your favorite cake and order — <strong>Medium: +€5.00</strong></p>
-            <div id="basketFullMessage" class="basket-full">⚠️ Your basket is full (4 cakes). Please go to checkout or remove some items.</div>
+            <div id="basketFullMessage" class="basket-full">Your basket is full (4 cakes). Please go to checkout or remove some items.</div>
             <div class="order-grid-cakes">
                 <div class="order-cake-item" data-cake='{"name":"Baked Chocolate Cheesecake","price":45.00,"display":"€45.00","image":"Russischer_Zupfkuchen_Bild.jpg"}'>
                     <div class="cake-thumb" style="background-image: url('Russischer_Zupfkuchen_Bild.jpg'); background-size: cover; background-position: center;"></div>
@@ -642,9 +618,15 @@
                     <div class="order-price">€55.00 <small>(Medium: €60.00)</small></div>
                     <div class="click-hint">Click to order →</div>
                 </div>
+                <div class="order-cake-item" data-cake='{"name":"Red Velvet Cake","price":70.00,"display":"€70.00","image":"red_velvet_cake.jpg"}'>
+                    <div class="cake-thumb" style="background-image: url('red_velvet_cake.jpg'); background-size: cover; background-position: center;"></div>
+                    <h3>Red Velvet Cake</h3>
+                    <div class="order-price">€70.00 <small>(Medium: €75.00)</small></div>
+                    <div class="click-hint">Click to order →</div>
+                </div>
             </div>
             <div class="basket-summary" id="basketSummary">
-                <h4>🛒 Your Basket</h4>
+                <h4>Your Basket</h4>
                 <div id="basketItems"></div>
                 <div class="basket-total-count"><span>Total cakes:</span><span id="basketTotalCount">0 / 4</span></div>
                 <div class="basket-actions">
@@ -655,7 +637,6 @@
         </div>
     </section>
 
-    <!-- ===== CAKE DETAIL PAGE ===== -->
     <section id="page-cakedetail" class="page-section">
         <div class="container">
             <a href="#" onclick="showPage('ordergrid')" class="back-btn">← Back to Menu</a>
@@ -679,20 +660,20 @@
                         <span class="pref-hint">Select one option for this cake (optional)</span>
                         <div class="pref-options-grid" id="prefOptionsGrid">
                             <button class="pref-option-btn none-active" onclick="selectPreferenceForCake(this, 'None', 0)">None <span class="pref-price">(€0.00)</span></button>
-                            <button class="pref-option-btn" onclick="selectPreferenceForCake(this, 'Gluten-free', 5.00)">🌾 Gluten-free <span class="pref-price">(+€5.00)</span></button>
-                            <button class="pref-option-btn" onclick="selectPreferenceForCake(this, 'Lactose-free', 5.00)">🥛 Lactose-free <span class="pref-price">(+€5.00)</span></button>
-                            <button class="pref-option-btn" onclick="selectPreferenceForCake(this, 'Nut-free', 2.00)">🥜 Nut-free <span class="pref-price">(+€2.00)</span></button>
-                            <button class="pref-option-btn" onclick="selectPreferenceForCake(this, 'Egg-free', 5.00)">🥚 Egg-free <span class="pref-price">(+€5.00)</span></button>
+                            <button class="pref-option-btn" onclick="selectPreferenceForCake(this, 'Gluten-free', 5.00)">Gluten-free <span class="pref-price">(+€5.00)</span></button>
+                            <button class="pref-option-btn" onclick="selectPreferenceForCake(this, 'Lactose-free', 5.00)">Lactose-free <span class="pref-price">(+€5.00)</span></button>
+                            <button class="pref-option-btn" onclick="selectPreferenceForCake(this, 'Nut-free', 2.00)">Nut-free <span class="pref-price">(+€2.00)</span></button>
+                            <button class="pref-option-btn" onclick="selectPreferenceForCake(this, 'Egg-free', 5.00)">Egg-free <span class="pref-price">(+€5.00)</span></button>
                         </div>
                     </div>
                     <div class="sugar-section">
-                        <span class="sugar-label">🍬 Sugar type</span>
+                        <span class="sugar-label">Sugar type</span>
                         <span class="sugar-hint">Select your preferred sugar</span>
                         <div class="sugar-options-grid" id="sugarOptionsGrid">
                             <button class="sugar-option-btn active" onclick="selectSugar(this, 'White sugar', 0)">White sugar <span class="sugar-price">(€0.00)</span></button>
                             <button class="sugar-option-btn" onclick="selectSugar(this, 'Brown sugar', 1.00)">Brown sugar <span class="sugar-price">(+€1.00)</span></button>
                             <button class="sugar-option-btn" onclick="selectSugar(this, 'Raw cane sugar', 1.50)">Raw cane sugar <span class="sugar-price">(+€1.50)</span></button>
-                            <button class="sugar-option-btn" onclick="selectSugar(this, 'Coconut sugar', 2.00)">🥥 Coconut sugar <span class="sugar-price">(+€2.00)</span></button>
+                            <button class="sugar-option-btn" onclick="selectSugar(this, 'Coconut sugar', 2.00)">Coconut sugar <span class="sugar-price">(+€2.00)</span></button>
                         </div>
                     </div>
                     <div class="extras-section">
@@ -750,7 +731,6 @@
         </div>
     </section>
 
-    <!-- ===== HOW TO ORDER PAGE ===== -->
     <section id="page-howtoorder" class="page-section">
         <div class="container">
             <a href="#" onclick="showPage('home')" class="back-btn">← Back to Home</a>
@@ -775,7 +755,6 @@
                 </div>
             </div>
 
-            <!-- ===== DELIVERY AREA ===== -->
             <div class="delivery-area-box">
                 <div class="area-header">
                     <span>🚚</span>
@@ -783,33 +762,33 @@
                 </div>
                 <p style="color:#5a4a47; font-weight:300; font-size:1rem; margin-bottom:12px;">I deliver to the following cities within a <strong style="color:#b5655e;">100 km</strong> radius from Kaiserslautern:</p>
                 <div class="area-grid">
-                    <div>📍 Kaiserslautern</div>
-                    <div>📍 Mannheim</div>
-                    <div>📍 Ludwigshafen</div>
-                    <div>📍 Worms</div>
-                    <div>📍 Neustadt a.d.W.</div>
-                    <div>📍 Landau i.d.Pfalz</div>
-                    <div>📍 Speyer</div>
-                    <div>📍 Zweibrücken</div>
-                    <div>📍 Pirmasens</div>
-                    <div>📍 Saarbrücken</div>
-                    <div>📍 Bad Kreuznach</div>
-                    <div>📍 Alzey</div>
-                    <div>📍 Mainz</div>
-                    <div>📍 Homburg (Saar)</div>
-                    <div>📍 Koblenz</div>
-                    <div>📍 Heidelberg</div>
-                    <div>📍 Darmstadt</div>
+                    <div>Kaiserslautern</div>
+                    <div>Mannheim</div>
+                    <div>Ludwigshafen</div>
+                    <div>Worms</div>
+                    <div>Neustadt a.d.W.</div>
+                    <div>Landau i.d.Pfalz</div>
+                    <div>Speyer</div>
+                    <div>Zweibrücken</div>
+                    <div>Pirmasens</div>
+                    <div>Saarbrücken</div>
+                    <div>Bad Kreuznach</div>
+                    <div>Alzey</div>
+                    <div>Mainz</div>
+                    <div>Homburg (Saar)</div>
+                    <div>Koblenz</div>
+                    <div>Heidelberg</div>
+                    <div>Darmstadt</div>
                 </div>
                 <div class="area-note">
-                    <strong style="color:#b5655e;">⚠️ Note:</strong> Delivery fee is calculated based on distance (€0.50/km round trip). 
+                    <strong style="color:#b5655e;">Note:</strong> Delivery fee is calculated based on distance (€0.50/km round trip). 
                     Maximum delivery distance is <strong>100 km</strong> (driving distance). 
                     For addresses outside this radius, please choose <strong>pickup</strong> instead.
                 </div>
             </div>
 
             <div class="important-note">
-                <p><strong>⚠️ Important:</strong> Once your order has been paid, it cannot be changed. Please review your order carefully before payment.</p>
+                <p><strong>Important:</strong> Once your order has been paid, it cannot be changed. Please review your order carefully before payment.</p>
             </div>
             <div class="hto-bottom-box">
                 <div class="hto-bottom-left">
@@ -826,14 +805,13 @@
             </div>
             <div style="text-align:center; margin-top:25px; padding:20px; background:#f8f4f2; border-radius:12px; border:1px solid #f0ebe8;">
                 <p style="color:#3d3d3d; font-weight:300; font-size:1rem;">
-                    ❓ Questions? Contact me at:<br />
+                    Questions? Contact me at:<br />
                     <a href="mailto:mairawardag@gmail.com" class="email-link">mairawardag@gmail.com</a>
                 </p>
             </div>
         </div>
     </section>
 
-    <!-- ===== PICKUP OR DELIVERY PAGE ===== -->
     <section id="page-delivery" class="page-section">
         <div class="container">
             <a href="#" onclick="showPage('ordergrid')" class="back-btn">← Back to Menu</a>
@@ -842,19 +820,19 @@
             <div class="delivery-options">
                 <div class="delivery-option" onclick="selectDelivery(this, 'pickup')">
                     <input type="radio" name="deliveryOption" value="pickup" />
-                    <span class="delivery-label">📍 Pick up</span>
+                    <span class="delivery-label">Pick up</span>
                     <span class="delivery-desc">Pick up location: Kurtschuhmacherstr. 7</span>
                     <span class="delivery-check">✓ Selected</span>
                 </div>
                 <div class="delivery-option" onclick="selectDelivery(this, 'delivery')">
                     <input type="radio" name="deliveryOption" value="delivery" />
-                    <span class="delivery-label">🚗 Delivery</span>
+                    <span class="delivery-label">Delivery</span>
                     <span class="delivery-desc">I charge €0.50 per kilometer (round trip)</span>
                     <span class="delivery-check">✓ Selected</span>
                 </div>
             </div>
             <div class="delivery-address-form" id="deliveryAddressForm">
-                <h4>📍 Delivery Address</h4>
+                <h4>Delivery Address</h4>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="deliveryCity">City <span class="required">*</span></label>
@@ -870,32 +848,31 @@
                     <input type="text" id="deliveryStreet" placeholder="e.g. Hauptstraße 12" />
                     <div class="form-hint">Please enter your full street name and house number.</div>
                 </div>
-                <button class="btn" onclick="calculateDeliveryDistance()" style="width:100%; padding:14px; font-size:1rem; margin-top:8px;">🔄 Calculate Delivery Fee</button>
+                <button class="btn" onclick="calculateDeliveryDistance()" style="width:100%; padding:14px; font-size:1rem; margin-top:8px;">Calculate Delivery Fee</button>
                 <div class="distance-result-box" id="distanceResultBox">
                     <div class="result-row">
-                        <span class="label">📍 Distance (one way):</span>
+                        <span class="label">Distance (one way):</span>
                         <span class="value" id="deliveryDistKm">0 km</span>
                     </div>
                     <div class="result-row">
-                        <span class="label">🔄 Round trip distance:</span>
+                        <span class="label">Round trip distance:</span>
                         <span class="value" id="deliveryRoundTrip">0 km</span>
                     </div>
                     <div class="result-row">
-                        <span class="label">🚗 Delivery fee (€0.50/km):</span>
+                        <span class="label">Delivery fee (€0.50/km):</span>
                         <span class="value fee" id="deliveryFeeDisplay">€0.00</span>
                     </div>
-                    <div class="warning" id="deliveryWarning">⚠️ Sorry, we don't deliver this far. Maximum distance is 100 km. Please choose pickup.</div>
-                    <div class="note">✅ The delivery fee will be added to your total automatically.</div>
+                    <div class="warning" id="deliveryWarning">Sorry, we don't deliver this far. Maximum distance is 100 km. Please choose pickup.</div>
+                    <div class="note">The delivery fee will be added to your total automatically.</div>
                 </div>
                 <div class="distance-warning-box" id="distanceWarningBox">
-                    <span class="warning-icon">🚫</span>
+                    <span class="warning-icon">Distance Too Far!</span>
                     <div class="warning-title">Distance Too Far!</div>
                     <div class="warning-text">The distance to your address is <strong id="warningDistanceText">0 km</strong>, which is more than our maximum delivery distance of <strong>100 km</strong>.</div>
-                    <div class="warning-suggestion"><strong>💡 Suggestion:</strong> Please choose <strong>Pick up</strong> instead, or if you're outside the delivery area, you can still place an order for pickup at:<br /><strong style="color:#b5655e;">📍 Kurtschuhmacherstr. 7, 67655 Kaiserslautern</strong></div>
+                    <div class="warning-suggestion"><strong>Suggestion:</strong> Please choose <strong>Pick up</strong> instead, or if you're outside the delivery area, you can still place an order for pickup at:<br /><strong style="color:#b5655e;">Kurtschuhmacherstr. 7, 67655 Kaiserslautern</strong></div>
                 </div>
             </div>
 
-            <!-- ===== DELIVERY DETAILS ===== -->
             <div class="delivery-details" id="deliveryDetails">
                 <h4>Delivery Details</h4>
                 <div class="form-row">
@@ -918,11 +895,10 @@
                     <div class="char-count" id="deliveryNotesCount">0 / 250</div>
                 </div>
                 <div id="deliveryDateError" style="display:none; background:#fef6f4; border:2px solid #b5655e; border-radius:8px; padding:12px 16px; margin-top:10px; color:#b5655e; font-weight:500;">
-                    ⚠️ Please select a date at least 3 days from today. Sundays are not available for pickup or delivery.
+                    Please select a date at least 3 days from today. Sundays are not available for pickup or delivery.
                 </div>
             </div>
 
-            <!-- ===== PICKUP DETAILS ===== -->
             <div class="pickup-details" id="pickupDetails">
                 <h4>Pickup Details</h4>
                 <div class="form-group">
@@ -938,11 +914,10 @@
                     <div class="form-hint">Select your preferred pickup time.</div>
                 </div>
                 <div id="pickupDateError" style="display:none; background:#fef6f4; border:2px solid #b5655e; border-radius:8px; padding:12px 16px; margin-top:10px; color:#b5655e; font-weight:500;">
-                    ⚠️ Please select a date at least 3 days from today. Sundays are not available for pickup or delivery.
+                    Please select a date at least 3 days from today. Sundays are not available for pickup or delivery.
                 </div>
             </div>
 
-            <!-- ===== CONTACT INFORMATION ===== -->
             <div class="delivery-details" id="emailSection" style="display:block; max-width:700px; margin:0 auto 30px; background:#ffffff; border-radius:16px; padding:30px 35px; box-shadow:0 4px 16px rgba(0,0,0,0.04); border:1px solid #f0ebe8;">
                 <h4>Your Contact Information</h4>
                 <div class="form-group">
@@ -961,17 +936,16 @@
         </div>
     </section>
 
-    <!-- ===== ORDER SUMMARY PAGE ===== -->
     <section id="page-summary" class="page-section">
         <div class="container">
             <a href="#" onclick="showPage('delivery')" class="back-btn">← Back to Pickup or Delivery</a>
             <h2 class="section-title">Order Summary</h2>
             <p class="section-sub">Please review your order carefully before proceeding to payment.</p>
             <div class="order-summary-box">
-                <h3>📋 Your Order</h3>
+                <h3>Your Order</h3>
                 <div id="summaryItems"></div>
                 <div id="summaryDeliveryFee" style="display:none; margin-top:8px; padding:8px 0; border-bottom:1px solid #f0ebe8; display:flex; justify-content:space-between; font-size:1rem;">
-                    <span style="color:#5a4a47;">🚗 Delivery fee (round trip):</span>
+                    <span style="color:#5a4a47;">Delivery fee (round trip):</span>
                     <span style="color:#b5655e; font-weight:600;" id="summaryDeliveryFeeAmount">€0.00</span>
                 </div>
                 <div class="summary-total">
@@ -979,13 +953,13 @@
                     <span class="total-amount" id="summaryTotalPrice">€0.00</span>
                 </div>
                 <div id="summaryDeliveryInfo" style="margin-top:12px; padding:12px 16px; background:#f8f4f2; border-radius:8px; font-size:0.9rem; color:#5a4a47; border:1px solid #f0ebe8;">
-                    <strong>📍 Delivery/Pickup:</strong> <span id="summaryDeliveryType">—</span><br />
+                    <strong>Delivery/Pickup:</strong> <span id="summaryDeliveryType">—</span><br />
                     <span id="summaryDeliveryAddress" style="display:none;"><strong>Address:</strong> <span id="summaryDeliveryAddressText"></span><br /></span>
-                    <strong>📅 Date:</strong> <span id="summaryDeliveryDate">—</span><br />
-                    <strong>⏰ Time:</strong> <span id="summaryDeliveryTime">—</span>
+                    <strong>Date:</strong> <span id="summaryDeliveryDate">—</span><br />
+                    <strong>Time:</strong> <span id="summaryDeliveryTime">—</span>
                 </div>
                 <div class="summary-note">
-                    <strong>⚠️ Important:</strong> Once you confirm and pay for your order, it cannot be changed. Please review all details carefully.
+                    <strong>Important:</strong> Once you confirm and pay for your order, it cannot be changed. Please review all details carefully.
                 </div>
                 <div class="summary-actions">
                     <button class="btn btn-secondary" onclick="showPage('delivery')">← Back</button>
@@ -995,7 +969,6 @@
         </div>
     </section>
 
-    <!-- ===== PAYMENT PAGE ===== -->
     <section id="page-payment" class="page-section">
         <div class="container">
             <a href="#" onclick="showPage('summary')" class="back-btn">← Back to Order Summary</a>
@@ -1022,7 +995,7 @@
                     </div>
                 </div>
                 <div class="payment-details-panel" id="paypalPanel">
-                    <h4 style="font-family:'Playfair Display',serif; font-size:1.2rem; color:#1e1e1e; margin-bottom:12px;">💲 PayPal</h4>
+                    <h4 style="font-family:'Playfair Display',serif; font-size:1.2rem; color:#1e1e1e; margin-bottom:12px;">PayPal</h4>
                     <p style="margin-bottom:12px; color:#5a4a47;">Send payment to: <span class="paypal-email">zebikhan@gmail.com</span></p>
                     <p style="font-size:0.85rem; color:#7a6a77; margin-bottom:12px;">Please include your order number in the payment description.</p>
                     <div class="detail-row">
@@ -1042,14 +1015,14 @@
                         <span class="value" style="color:#b5655e; font-weight:700; background:#fef6f4; padding:2px 12px; border-radius:4px; border:1px solid #b5655e; word-break:break-all;" id="paymentReference">Order MC-2026-0000</span>
                     </div>
                     <div class="paypal-timer" id="paypalTimer">
-                        <p style="font-weight:500; color:#1e1e1e;">⏳ Please complete your payment within:</p>
+                        <p style="font-weight:500; color:#1e1e1e;">Please complete your payment within:</p>
                         <div class="timer" id="paypalTimerDisplay">20:00</div>
                         <div class="timer-label">Minutes remaining</div>
                         <p style="margin-top:6px; font-size:0.8rem; color:#8a7a77;">After 20 minutes, your order will be cancelled automatically.</p>
                     </div>
                 </div>
                 <div class="payment-details-panel" id="cashPanel">
-                    <h4 style="font-family:'Playfair Display',serif; font-size:1.2rem; color:#1e1e1e; margin-bottom:12px;">💶 Cash</h4>
+                    <h4 style="font-family:'Playfair Display',serif; font-size:1.2rem; color:#1e1e1e; margin-bottom:12px;">Cash</h4>
                     <p style="color:#5a4a47; margin-bottom:8px;">You will pay with cash when you pick up your cake or when it is delivered to you.</p>
                     <div class="cash-confirm">
                         <label>
@@ -1057,14 +1030,14 @@
                             I confirm that I will pay with cash when I pick up my cake or when it is delivered to me.
                         </label>
                         <div class="cash-note">
-                            <strong>⚠️ This cannot be undone!</strong>
+                            <strong>This cannot be undone!</strong>
                             Once you confirm cash payment, you are committed to paying in cash. 
                             If you don't pay, we reserve the right to refuse future orders.
                         </div>
                     </div>
                 </div>
                 <div class="payment-note" id="paymentNote">
-                    <p><strong>⚠️ Important:</strong> Your order is only confirmed once payment is sent or you confirm cash payment.</p>
+                    <p><strong>Important:</strong> Your order is only confirmed once payment is sent or you confirm cash payment.</p>
                     <p>For PayPal payments, your order will be confirmed once we receive the payment.</p>
                     <p><strong>After payment, this order cannot be changed.</strong></p>
                 </div>
@@ -1076,7 +1049,6 @@
         </div>
     </section>
 
-    <!-- ===== CONFIRMATION PAGE ===== -->
     <section id="page-confirmation" class="page-section">
         <div class="container">
             <h2 class="section-title">Order Confirmed!</h2>
@@ -1091,8 +1063,8 @@
                     <p style="margin-top:6px;"><span class="detail-label">Payment: </span><span id="confirmationPaymentInfo" style="color:#b5655e; font-weight:500;">PayPal to zebikhan@gmail.com OR cash on pickup/delivery</span></p>
                     <p style="margin-top:6px;"><span class="detail-label">Total: </span><span id="confirmationTotalPrice" style="color:#b5655e; font-weight:700; font-size:1.1rem;"></span></p>
                 </div>
-                <p style="font-size:0.95rem; color:#7a6a66;">📧 A confirmation email has been sent to <strong id="confirmationEmailDisplay"></strong></p>
-                <p style="font-size:0.9rem; color:#7a6a66; margin-top:6px;">⚠️ This order cannot be changed after payment.</p>
+                <p style="font-size:0.95rem; color:#7a6a66;">A confirmation email has been sent to <strong id="confirmationEmailDisplay"></strong></p>
+                <p style="font-size:0.9rem; color:#7a6a66; margin-top:6px;">This order cannot be changed after payment.</p>
                 <div style="margin-top:20px;"><a href="#" onclick="showPage('home')" class="btn">Back to Home</a></div>
             </div>
             <div class="invoice-box" id="invoiceBox">
@@ -1118,29 +1090,26 @@
                     <span class="total-amount" id="invoiceTotalPrice">€0.00</span>
                 </div>
                 <div style="margin-top:8px; font-size:0.85rem; color:#5a4a47; text-align:center; border-bottom:1px solid #f0ebe8; padding-bottom:8px;">
-                    ⚠️ <strong>Kleinunternehmer gemäß §19 UStG</strong> — No VAT shown.
+                    <strong>Kleinunternehmer gemäß §19 UStG</strong> — No VAT shown.
                 </div>
                 <div class="invoice-footer">
                     <strong>Payment:</strong> <span id="invoicePaymentMethod">PayPal to zebikhan@gmail.com OR cash on pickup/delivery</span><br />
-                    Thank you for your order! ❤️
+                    Thank you for your order!
                 </div>
-                <button class="invoice-print-btn" onclick="printInvoice()">🖨️ Print Invoice</button>
+                <button class="invoice-print-btn" onclick="printInvoice()">Print Invoice</button>
             </div>
         </div>
     </section>
 
-    <!-- ===== ORDERS PAGE (Admin) ===== -->
     <section id="page-orders" class="page-section">
         <div class="container">
-            <h2 class="section-title">📋 Orders</h2>
+            <h2 class="section-title">Orders</h2>
             <p class="section-sub">View all customer orders</p>
             <div class="orders-container" id="ordersContainer">
-                <!-- Orders will be loaded here by JavaScript -->
             </div>
         </div>
     </section>
 
-    <!-- ===== FOOTER ===== -->
     <footer>
         <div class="container">
             <div class="logo">Baked<span>nextdoor</span></div>
@@ -1160,9 +1129,6 @@
         </div>
     </footer>
 
-    <!-- ============================================================ -->
-    <!-- ===== JAVASCRIPT ===== -->
-    <!-- ============================================================ -->
     <script>
         // ===== ADMIN PASSWORD =====
         let isAdmin = false;
@@ -1180,7 +1146,7 @@
                 isAdmin = true;
                 document.getElementById('passwordOverlay').classList.remove('show');
                 document.getElementById('ordersLink').classList.add('show');
-                alert('✅ Admin mode enabled! Orders page is now available.');
+                alert('Admin mode enabled! Orders page is now available.');
                 loadOrders();
                 showPage('orders');
             } else {
@@ -1190,7 +1156,6 @@
             }
         }
 
-        // Close password modal when clicking outside
         document.getElementById('passwordOverlay').addEventListener('click', function(e) {
             if (e.target === this) {
                 this.classList.remove('show');
@@ -1244,6 +1209,8 @@
         let selectedPreferencePrice = 0;
         let currentCakePrice = 45.00;
         let isCheesecake = false;
+        let isRedVelvet = false;
+        
         function selectPreferenceForCake(btn, value, price) {
             const parent = btn.parentElement;
             parent.querySelectorAll('.pref-option-btn').forEach(b => b.classList.remove('active','none-active'));
@@ -1293,7 +1260,7 @@
             let price = currentCakePrice;
             if (sizeText.toLowerCase() === 'medium') price = currentCakePrice + 5;
             const totalInBasket = basket.reduce((s,i) => s + i.quantity, 0);
-            if (totalInBasket + quantity > MAX_CAKES) { alert('⚠️ You can only add up to ' + MAX_CAKES + ' cakes total. You have ' + totalInBasket + ' cakes.'); return; }
+            if (totalInBasket + quantity > MAX_CAKES) { alert('You can only add up to ' + MAX_CAKES + ' cakes total. You have ' + totalInBasket + ' cakes.'); return; }
             const greetingChecked = document.getElementById('extraGreeting').checked;
             const writingChecked = document.getElementById('extraWriting').checked;
             let extraTotal = 0;
@@ -1344,9 +1311,9 @@
                 if (item.extras.greeting) extras += ' | Greeting card';
                 if (item.extras.writing) extras += ' | Writing on cake';
                 let pref = '';
-                if (item.preference && item.preference !== 'None') pref = ' | 🏷️ ' + item.preference + ' (+€' + item.preferencePrice.toFixed(2) + ')';
+                if (item.preference && item.preference !== 'None') pref = ' | ' + item.preference + ' (+€' + item.preferencePrice.toFixed(2) + ')';
                 let sugar = '';
-                if (item.sugar && item.sugar !== 'White sugar') sugar = ' | 🍬 ' + item.sugar + (item.sugarPrice > 0 ? ' (+€' + item.sugarPrice.toFixed(2) + ')' : '');
+                if (item.sugar && item.sugar !== 'White sugar') sugar = ' | ' + item.sugar + (item.sugarPrice > 0 ? ' (+€' + item.sugarPrice.toFixed(2) + ')' : '');
                 html += `<div class="basket-item"><div><span class="item-name">${item.name}</span><span class="item-details"> x${item.quantity} - ${item.size}${extras}${pref}${sugar}</span></div><button class="item-remove" onclick="removeFromBasket(${idx})">✕</button></div>`;
             });
             items.innerHTML = html;
@@ -1356,10 +1323,262 @@
         // ===== ORDER SUMMARY =====
         function goToOrderSummary() {
             const count = basket.reduce((s,i) => s + i.quantity, 0);
-            if (count === 0) { alert('Your basket is empty!'); return; }
-            updateOrderSummaryWithDelivery();
-            showPage('summary');
+            if (count === 0) { 
+                alert('Your basket is empty! Please add some cakes first.'); 
+                return; 
+            }
+            if (!selectedDeliveryOption) { 
+                alert('Please choose either Pickup or Delivery.'); 
+                return; 
+            }
+            
+            const email = document.getElementById('customerEmail').value.trim();
+            const name = document.getElementById('customerName').value.trim();
+            
+            if (!email) { 
+                alert('Please enter your email.'); 
+                document.getElementById('customerEmail').focus(); 
+                return; 
+            }
+            if (!name) { 
+                alert('Please enter your name.'); 
+                document.getElementById('customerName').focus(); 
+                return; 
+            }
+            
+            if (selectedDeliveryOption === 'delivery') {
+                const city = document.getElementById('deliveryCity').value.trim();
+                const postcode = document.getElementById('deliveryPostcode').value.trim();
+                const street = document.getElementById('deliveryStreet').value.trim();
+                const date = document.getElementById('deliveryDate').value;
+                const time = document.getElementById('deliveryTime').value;
+                
+                if (!city) { 
+                    alert('Please enter your city.'); 
+                    document.getElementById('deliveryCity').focus();
+                    return; 
+                }
+                if (!postcode) { 
+                    alert('Please enter your postcode.'); 
+                    document.getElementById('deliveryPostcode').focus();
+                    return; 
+                }
+                if (!street) { 
+                    alert('Please enter your street and house number.'); 
+                    document.getElementById('deliveryStreet').focus();
+                    return; 
+                }
+                if (!date) { 
+                    alert('Please select a delivery date.'); 
+                    return; 
+                }
+                if (!time) { 
+                    alert('Please select a delivery time slot.'); 
+                    return; 
+                }
+                
+                const deliveryDateObj = new Date(date);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const minDate = new Date(today);
+                minDate.setDate(today.getDate() + 3);
+                if (deliveryDateObj < minDate) { 
+                    alert('Please select a date at least 3 days from today.'); 
+                    return; 
+                }
+                if (deliveryDateObj.getDay() === 0) { 
+                    alert('Sundays are not available for delivery. Please select another date.'); 
+                    return; 
+                }
+                
+                if (calculatedDistance === 0) {
+                    const fullAddress = street + ', ' + postcode + ' ' + city + ', Germany';
+                    const btn = document.querySelector('.delivery-next .btn');
+                    const originalText = btn.textContent;
+                    btn.textContent = 'Calculating distance...';
+                    btn.disabled = true;
+                    
+                    fetch('https://nominatim.openstreetmap.org/search?q=' + encodeURIComponent(fullAddress) + '&format=json&limit=5')
+                        .then(response => response.json())
+                        .then(data => {
+                            btn.textContent = originalText;
+                            btn.disabled = false;
+                            
+                            if (data && data.length > 0) {
+                                let bestMatch = data[0];
+                                const searchTerms = [city.toLowerCase(), postcode, street.toLowerCase()];
+                                let bestScore = 0;
+                                data.forEach(item => {
+                                    const displayName = item.display_name.toLowerCase();
+                                    let score = 0;
+                                    searchTerms.forEach(term => {
+                                        if (displayName.includes(term.toLowerCase())) score++;
+                                    });
+                                    if (score > bestScore) { bestScore = score; bestMatch = item; }
+                                });
+                                const lat = parseFloat(bestMatch.lat);
+                                const lng = parseFloat(bestMatch.lon);
+                                const distance = calculateHaversineDistance(49.4430, 7.7675, lat, lng);
+                                const distanceKm = Math.round(distance * 10) / 10;
+                                calculatedDistance = distanceKm;
+                                const roundTrip = distanceKm * 2;
+                                const fee = Math.round((roundTrip * 0.50) * 100) / 100;
+                                
+                                document.getElementById('deliveryDistKm').textContent = distanceKm.toFixed(1) + ' km';
+                                document.getElementById('deliveryRoundTrip').textContent = roundTrip.toFixed(1) + ' km';
+                                document.getElementById('deliveryFeeDisplay').textContent = '€' + fee.toFixed(2);
+                                document.getElementById('distanceResultBox').classList.add('show');
+                                
+                                if (distanceKm > 100) {
+                                    isWithinRange = false;
+                                    document.getElementById('deliveryWarning').classList.add('show');
+                                    document.getElementById('deliveryFeeDisplay').style.color = '#b5655e';
+                                    document.getElementById('distanceWarningBox').classList.add('show');
+                                    document.getElementById('warningDistanceText').textContent = distanceKm.toFixed(1) + ' km';
+                                    alert('Your delivery address is ' + distanceKm.toFixed(1) + ' km away. Maximum distance is 100 km. Please choose pickup instead.');
+                                    return;
+                                } else {
+                                    isWithinRange = true;
+                                    document.getElementById('deliveryWarning').classList.remove('show');
+                                    document.getElementById('distanceWarningBox').classList.remove('show');
+                                    document.getElementById('deliveryFeeDisplay').style.color = '#b5655e';
+                                    deliveryFee = fee;
+                                    deliveryDistance = distanceKm;
+                                    
+                                    const fullAddress2 = street + ', ' + postcode + ' ' + city;
+                                    window.deliveryInfo = { 
+                                        type:'Delivery', 
+                                        address:fullAddress2, 
+                                        date, 
+                                        time, 
+                                        notes:document.getElementById('deliveryNotes').value.trim(), 
+                                        distance:deliveryDistance, 
+                                        fee:deliveryFee 
+                                    };
+                                    window.customerEmail = email; 
+                                    window.customerName = name;
+                                    updateOrderSummaryWithDelivery();
+                                    showPage('summary');
+                                }
+                            } else {
+                                fetch('https://nominatim.openstreetmap.org/search?q=' + encodeURIComponent(postcode + ' ' + city + ', Germany') + '&format=json&limit=3')
+                                    .then(res => res.json())
+                                    .then(relaxedData => {
+                                        if (relaxedData && relaxedData.length > 0) {
+                                            const lat = parseFloat(relaxedData[0].lat);
+                                            const lng = parseFloat(relaxedData[0].lon);
+                                            const distance = calculateHaversineDistance(49.4430, 7.7675, lat, lng);
+                                            const distanceKm = Math.round(distance * 10) / 10;
+                                            calculatedDistance = distanceKm;
+                                            const roundTrip = distanceKm * 2;
+                                            const fee = Math.round((roundTrip * 0.50) * 100) / 100;
+                                            document.getElementById('deliveryDistKm').textContent = distanceKm.toFixed(1) + ' km (approx.)';
+                                            document.getElementById('deliveryRoundTrip').textContent = roundTrip.toFixed(1) + ' km';
+                                            document.getElementById('deliveryFeeDisplay').textContent = '€' + fee.toFixed(2);
+                                            document.getElementById('distanceResultBox').classList.add('show');
+                                            if (distanceKm > 100) {
+                                                isWithinRange = false;
+                                                document.getElementById('deliveryWarning').classList.add('show');
+                                                document.getElementById('deliveryFeeDisplay').style.color = '#b5655e';
+                                                document.getElementById('distanceWarningBox').classList.add('show');
+                                                document.getElementById('warningDistanceText').textContent = distanceKm.toFixed(1) + ' km';
+                                                alert('Your delivery address is ' + distanceKm.toFixed(1) + ' km away. Maximum distance is 100 km. Please choose pickup instead.');
+                                                return;
+                                            } else {
+                                                isWithinRange = true;
+                                                document.getElementById('deliveryWarning').classList.remove('show');
+                                                document.getElementById('distanceWarningBox').classList.remove('show');
+                                                document.getElementById('deliveryFeeDisplay').style.color = '#b5655e';
+                                                deliveryFee = fee;
+                                                deliveryDistance = distanceKm;
+                                                const fullAddress2 = street + ', ' + postcode + ' ' + city;
+                                                window.deliveryInfo = { type:'Delivery', address:fullAddress2, date, time, notes:document.getElementById('deliveryNotes').value.trim(), distance:deliveryDistance, fee:deliveryFee };
+                                                window.customerEmail = email; window.customerName = name;
+                                                updateOrderSummaryWithDelivery();
+                                                showPage('summary');
+                                            }
+                                        } else {
+                                            alert('Could not calculate delivery distance. Please check your address and try again, or choose pickup.');
+                                            return;
+                                        }
+                                    });
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            btn.textContent = originalText;
+                            btn.disabled = false;
+                            alert('Error calculating distance. Please click "Calculate Delivery Fee" manually or choose pickup.');
+                            return;
+                        });
+                    return;
+                }
+                
+                if (!isWithinRange) { 
+                    alert('Your delivery address is too far (more than 100 km). Please choose pickup instead.'); 
+                    return; 
+                }
+                
+                const fullAddress = street + ', ' + postcode + ' ' + city;
+                window.deliveryInfo = { 
+                    type:'Delivery', 
+                    address:fullAddress, 
+                    date, 
+                    time, 
+                    notes:document.getElementById('deliveryNotes').value.trim(), 
+                    distance:deliveryDistance, 
+                    fee:deliveryFee 
+                };
+                window.customerEmail = email; 
+                window.customerName = name;
+                updateOrderSummaryWithDelivery();
+                showPage('summary');
+                
+            } else {
+                const date = document.getElementById('pickupDate').value;
+                const time = document.getElementById('pickupTime').value;
+                
+                if (!date) { 
+                    alert('Please select a pickup date.'); 
+                    return; 
+                }
+                if (!time) { 
+                    alert('Please select a pickup time slot.'); 
+                    return; 
+                }
+                
+                const pickupDateObj = new Date(date);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const minDate = new Date(today);
+                minDate.setDate(today.getDate() + 3);
+                if (pickupDateObj < minDate) { 
+                    alert('Please select a date at least 3 days from today.'); 
+                    return; 
+                }
+                if (pickupDateObj.getDay() === 0) { 
+                    alert('Sundays are not available for pickup. Please select another date.'); 
+                    return; 
+                }
+                
+                deliveryFee = 0; 
+                deliveryDistance = 0;
+                window.deliveryInfo = { 
+                    type:'Pickup', 
+                    location:'Kurtschuhmacherstr. 7', 
+                    date, 
+                    time, 
+                    notes:document.getElementById('pickupNotes').value.trim(), 
+                    distance:0, 
+                    fee:0 
+                };
+                window.customerEmail = email; 
+                window.customerName = name;
+                updateOrderSummaryWithDelivery();
+                showPage('summary');
+            }
         }
+
         function updateOrderSummaryWithDelivery() {
             const container = document.getElementById('summaryItems');
             let html = '', total = 0;
@@ -1370,7 +1589,7 @@
                 let pref = '', prefCost = 0;
                 if (item.preference && item.preference !== 'None') { pref = ' | ' + item.preference + ' (+€' + item.preferencePrice.toFixed(2) + ')'; prefCost = item.preferencePrice; }
                 let sugar = '', sugarCost = 0;
-                if (item.sugar && item.sugar !== 'White sugar') { sugar = ' | 🍬 ' + item.sugar + (item.sugarPrice > 0 ? ' (+€' + item.sugarPrice.toFixed(2) + ')' : ''); sugarCost = item.sugarPrice; }
+                if (item.sugar && item.sugar !== 'White sugar') { sugar = ' | ' + item.sugar + (item.sugarPrice > 0 ? ' (+€' + item.sugarPrice.toFixed(2) + ')' : ''); sugarCost = item.sugarPrice; }
                 const itemTotal = (item.price * item.quantity) + (extraCost * item.quantity) + (prefCost * item.quantity) + (sugarCost * item.quantity);
                 total += itemTotal;
                 html += `<div class="summary-item"><div class="item-left"><span class="item-name">${item.name} (x${item.quantity})</span><span class="item-details">${item.size}${extras}${pref}${sugar}</span></div><span class="item-price">€${itemTotal.toFixed(2)}</span></div>`;
@@ -1400,6 +1619,7 @@
             }
             window.orderTotal = total;
         }
+
         function goToDelivery() { showPage('delivery'); }
 
         // ===== CAKE DETAIL =====
@@ -1408,11 +1628,78 @@
             document.getElementById('detailCakeImage').style.backgroundImage = "url('" + imageName + "')";
             currentCakePrice = priceValue;
             isCheesecake = (name === 'Cheesecake');
+            isRedVelvet = (name === 'Red Velvet Cake');
             selectedSize = 'small';
             document.getElementById('detailQuantity').textContent = 1;
             document.querySelectorAll('.size-btn').forEach(b => { b.classList.remove('active'); if (b.textContent.toLowerCase().includes('small')) b.classList.add('active'); });
-            document.querySelectorAll('.pref-option-btn').forEach(b => { b.classList.remove('active','none-active'); if (b.textContent.trim().startsWith('None')) b.classList.add('none-active'); });
-            document.querySelectorAll('.sugar-option-btn').forEach(b => { b.classList.remove('active'); if (b.textContent.trim().startsWith('White sugar')) b.classList.add('active'); });
+            
+            // Reset preference buttons
+            document.querySelectorAll('.pref-option-btn').forEach(b => {
+                b.style.display = 'inline-block';
+                b.classList.remove('active', 'none-active');
+            });
+            
+            if (isRedVelvet) {
+                // Red Velvet only has Gluten-free and Lactose-free (both €0)
+                document.querySelectorAll('.pref-option-btn').forEach(b => {
+                    const text = b.textContent.trim();
+                    if (text.includes('None')) {
+                        b.style.display = 'inline-block';
+                        b.dataset.price = '0';
+                        b.classList.add('none-active');
+                    } else if (text.includes('Gluten-free')) {
+                        b.style.display = 'inline-block';
+                        b.dataset.price = '0';
+                        b.textContent = 'Gluten-free (€0.00)';
+                        const priceSpan = b.querySelector('.pref-price');
+                        if (priceSpan) priceSpan.textContent = '(€0.00)';
+                    } else if (text.includes('Lactose-free')) {
+                        b.style.display = 'inline-block';
+                        b.dataset.price = '0';
+                        b.textContent = 'Lactose-free (€0.00)';
+                        const priceSpan = b.querySelector('.pref-price');
+                        if (priceSpan) priceSpan.textContent = '(€0.00)';
+                    } else {
+                        b.style.display = 'none';
+                    }
+                });
+                // Set default to None
+                document.querySelectorAll('.pref-option-btn').forEach(b => {
+                    if (b.textContent.trim().startsWith('None')) {
+                        b.classList.add('none-active');
+                        selectedCakePreference = 'None';
+                        selectedPreferencePrice = 0;
+                    }
+                });
+            }
+            
+            // Sugar options for Red Velvet
+            document.querySelectorAll('.sugar-option-btn').forEach(b => {
+                b.style.display = 'inline-block';
+                b.classList.remove('active');
+            });
+            if (isRedVelvet) {
+                document.querySelectorAll('.sugar-option-btn').forEach(b => {
+                    const text = b.textContent.trim();
+                    if (text.includes('White sugar') || text.includes('Brown sugar')) {
+                        b.style.display = 'inline-block';
+                    } else {
+                        b.style.display = 'none';
+                    }
+                    if (text.includes('White sugar')) b.classList.add('active');
+                });
+                selectedSugar = 'White sugar';
+                selectedSugarPrice = 0;
+            } else {
+                // Reset to default
+                document.querySelectorAll('.sugar-option-btn').forEach(b => {
+                    b.style.display = 'inline-block';
+                    if (b.textContent.trim().startsWith('White sugar')) b.classList.add('active');
+                });
+                selectedSugar = 'White sugar';
+                selectedSugarPrice = 0;
+            }
+            
             document.getElementById('extraGreeting').checked = false;
             document.getElementById('extraWriting').checked = false;
             document.getElementById('greetingMessage').value = '';
@@ -1422,10 +1709,10 @@
             updateCharCount('writingText','writingCount',20);
             document.querySelectorAll('.extra-item').forEach(el => el.classList.remove('expanded'));
             selectedCakePreference = 'None'; selectedPreferencePrice = 0;
-            selectedSugar = 'White sugar'; selectedSugarPrice = 0;
             updatePriceDisplay();
             showPage('cakedetail');
         }
+        
         function toggleExtra(itemId) {
             const item = document.getElementById(itemId);
             const checkbox = item.querySelector('input[type="checkbox"]');
@@ -1452,7 +1739,6 @@
         let calculatedDistance = 0;
         let isWithinRange = true;
 
-        // ===== TIME SLOTS =====
         const weekdayTimes = [
             '14:00', '14:30', '15:00', '15:30', '16:00', '16:30',
             '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00'
@@ -1486,7 +1772,6 @@
             });
         }
 
-        // ===== DATE VALIDATION =====
         function validateDate(dateInput, errorElement) {
             const selectedDate = new Date(dateInput.value);
             const today = new Date();
@@ -1502,13 +1787,13 @@
             
             if (selectedDate < minDate) {
                 errorElement.style.display = 'block';
-                errorElement.innerHTML = '⚠️ Please select a date at least 3 days from today. Sundays are not available for pickup or delivery.';
+                errorElement.innerHTML = 'Please select a date at least 3 days from today. Sundays are not available for pickup or delivery.';
                 return false;
             }
             
             if (selectedDate.getDay() === 0) {
                 errorElement.style.display = 'block';
-                errorElement.innerHTML = '⚠️ Sundays are not available for pickup or delivery. Please select another date.';
+                errorElement.innerHTML = 'Sundays are not available for pickup or delivery. Please select another date.';
                 return false;
             }
             
@@ -1575,7 +1860,6 @@
             }
         }
 
-        // ===== DELIVERY DISTANCE CALCULATION (Forgiving) =====
         function calculateDeliveryDistance() {
             const city = document.getElementById('deliveryCity').value.trim();
             const postcode = document.getElementById('deliveryPostcode').value.trim();
@@ -1688,60 +1972,6 @@
             return R * c;
         }
 
-        // ===== GO TO ORDER SUMMARY =====
-        function goToOrderSummary() {
-            const count = basket.reduce((s,i) => s + i.quantity, 0);
-            if (count === 0) { alert('Your basket is empty! Please add some cakes first.'); return; }
-            if (!selectedDeliveryOption) { alert('Please choose either Pickup or Delivery.'); return; }
-            const email = document.getElementById('customerEmail').value.trim();
-            const name = document.getElementById('customerName').value.trim();
-            if (!email) { alert('Please enter your email.'); document.getElementById('customerEmail').focus(); return; }
-            if (!name) { alert('Please enter your name.'); document.getElementById('customerName').focus(); return; }
-            
-            if (selectedDeliveryOption === 'delivery') {
-                if (calculatedDistance === 0) { alert('Please calculate the delivery distance first by entering your address and clicking "Calculate Delivery Fee".'); return; }
-                if (!isWithinRange) { alert('⚠️ Your delivery address is too far (more than 100 km). Please choose pickup instead.'); return; }
-                const city = document.getElementById('deliveryCity').value.trim();
-                const postcode = document.getElementById('deliveryPostcode').value.trim();
-                const street = document.getElementById('deliveryStreet').value.trim();
-                const date = document.getElementById('deliveryDate').value;
-                const time = document.getElementById('deliveryTime').value;
-                if (!city) { alert('Please enter your city.'); return; }
-                if (!postcode) { alert('Please enter your postcode.'); return; }
-                if (!street) { alert('Please enter your street and house number.'); return; }
-                if (!date) { alert('Please select a delivery date.'); return; }
-                if (!time) { alert('Please select a delivery time slot.'); return; }
-                const deliveryDateObj = new Date(date);
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
-                const minDate = new Date(today);
-                minDate.setDate(today.getDate() + 3);
-                if (deliveryDateObj < minDate) { alert('⚠️ Please select a date at least 3 days from today.'); return; }
-                if (deliveryDateObj.getDay() === 0) { alert('⚠️ Sundays are not available for delivery. Please select another date.'); return; }
-                const fullAddress = street + ', ' + postcode + ' ' + city;
-                deliveryFee = parseFloat(document.getElementById('deliveryFeeDisplay').textContent.replace('€', '')) || 0;
-                deliveryDistance = calculatedDistance;
-                window.deliveryInfo = { type:'Delivery', address:fullAddress, date, time, notes:document.getElementById('deliveryNotes').value.trim(), distance:deliveryDistance, fee:deliveryFee };
-            } else {
-                const date = document.getElementById('pickupDate').value;
-                const time = document.getElementById('pickupTime').value;
-                if (!date) { alert('Please select a pickup date.'); return; }
-                if (!time) { alert('Please select a pickup time slot.'); return; }
-                const pickupDateObj = new Date(date);
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
-                const minDate = new Date(today);
-                minDate.setDate(today.getDate() + 3);
-                if (pickupDateObj < minDate) { alert('⚠️ Please select a date at least 3 days from today.'); return; }
-                if (pickupDateObj.getDay() === 0) { alert('⚠️ Sundays are not available for pickup. Please select another date.'); return; }
-                deliveryFee = 0; deliveryDistance = 0;
-                window.deliveryInfo = { type:'Pickup', location:'Kurtschuhmacherstr. 7', date, time, notes:document.getElementById('pickupNotes').value.trim(), distance:0, fee:0 };
-            }
-            window.customerEmail = email; window.customerName = name;
-            updateOrderSummaryWithDelivery();
-            showPage('summary');
-        }
-
         // ===== PAYMENT METHOD =====
         let selectedPaymentMethod = null;
         let paypalTimerInterval = null;
@@ -1776,7 +2006,7 @@
                 if (paypalTimeLeft <= 0) {
                     clearInterval(paypalTimerInterval); paypalTimerInterval = null;
                     document.getElementById('paypalTimerDisplay').textContent = '00:00';
-                    alert('⏰ Time is up! Your order has been cancelled. Please start a new order.');
+                    alert('Time is up! Your order has been cancelled. Please start a new order.');
                     selectedPaymentMethod = null;
                     document.getElementById('paypalMethod').classList.remove('selected');
                     document.getElementById('paypalPanel').classList.remove('show');
@@ -1787,8 +2017,8 @@
         }
         function updateConfirmButton() {
             const btn = document.getElementById('confirmOrderBtn');
-            if (selectedPaymentMethod === 'paypal') { btn.disabled = false; btn.textContent = '✅ Confirm PayPal Payment'; }
-            else if (selectedPaymentMethod === 'cash') { const checked = document.getElementById('cashConfirmCheck').checked; btn.disabled = !checked; btn.textContent = checked ? '✅ Confirm Cash Payment' : '☑️ Please confirm cash payment'; }
+            if (selectedPaymentMethod === 'paypal') { btn.disabled = false; btn.textContent = 'Confirm PayPal Payment'; }
+            else if (selectedPaymentMethod === 'cash') { const checked = document.getElementById('cashConfirmCheck').checked; btn.disabled = !checked; btn.textContent = checked ? 'Confirm Cash Payment' : 'Please confirm cash payment'; }
             else { btn.disabled = true; btn.textContent = 'Select a payment method'; }
         }
         document.getElementById('cashConfirmCheck').addEventListener('change', function() { updateConfirmButton(); });
@@ -1811,7 +2041,7 @@
             invoiceBox.style.display = originalDisplay;
         }
 
-        // ===== LOAD ORDERS FROM LOCAL STORAGE =====
+        // ===== LOAD ORDERS =====
         function loadOrders() {
             const container = document.getElementById('ordersContainer');
             const orders = JSON.parse(localStorage.getItem('bakednextdoor_orders')) || [];
@@ -1819,7 +2049,7 @@
             if (orders.length === 0) {
                 container.innerHTML = `
                     <div class="empty-orders">
-                        <span class="icon">📭</span>
+                        <div class="icon">📭</div>
                         <p>No orders yet. Check back later!</p>
                     </div>
                 `;
@@ -1827,7 +2057,6 @@
             }
             
             let html = '';
-            // Show newest orders first
             const sortedOrders = [...orders].reverse();
             
             sortedOrders.forEach((order, index) => {
@@ -1841,15 +2070,14 @@
                     minute: '2-digit'
                 });
                 
-                // Build cakes list
                 let cakesHtml = '';
                 order.cakes.forEach(cake => {
                     let details = [];
                     if (cake.size) details.push(cake.size);
-                    if (cake.preference && cake.preference !== 'None') details.push('🏷️ ' + cake.preference + ' (+€' + cake.preferencePrice.toFixed(2) + ')');
-                    if (cake.sugar && cake.sugar !== 'White sugar') details.push('🍬 ' + cake.sugar + (cake.sugarPrice > 0 ? ' (+€' + cake.sugarPrice.toFixed(2) + ')' : ''));
-                    if (cake.extras.greeting) details.push('💌 Greeting card (+€3.00)');
-                    if (cake.extras.writing) details.push('✍️ Writing on cake (+€2.00)');
+                    if (cake.preference && cake.preference !== 'None') details.push(cake.preference + ' (+€' + cake.preferencePrice.toFixed(2) + ')');
+                    if (cake.sugar && cake.sugar !== 'White sugar') details.push(cake.sugar + (cake.sugarPrice > 0 ? ' (+€' + cake.sugarPrice.toFixed(2) + ')' : ''));
+                    if (cake.extras.greeting) details.push('Greeting card (+€3.00)');
+                    if (cake.extras.writing) details.push('Writing on cake (+€2.00)');
                     const detailsText = details.length > 0 ? ' (' + details.join(', ') + ')' : '';
                     cakesHtml += `
                         <div class="item-row">
@@ -1860,7 +2088,6 @@
                     `;
                 });
                 
-                // Delivery info
                 let deliveryInfo = '';
                 if (order.deliveryInfo) {
                     const info = order.deliveryInfo;
@@ -1880,7 +2107,7 @@
                 html += `
                     <div class="order-card">
                         <div class="order-header">
-                            <div class="order-number">📦 Order #<span>${order.orderNumber || 'MC-' + String(actualIndex + 1).padStart(4, '0')}</span></div>
+                            <div class="order-number">Order #<span>${order.orderNumber || 'MC-' + String(actualIndex + 1).padStart(4, '0')}</span></div>
                             <div class="order-date">${formattedDate}</div>
                         </div>
                         <div class="order-customer">
@@ -1892,7 +2119,7 @@
                             ${cakesHtml}
                         </div>
                         <div style="margin:8px 0; padding:8px 12px; background:#fef6f4; border-radius:6px; font-size:0.9rem; border-left:3px solid #b5655e;">
-                            <strong>📍 ${order.deliveryInfo ? order.deliveryInfo.type : '—'}</strong><br>
+                            <strong>${order.deliveryInfo ? order.deliveryInfo.type : '—'}</strong><br>
                             ${deliveryInfo}
                         </div>
                         <div class="order-total">
@@ -1909,13 +2136,12 @@
         // ===== CONFIRM ORDER =====
         function confirmOrder() {
             if (!selectedPaymentMethod) { alert('Please select a payment method first.'); return; }
-            if (selectedPaymentMethod === 'paypal' && paypalTimeLeft <= 0) { alert('⏰ PayPal payment time has expired. Please go back and select PayPal again to restart the timer.'); return; }
+            if (selectedPaymentMethod === 'paypal' && paypalTimeLeft <= 0) { alert('PayPal payment time has expired. Please go back and select PayPal again to restart the timer.'); return; }
             if (selectedPaymentMethod === 'cash' && !document.getElementById('cashConfirmCheck').checked) { alert('Please confirm that you will pay in cash.'); return; }
             
             const now = new Date();
             const orderNumber = window.currentOrderRef || 'MC-' + now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + String(now.getDate()).padStart(2,'0') + '-' + String(Math.floor(Math.random()*10000)).padStart(4,'0');
             
-            // ===== SAVE ORDER TO LOCAL STORAGE =====
             const orderData = {
                 orderNumber: orderNumber,
                 timestamp: now.toISOString(),
@@ -1937,12 +2163,10 @@
                 total: window.orderTotal || 0
             };
             
-            // Save to localStorage
             const existingOrders = JSON.parse(localStorage.getItem('bakednextdoor_orders')) || [];
             existingOrders.push(orderData);
             localStorage.setItem('bakednextdoor_orders', JSON.stringify(existingOrders));
             
-            // ===== DISPLAY CONFIRMATION PAGE =====
             document.getElementById('invoiceNumber').textContent = orderNumber;
             document.getElementById('invoiceDate').textContent = now.toLocaleDateString('en-GB');
             document.getElementById('invoiceCustomerName').textContent = window.customerName || '—';
@@ -1959,19 +2183,18 @@
                 let pref = '', prefCost = 0;
                 if (item.preference && item.preference !== 'None') { pref = ' | ' + item.preference + ' (+€' + item.preferencePrice.toFixed(2) + ')'; prefCost = item.preferencePrice; }
                 let sugar = '', sugarCost = 0;
-                if (item.sugar && item.sugar !== 'White sugar') { sugar = ' | 🍬 ' + item.sugar + (item.sugarPrice > 0 ? ' (+€' + item.sugarPrice.toFixed(2) + ')' : ''); sugarCost = item.sugarPrice; }
+                if (item.sugar && item.sugar !== 'White sugar') { sugar = ' | ' + item.sugar + (item.sugarPrice > 0 ? ' (+€' + item.sugarPrice.toFixed(2) + ')' : ''); sugarCost = item.sugarPrice; }
                 const itemTotal = (item.price * item.quantity) + (extraCost * item.quantity) + (prefCost * item.quantity) + (sugarCost * item.quantity);
                 invoiceTotal += itemTotal;
                 invoiceItemsHtml += `<div class="invoice-row"><span class="label">${item.name} x${item.quantity}${extras}${pref}${sugar}</span><span class="value">€${itemTotal.toFixed(2)}</span></div>`;
             });
             if (deliveryFee > 0) {
-                invoiceItemsHtml += `<div class="invoice-row"><span class="label">🚗 Delivery fee (${deliveryDistance.toFixed(1)} km round trip)</span><span class="value">€${deliveryFee.toFixed(2)}</span></div>`;
+                invoiceItemsHtml += `<div class="invoice-row"><span class="label">Delivery fee (${deliveryDistance.toFixed(1)} km round trip)</span><span class="value">€${deliveryFee.toFixed(2)}</span></div>`;
                 invoiceTotal += deliveryFee;
             }
             document.getElementById('invoiceItems').innerHTML = invoiceItemsHtml;
             document.getElementById('invoiceTotalPrice').textContent = '€' + invoiceTotal.toFixed(2);
             
-            // Confirmation items
             const itemsDiv = document.getElementById('confirmationItems');
             let html = '';
             let totalDisplay = 0;
@@ -1982,7 +2205,7 @@
                 let pref = '', prefCost = 0;
                 if (item.preference && item.preference !== 'None') { pref = ' [' + item.preference + ' (+€' + item.preferencePrice.toFixed(2) + ')]'; prefCost = item.preferencePrice; }
                 let sugar = '', sugarCost = 0;
-                if (item.sugar && item.sugar !== 'White sugar') { sugar = ' 🍬' + item.sugar + (item.sugarPrice > 0 ? ' (+€' + item.sugarPrice.toFixed(2) + ')' : ''); sugarCost = item.sugarPrice; }
+                if (item.sugar && item.sugar !== 'White sugar') { sugar = ' ' + item.sugar + (item.sugarPrice > 0 ? ' (+€' + item.sugarPrice.toFixed(2) + ')' : ''); sugarCost = item.sugarPrice; }
                 const itemTotal = (item.price * item.quantity) + (extraCost * item.quantity) + (prefCost * item.quantity) + (sugarCost * item.quantity);
                 totalDisplay += itemTotal;
                 html += `<p>• ${item.name} (x${item.quantity}) - ${item.size}${extras}${pref}${sugar} - €${itemTotal.toFixed(2)}</p>`;
@@ -2000,7 +2223,6 @@
             document.getElementById('confirmationTotalPrice').textContent = '€' + (totalDisplay + deliveryFee).toFixed(2);
             document.getElementById('confirmationEmailDisplay').textContent = window.customerEmail;
             
-            // Reset everything
             basket = [];
             document.querySelectorAll('.delivery-option').forEach(opt => { opt.classList.remove('selected'); const r = opt.querySelector('input[type="radio"]'); if(r) r.checked = false; });
             document.getElementById('deliveryAddressForm').classList.remove('show');
@@ -2030,7 +2252,6 @@
 
         // ===== EVENT LISTENERS =====
         document.addEventListener('DOMContentLoaded', function() {
-            // Cake items click
             const cakeItems = document.querySelectorAll('.order-cake-item[data-cake]');
             cakeItems.forEach(function(item) {
                 item.addEventListener('click', function(e) {
@@ -2040,21 +2261,17 @@
                 });
             });
             
-            // Update basket
             updateBasketDisplay();
             document.getElementById('checkoutBtn').disabled = true;
             
-            // Character counters
             updateCharCount('greetingMessage','greetingCount',50);
             updateCharCount('writingText','writingCount',20);
             updateCharCount('deliveryNotes','deliveryNotesCount',250);
             
-            // Default selections
             document.querySelectorAll('.pref-option-btn').forEach(b => { if (b.textContent.trim().startsWith('None')) b.classList.add('none-active'); });
             document.querySelectorAll('.sugar-option-btn').forEach(b => { if (b.textContent.trim().startsWith('White sugar')) b.classList.add('active'); });
             document.querySelectorAll('.size-btn').forEach(b => { if (b.textContent.toLowerCase().includes('small')) { b.classList.add('active'); selectedSize = 'small'; } });
             
-            // Date validation for pickup and delivery
             const deliveryDate = document.getElementById('deliveryDate');
             const pickupDate = document.getElementById('pickupDate');
             const deliveryTime = document.getElementById('deliveryTime');
@@ -2073,7 +2290,6 @@
                 });
             }
             
-            // Set minimum date to 3 days from today
             const today = new Date();
             const minDate = new Date(today);
             minDate.setDate(today.getDate() + 3);
@@ -2085,13 +2301,9 @@
             if (deliveryDate) { deliveryDate.min = minDateStr; deliveryDate.value = ''; }
             if (pickupDate) { pickupDate.min = minDateStr; pickupDate.value = ''; }
             
-            // Populate time slots
             populateTimeSlots();
-            
-            // Payment confirm button
             updateConfirmButton();
             
-            // Check if admin is already logged in (from session)
             if (isAdmin) {
                 document.getElementById('ordersLink').classList.add('show');
             }
